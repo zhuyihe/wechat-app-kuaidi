@@ -1,0 +1,85 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+		{
+			"path": "pages/static/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/component/index",
+			"style": {
+				"navigationBarTitleText": "组件"
+			}
+		},
+		{
+			"path": "pages/plugin/index",
+			"style": {
+				"navigationBarTitleText": "接口"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "授权登陆"
+			}
+		}
+    ],
+	"subPackages":[{
+		"root":"pageStatic",
+		"pages":[{
+			"path": "layout",
+			"style": {
+				"navigationBarTitleText": "组件"
+			}
+		}]
+	}
+// 	,{
+// 		"root":"pageComponent",
+// 		"pages":[{
+// 			"path": "home/home",
+// 			"style": {
+// 				"navigationBarTitleText": "组件"
+// 			}
+// 		}]
+// 	},{
+// 		"root":"pagePlugin",
+// 		"pages":[{
+// 			"path": "home/home",
+// 			"style": {
+// 				"navigationBarTitleText": "插件"
+// 			}
+// 		}]
+// 	},
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+        "navigationBarTitleText": "演示",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+	},
+	"usingComponts": true,
+	"tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#3cc51f",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [{
+            "pagePath": "pages/static/index",
+            "iconPath": "static/tabbar/basics.png",
+           "selectedIconPath": "static/tabbar/basics_cur.png",
+            "text": "首页"
+        }, {
+            "pagePath": "pages/component/index",
+            "iconPath": "static/tabbar/component.png",
+            "selectedIconPath": "static/tabbar/component_cur.png",
+            "text": "组件"
+        }, {
+            "pagePath": "pages/plugin/index",
+            "iconPath": "static/tabbar/plugin.png",
+            "selectedIconPath": "static/tabbar/plugin_cur.png",
+            "text": "插件"
+        }]
+    }
+}
