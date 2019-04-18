@@ -9,14 +9,26 @@ export default {
 		// 判断是否已经授权
 		uni.getSetting({
 		  success(res)  {
+			  console.log(res)
 			if (res.authSetting['scope.userInfo']) {//授权了，可以获取用户信息了
-				if(!userInfo){
-					uni.getUserInfo({
-						success: (res) => {
-						 store.commit('USER_INFO',res)
+			//判断session是否过期
+				uni.checkSession({
+					success(res) {
+						console.log(res)
+						if(!userInfo){
+							uni.getUserInfo({
+								success: (res) => {
+								 store.commit('USER_INFO',res)
+								}
+							})
 						}
-					})
-				}
+					},
+					fail(err) {
+						 uni.navigateTo({
+							url: '../login/login'
+						})
+					}
+				})
 			}else{//未授权，跳到授权页面
 			  uni.navigateTo({
 				url: '../login/login'
@@ -26,8 +38,9 @@ export default {
 		})
 
 	},
-	onShow: function() {
-		console.log('App Show')
+	onShow: function(options) {
+		let option = JSON.stringify(options);
+		console.log(option)
 	},
 	onHide: function() {
 		console.log('App Hide')
