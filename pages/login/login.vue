@@ -27,6 +27,7 @@ export default {
 			if(e.detail.userInfo){
 				this.$store.commit('USER_INFO',e.detail)
 				this.login()
+				
 			}else{
 				showToast('拒接授权授权将无法体验完整的功能，建议用户开启授权')
 			}
@@ -36,6 +37,9 @@ export default {
 				provider:'weixin',
 				success:(res)=> {
 					console.log(res)
+					uni.switchTab({
+						url:'../static/index'
+					})
 				},
 				fail(err){
 					console.log(err)
