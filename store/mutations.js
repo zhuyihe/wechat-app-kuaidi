@@ -7,6 +7,7 @@ export const mutations={
 	},
 	USER_INFO(state,userInfo){
 		state.userInfo=userInfo
+		console.log(state)
 		setStorageSync('state',state)
 	}
 }
