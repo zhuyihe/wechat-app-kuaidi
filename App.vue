@@ -24,13 +24,13 @@ export default {
 						}
 					},
 					fail(err) {
-						 uni.navigateTo({
+						 uni.redirectTo({
 							url: '../login/login'
 						})
 					}
 				})
 			}else{//未授权，跳到授权页面
-			  uni.navigateTo({
+			  uni.redirectTo({
 				url: '../login/login'
 			  })
 			}
@@ -52,21 +52,21 @@ export default {
 </script>
 
 <style>
-@import 'colorui/icon.css';
-@import 'colorui/main.css';
+/* @import 'colorui/icon.css'; 
+@import 'colorui/main.css'; */
 
 .nav-list {
 	display: flex;
 	flex-wrap: wrap;
-	padding: 0px 40upx 0px;
+	padding: 0px 40rpx 0px;
 	justify-content: space-between;
 }
 
 .nav-li {
-	padding: 30upx;
-	border-radius: 12upx;
+	padding: 30rpx;
+	border-radius: 12rpx;
 	width: 45%;
-	margin: 0 2.5% 40upx;
+	margin: 0 2.5% 40rpx;
 	background-image: url(https://cdn.nlark.com/yuque/0/2019/png/280374/1552996358352-assets/web-upload/cc3b1807-c684-4b83-8f80-80e5b8a6b975.png);
 	background-size: cover;
 	background-position: center;
@@ -83,7 +83,7 @@ export default {
 	height: 100%;
 	left: 0;
 	bottom: -10%;
-	border-radius: 10upx;
+	border-radius: 10rpx;
 	opacity: 0.2;
 	transform: scale(0.9, 0.9);
 }
@@ -91,23 +91,23 @@ export default {
 .nav-li.cur {
 	color: #fff;
 	background: rgb(94, 185, 94);
-	box-shadow: 4upx 4upx 6upx rgba(94, 185, 94, 0.4);
+	box-shadow: 4rpx 4rpx 6rpx rgba(94, 185, 94, 0.4);
 }
 
 .nav-title {
-	font-size: 32upx;
+	font-size: 32rpx;
 	font-weight: 300;
 }
 
 .nav-title::first-letter {
-	font-size: 40upx;
-	margin-right: 4upx;
+	font-size: 40rpx;
+	margin-right: 4rpx;
 }
 
 .nav-name {
-	font-size: 28upx;
+	font-size: 28rpx;
 	text-transform: Capitalize;
-	margin-top: 20upx;
+	margin-top: 20rpx;
 	position: relative;
 }
 
@@ -115,8 +115,8 @@ export default {
 	content: '';
 	position: absolute;
 	display: block;
-	width: 40upx;
-	height: 6upx;
+	width: 40rpx;
+	height: 6rpx;
 	background: #fff;
 	bottom: 0;
 	right: 0;
@@ -127,29 +127,29 @@ export default {
 	content: '';
 	position: absolute;
 	display: block;
-	width: 100upx;
+	width: 100rpx;
 	height: 1px;
 	background: #fff;
 	bottom: 0;
-	right: 40upx;
+	right: 40rpx;
 	opacity: 0.3;
 }
 
 .nav-name::first-letter {
 	font-weight: bold;
-	font-size: 36upx;
+	font-size: 36rpx;
 	margin-right: 1px;
 }
 
 .nav-li text {
 	position: absolute;
-	right: 30upx;
-	top: 30upx;
-	font-size: 52upx;
-	width: 60upx;
-	height: 60upx;
+	right: 30rpx;
+	top: 30rpx;
+	font-size: 52rpx;
+	width: 60rpx;
+	height: 60rpx;
 	text-align: center;
-	line-height: 60upx;
+	line-height: 60rpx;
 }
 
 .text-light {
@@ -162,7 +162,7 @@ export default {
 	}
 
 	60% {
-		transform: translateY(40upx);
+		transform: translateY(40rpx);
 	}
 
 	100% {
@@ -176,7 +176,7 @@ export default {
 	}
 
 	60% {
-		transform: translateY(40upx);
+		transform: translateY(40px);
 	}
 
 	100% {

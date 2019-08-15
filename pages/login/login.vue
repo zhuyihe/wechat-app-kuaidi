@@ -53,33 +53,33 @@ export default {
 
 <style scoped lang="scss">
 .header {
-	margin: 90upx 0 90upx 50upx;
+	margin: 90rpx 0 90rpx 50rpx;
 	border-bottom: 1px solid #ccc;
 	text-align: center;
-	width: 650upx;
-	height: 300upx;
-	line-height: 450upx;
+	width: 650rpx;
+	height: 300rpx;
+	line-height: 450rpx;
 }
 
 .header image {
-	width: 200upx;
-	height: 200upx;
+	width: 200rpx;
+	height: 200rpx;
 }
 
 .content {
-	margin-left: 50upx;
-	margin-bottom: 90upx;
+	margin-left: 50rpx;
+	margin-bottom: 90rpx;
 }
 
 .content text {
 	display: block;
 	color: #9d9d9d;
-	margin-top: 40upx;
+	margin-top: 40rpx;
 }
 
 .bottom {
-	border-radius: 80upx;
-	margin: 70upx 50upx;
-	font-size: 35upx;
+	border-radius: 80rpx;
+	margin: 70rpx 50rpx;
+	font-size: 35rpx;
 }
 </style>
