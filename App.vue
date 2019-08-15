@@ -54,7 +54,9 @@ export default {
 <style>
 /* @import 'colorui/icon.css'; 
 @import 'colorui/main.css'; */
-
+page{
+		background: #f5f5f5;
+	}
 .nav-list {
 	display: flex;
 	flex-wrap: wrap;

@@ -1,60 +1,75 @@
 <template name="basics">
-	<view>
+	<view class="page">
 		<!-- <scroll-view scroll-y class="page"> -->
-			<view class="location">
-				<image class="locationImg" src="../../static/location1.png"></image>
-				<text class="xue">武汉大学</text>
-				<image class="locationImgxia" src="../../static/xia.png"></image>
+		<view class="location" @tap="toLocation">
+			<image class="locationImg" src="../../static/location1.png"></image>
+			<text class="xue">武汉大学</text>
+			<image class="locationImgxia" src="../../static/xia.png"></image>
+		</view>
+		<bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%" :textTip="true"
+		 :swiperType='true'> </bw-swiper>
+		<button class="kf_button" open-type="contact" session-from="weapp">
+			<image class="kf_image" src="../../static/ke.png"></image>
+		</button>
+		<view class="jijian">
+			<view class="text">
+				寄件
 			</view>
-			<bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%"
-			 :textTip="true" :swiperType='true'> </bw-swiper>
-			<button class="kf_button" open-type="contact" session-from="weapp">
-				<image class="kf_image" src="../../static/ke.png"></image>
-			</button>
-			<view class="jijian">
-				<view class="text">
-					寄件
+			<view class="kuaidi">
+				<view class="ji">
+					<text class="text">寄</text>
+					<view class="msg">
+						请添加寄件人信息
+					</view>
+					<image class="jiImg" src="../../static/back.png"></image>
 				</view>
-				<view class="kuaidi">
-					<view class="ji">
-						<text class="text">寄</text>
-						<view class="msg">
-							请添加寄件人信息
-						</view>
-						<image class="jiImg" src="../../static/back.png"></image>
+				<view class="shou">
+					<text class="text">收</text>
+					<view class="msg">
+						请添加收件人人信息
 					</view>
-					<view class="shou">
-						<text class="text">收</text>
-						<view class="msg">
-							请添加收件人人信息
-						</view>
-						<image class="jiImg" src="../../static/back.png"></image>
-					</view>
-				</view>
-				<view class="zl">
-					<view class="zl1">
-						<view class="zl1-z" >
-							预估重量
-						</view>
-						<view class="jisuan">
-							<image src="../../static/reduce.png" class="li"></image>
-							<view class="kg">
-								12<text class="zi">kg</text>
-							</view>
-							<image src="../../static/add.png"></image>
-						</view>
-					</view>
-					<view class="zl1">
-						<view class="zl1-z" >
-							物品类型
-						</view>
-						<view class="msgs">
-							物品类型
-						</view>
-						<image class="img" src="../../static/back.png"></image>
-					</view>
+					<image class="jiImg" src="../../static/back.png"></image>
 				</view>
 			</view>
+			<view class="zl">
+				<view class="zl1">
+					<view class="zl1-z">
+						预估重量
+					</view>
+					<view class="jisuan">
+						<image src="../../static/reduce.png" class="li"></image>
+						<view class="kg">
+							12<text class="zi">kg</text>
+						</view>
+						<image src="../../static/add.png"></image>
+					</view>
+				</view>
+				<view class="zl1">
+					<view class="zl1-z">
+						物品类型
+					</view>
+					<view class="msgs">
+						物品类型
+					</view>
+					<image class="img" src="../../static/back.png"></image>
+				</view>
+			</view>
+			<view class="ji ji1">
+				<text class="lx">寄件类型</text>
+				<view class="msg">
+					请添加寄件人信息
+				</view>
+				<image class="jiImg" src="../../static/back.png"></image>
+			</view>
+			<view class="xiadan">
+				<view class="yf">
+					预估运费：<text class="mon">0.00</text>
+				</view>
+				<view class="go">
+					立即下单
+				</view>
+			</view>
+		</view>
 		<!-- </scroll-view> -->
 	</view>
 </template>
@@ -92,14 +107,21 @@
 			// 			console.log(this.$store)
 			// 			let token=getStorageSync('state').token
 			// 			console.log(token)
+		},
+		methods: {
+			toLocation() {
+				uni.navigateTo({
+					url: '../../pageStatic/location/location'
+				})
+			}
 		}
 	};
 </script>
 
 <style scoped lang="scss">
 	.page {
-		height: 100vh;
 		background: #f5f5f5;
+		margin-bottom: 30px;
 	}
 
 	.kf_button {
@@ -128,7 +150,8 @@
 		padding-left: 48rpx;
 		display: flex;
 		align-items: center;
-		margin: 30rpx 0;
+		margin-bottom: 20px ;
+		padding-top: 20px;
 	}
 
 	.locationImg {
@@ -149,11 +172,11 @@
 
 	.jijian {
 		margin: 0 24px;
-		margin-top: 35px;
+		margin-top: 30px;
 		font-size: 30rpx;
 		padding-left: 40rpx;
 		background: white;
-		padding-top: 20px;
+		padding-top: 30px;
 		box-shadow: 0 2px 4px 0 #C6CFD7;
 		border-radius: 10px;
 		padding-bottom: 30px;
@@ -168,7 +191,7 @@
 	}
 
 	.kuaidi {
-		margin-top: 40px;
+		margin-top: 30px;
 		margin-bottom: 30px;
 	}
 
@@ -202,9 +225,11 @@
 		margin-top: 15px;
 		margin-left: 5px;
 	}
+
 	.shou {
 		display: flex;
-		margin-top:30px;
+		margin-top: 30px;
+
 		.text {
 			line-height: 45px;
 			width: 45px;
@@ -216,40 +241,89 @@
 			font-size: 20px;
 		}
 	}
-	.zl{
+
+	.zl {
 		display: flex;
+		margin-top: 30px;
 	}
-	.zl1{
+
+	.zl1 {
 		width: 50%;
 		display: flex;
-		font-size: 26rpx;
-		.img{
+
+		// font-size: 26rpx;
+		.img {
 			width: 12px;
 			height: 20px;
 		}
 	}
-	.jisuan{
+
+	.jisuan {
 		display: flex;
-		.li{
+
+		.li {
 			margin-left: 10px;
 		}
-		.kg{
+
+		.kg {
 			margin: 0 8px;
 		}
-		.zi{
+
+		.zi {
 			font-size: 24rpx;
 			color: #666;
 		}
 	}
-	.jisuan image{
+
+	.jisuan image {
 		width: 40rpx;
 		height: 40rpx;
 	}
-	.msgs{
+
+	.msgs {
 		border-bottom: 1px solid #ccc;
 		height: 25px;
 		color: #999;
 		padding: 0 10px;
-		margin:0 7px ;
+		// margin:0 7px ;
+	}
+
+	.lx {
+		font-size: 16px;
+		line-height: 30px;
+	}
+
+	.ji1 {
+		margin-top: 30px;
+	}
+
+	.ji1 .msg {
+		width: 70%;
+		line-height: 30px;
+		text-align: center;
+		padding-bottom: 0;
+	}
+
+	.ji1 .jiImg {
+		margin-top: 10px;
+	}
+
+	.xiadan {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 30px;
+		margin-right: 25px;
+		line-height: 35px;
+	}
+
+	.go {
+		width: 80px;
+		background: #b0b0b0;
+		border-radius: 5px;
+		text-align: center;
+	}
+
+	.mon {
+		color: #cf1111;
 	}
 </style>

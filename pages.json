@@ -1,6 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		
+
 		{
 			"path": "pages/static/index",
 			"style": {
@@ -25,61 +25,64 @@
 				"navigationBarTitleText": "授权登陆"
 			}
 		}
-    ],
-	"subPackages":[{
-		"root":"pageStatic",
-		"pages":[{
-			"path": "layout",
-			"style": {
-				"navigationBarTitleText": "组件"
-			}
-		}]
-	}
-// 	,{
-// 		"root":"pageComponent",
-// 		"pages":[{
-// 			"path": "home/home",
-// 			"style": {
-// 				"navigationBarTitleText": "组件"
-// 			}
-// 		}]
-// 	},{
-// 		"root":"pagePlugin",
-// 		"pages":[{
-// 			"path": "home/home",
-// 			"style": {
-// 				"navigationBarTitleText": "插件"
-// 			}
-// 		}]
-// 	},
+	],
+	"subPackages": [{
+			"root": "pageStatic",
+			"pages": [{
+				"path": "layout",
+				"style": {
+					"navigationBarTitleText": "组件"
+				}
+			}, {
+				"path": "location/location",
+				"style": {"navigationBarTitleText": "学校选择"}
+			}]
+		}
+		// 	,{
+		// 		"root":"pageComponent",
+		// 		"pages":[{
+		// 			"path": "home/home",
+		// 			"style": {
+		// 				"navigationBarTitleText": "组件"
+		// 			}
+		// 		}]
+		// 	},{
+		// 		"root":"pagePlugin",
+		// 		"pages":[{
+		// 			"path": "home/home",
+		// 			"style": {
+		// 				"navigationBarTitleText": "插件"
+		// 			}
+		// 		}]
+		// 	},
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-        "navigationBarTitleText": "演示",
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "backgroundColor": "#FFFFFF"
+		"navigationBarTitleText": "演示",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
 	},
 	"usingComponts": true,
 	"tabBar": {
-        "color": "#000000",
-        "borderStyle": "black",
-		"selectedColor":"#000000",
-        "backgroundColor": "#ffffff",
-        "list": [{
-            "pagePath": "pages/static/index",
-            "iconPath": "static/tabbar/home.png",
-           "selectedIconPath": "static/tabbar/home1.png",
-            "text": "首页"
-        }, {
-            "pagePath": "pages/component/index",
-            "iconPath": "static/tabbar/center.png",
-            "selectedIconPath": "static/tabbar/center1.png",
-            "text": "校园中心"
-        }, {
-            "pagePath": "pages/plugin/index",
-            "iconPath": "static/tabbar/my.png",
-            "selectedIconPath": "static/tabbar/my1.png",
-            "text": "我的"
-        }]
-    }
+		"color": "#000000",
+		"borderStyle": "black",
+		"selectedColor": "#000000",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/static/index",
+			"iconPath": "static/tabbar/home.png",
+			"selectedIconPath": "static/tabbar/home1.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/component/index",
+			"iconPath": "static/tabbar/center.png",
+			"selectedIconPath": "static/tabbar/center1.png",
+			"text": "校园中心"
+		}, {
+			"pagePath": "pages/plugin/index",
+			"iconPath": "static/tabbar/my.png",
+			"selectedIconPath": "static/tabbar/my1.png",
+			"text": "我的"
+		}]
+	}
 }
