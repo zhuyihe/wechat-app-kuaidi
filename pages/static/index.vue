@@ -48,7 +48,7 @@
 					<view class="zl1-z">
 						物品类型
 					</view>
-					<view class="msgs">
+					<view class="msgs" @tap="selectSort(1)">
 						物品类型
 					</view>
 					<image class="img" src="../../static/back.png"></image>
@@ -70,7 +70,9 @@
 				</view>
 			</view>
 		</view>
-		<!-- </scroll-view> -->
+		<uni-popup ref="popup" type="bottom" @change='selectPopup'>
+			<select-sort @closePo='selectSort'></select-sort>
+		</uni-popup>
 	</view>
 </template>
 
@@ -78,10 +80,16 @@
 	import {
 		getStorageSync
 	} from '@/assets/js/common';
-	import bwSwiper from '@/wxcomponents/bw-swiper/bw-swiper.vue'
+	import bwSwiper from '@/components/bw-swiper/bw-swiper.vue'
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import selectSort from '@/components/selectSort.vue'
 	export default {
 		components: {
-			bwSwiper
+			bwSwiper,
+			uniPopup,
+			uniIcon,
+			selectSort
 		},
 		data() {
 			return {
@@ -113,6 +121,18 @@
 				uni.navigateTo({
 					url: '../../pageStatic/location/location'
 				})
+			},
+			//选择物品类型
+			selectSort(value){
+				if(value==1){
+					this.$refs.popup.open()
+				}else{
+					this.$refs.popup.close()
+				}
+				
+			},
+			selectPopup(data){
+				data.show?uni.hideTabBar():uni.showTabBar()
 			}
 		}
 	};
