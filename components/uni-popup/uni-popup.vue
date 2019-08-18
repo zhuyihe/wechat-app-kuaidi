@@ -171,7 +171,7 @@
 	.uni-popup__wrapper.uni-custom.bottom .uni-popup__wrapper-box,
 	.uni-popup__wrapper.uni-custom.top .uni-popup__wrapper-box {
 		width: 100%;
-		max-height: 500px;
+		/* max-height: 500px; */
 		overflow-y: scroll
 	}
 

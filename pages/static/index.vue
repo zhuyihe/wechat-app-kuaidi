@@ -17,16 +17,42 @@
 			</view>
 			<view class="kuaidi">
 				<view class="ji">
-					<text class="text">寄</text>
-					<view class="msg">
+					<view class="text">寄</view>
+					<view class="msg" @tap="adress" v-if='!isAddJi'>
 						请添加寄件人信息
+					</view>
+					<view class="msgj" v-else>
+						<view class="top">
+							<view class="name">
+								朱依禾
+							</view>
+							<view class="phone">
+								18186140272
+							</view>
+						</view>
+						<view class="bottom">
+							大旗网大旗网大旗网大旗网
+						</view>
 					</view>
 					<image class="jiImg" src="../../static/back.png"></image>
 				</view>
 				<view class="shou">
 					<text class="text">收</text>
-					<view class="msg">
-						请添加收件人人信息
+					<view class="msg" @tap="adressEdit" v-if='!isAddShou'>
+						请添加寄件人信息
+					</view>
+					<view class="msgj" v-else>
+						<view class="top">
+							<view class="name">
+								朱依禾
+							</view>
+							<view class="phone">
+								18186140272
+							</view>
+						</view>
+						<view class="bottom">
+							大旗网大旗网大旗网大旗网
+						</view>
 					</view>
 					<image class="jiImg" src="../../static/back.png"></image>
 				</view>
@@ -37,11 +63,11 @@
 						预估重量
 					</view>
 					<view class="jisuan">
-						<image src="../../static/reduce.png" class="li"></image>
+						<image src="../../static/reduce.png" class="li" @tap="reduce"></image>
 						<view class="kg">
-							12<text class="zi">kg</text>
+							{{Number(weight)}}<text class="zi">kg</text>
 						</view>
-						<image src="../../static/add.png"></image>
+						<image src="../../static/add.png" @tap="add"></image>
 					</view>
 				</view>
 				<view class="zl1">
@@ -49,15 +75,15 @@
 						物品类型
 					</view>
 					<view class="msgs" @tap="selectSort(1)">
-						物品类型
+						{{sorts.value}}
 					</view>
 					<image class="img" src="../../static/back.png"></image>
 				</view>
 			</view>
 			<view class="ji ji1">
 				<text class="lx">寄件类型</text>
-				<view class="msg">
-					请添加寄件人信息
+				<view class="msg" @tap="selects(1)">
+					{{to.value}}
 				</view>
 				<image class="jiImg" src="../../static/back.png"></image>
 			</view>
@@ -65,13 +91,16 @@
 				<view class="yf">
 					预估运费：<text class="mon">0.00</text>
 				</view>
-				<view class="go">
+				<view class="go" @tap="order">
 					立即下单
 				</view>
 			</view>
 		</view>
-		<uni-popup ref="popup" type="bottom" @change='selectPopup'>
-			<select-sort @closePo='selectSort'></select-sort>
+		<uni-popup ref="popup" type="bottom" >
+			<select-sort @closePo='selectSort' @comfirmSort='comfirmSort'></select-sort>
+		</uni-popup>
+		<uni-popup ref="popup1" type="bottom" >
+			<select-sort1 @close='selects'  @comfirmJi='comfirmJi'></select-sort1>
 		</uni-popup>
 	</view>
 </template>
@@ -80,16 +109,21 @@
 	import {
 		getStorageSync
 	} from '@/assets/js/common';
+	import {
+		showToast
+	} from '@/assets/js/common'
 	import bwSwiper from '@/components/bw-swiper/bw-swiper.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import selectSort from '@/components/selectSort.vue'
+	import selectSort1 from '@/components/selectSort1.vue'
 	export default {
 		components: {
 			bwSwiper,
 			uniPopup,
 			uniIcon,
-			selectSort
+			selectSort,
+			selectSort1
 		},
 		data() {
 			return {
@@ -108,7 +142,12 @@
 					type: 'image',
 					img: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg',
 					text: '加油',
-				}]
+				}],
+				weight: 1,
+				to:{value:'请选择寄件类型'},
+				sorts:{value:'物品类型'},
+				isAddJi:false,//是否添加寄件人信息
+				isAddShou:false,//是否添加收件人信息
 			};
 		},
 		created() {
@@ -123,16 +162,56 @@
 				})
 			},
 			//选择物品类型
-			selectSort(value){
-				if(value==1){
+			selectSort(value) {
+				if (value == 1) {
 					this.$refs.popup.open()
-				}else{
+				} else {
 					this.$refs.popup.close()
 				}
-				
+
 			},
-			selectPopup(data){
-				data.show?uni.hideTabBar():uni.showTabBar()
+			selects(value) {
+				console.log(value)
+				if (value == 1) {
+					this.$refs.popup1.open()
+				} else {
+					this.$refs.popup1.close()
+				}
+			},
+			reduce() {
+				this.weight <= 1 ? showToast('您的重量不符合标准') : this.weight--
+
+			},
+			add() {
+				this.weight++
+			},
+			adress(){
+				uni.navigateTo({
+					url:'../../pageStatic/address/address'
+				})
+			},
+			comfirmSort(data){
+				// console.log(data)
+				this.sorts=data
+				this.$refs.popup.close()
+			},
+			comfirmJi(data){
+				// console.log(data)
+				this.to=data
+				this.$refs.popup1.close()
+			},
+			adressEdit(){
+				let isDefult=false
+				let title='添加收件人地址'
+				let state='shou'
+				uni.navigateTo({
+					url: `../../pageStatic/address/edit/edit?isDefult=${isDefult}&title=${title}&state=${state}`
+				})
+			},
+			order(){
+				uni.navigateTo({
+					url:'../../pageStatic/order/order'
+				})
 			}
 		}
 	};
@@ -170,7 +249,7 @@
 		padding-left: 48rpx;
 		display: flex;
 		align-items: center;
-		margin-bottom: 20px ;
+		margin-bottom: 20px;
 		padding-top: 20px;
 	}
 
@@ -216,6 +295,7 @@
 	}
 
 	.ji {
+		align-items: center;
 		display: flex;
 		.text {
 			line-height: 45px;
@@ -226,6 +306,7 @@
 			color: white;
 			display: block;
 			font-size: 20px;
+			height: 45px;
 		}
 
 	}
@@ -249,7 +330,7 @@
 	.shou {
 		display: flex;
 		margin-top: 30px;
-
+		align-items: center;
 		.text {
 			line-height: 45px;
 			width: 45px;
@@ -259,6 +340,7 @@
 			color: black;
 			display: block;
 			font-size: 20px;
+			height: 45px;
 		}
 	}
 
@@ -345,5 +427,20 @@
 
 	.mon {
 		color: #cf1111;
+	}
+	.msgj{
+		width: 75%;
+		margin-left: 10px;
+		color: #666;
+		font-size:28upx;
+		.top{
+			display: flex;
+			justify-content: space-between;
+			padding-right: 10px;
+		}
+		.bottom{
+			border-bottom: 1px solid #ccc;
+			line-height: 70upx;
+		}
 	}
 </style>
