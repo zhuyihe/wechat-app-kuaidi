@@ -19,7 +19,7 @@
 				</view>
 			</view>
 			<view class="status">
-				<view class="sItem" v-for="(row,index) in orderList" :key="index" @tap="toOrderList(index)">
+				<view class="sItem sItem1" v-for="(row,index) in orderList" :key="index" @tap="toOrderList(index)">
 					<image :src="row.img" mode=""></image>
 					<view class="dfk">
 						{{row.text}}
@@ -34,47 +34,13 @@
 				</view>
 			</view>
 			<view class="status">
-				<view class="sItem">
-					<image src="../../static/dzhi.png" mode="" style="width: 46upx;"></image>
-					<view class="dfk">
-						收货地址
-					</view>
-				</view>
-				<view class="sItem">
-					<image src="../../static/youhui.png" mode=""></image>
-					<view class="dfk">
-						优惠券
-					</view>
-				</view>
-				<view class="sItem">
-					<image src="../../static/er.png" mode=""></image>
-					<view class="dfk">
-						二手交易
-					</view>
-				</view>
-				<view class="sItem">
-					<image src="../../static/xy.png" mode=""></image>
-					<view class="dfk">
-						校园论坛
-					</view>
-				</view>
-				<view class="sItem">
-					<image src="../../static/fx.png" mode=""></image>
-					<view class="dfk">
-						分享
-					</view>
-				</view>
-				<view class="sItem">
-					<image src="../../static/cj.png" mode=""></image>
-					<view class="dfk">
-						常见问题
-					</view>
-				</view>
-				<view class="sItem">
-					<image src="../../static/gl.png" mode=""></image>
-					<view class="dfk">
-						奖励金攻略
-					</view>
+				<view class="sItem" v-for='(item,index) in list' :key='index'>
+					<navigator :url="item.url">
+						<image :src="item.img" mode="" style="width: 46upx;"></image>
+						<view class="dfk">
+							{{item.text}}
+						</view>
+					</navigator>
 				</view>
 			</view>
 		</view>
@@ -187,6 +153,15 @@
 					{text:'运输中',img:"../../static/paijian.png"},
 					{text:'已签收',img:"../../static/qs.png"},
 				],
+				list:[
+					{url:'../../pageStatic/address/address',text:'收货地址',img:"../../static/dzhi.png"},
+					{url:'../../pageStatic/address/address',text:'优惠券',img:"../../static/youhui.png"},
+					{url:'../../pageStatic/transactions/transactions',text:'二手交易',img:"../../static/er.png"},
+					{url:'../../pageStatic/bbs/bbs',text:'校园论坛',img:"../../static/xy.png"},
+					{url:'../../pageStatic/address/address',text:'分享',img:"../../static/fx.png"},
+					{url:'../../pageStatic/address/address',text:'常见问题',img:"../../static/cj.png"},
+					{url:'../../pageStatic/address/address',text:'奖励金攻略',img:"../../static/gl.png"}
+				]
 			};
 		},
 		methods: {
@@ -240,18 +215,15 @@
 		border-radius: 6px;
 		padding-bottom: 30upx;
 		box-shadow: 0 2px 4px 0 #C6CFD7;
-
 		.myorder {
 			display: flex;
 			padding: 0 45upx;
 			line-height: 100upx;
 			justify-content: space-between;
-
 			.order {
 				font-size: 32upx;
 				color: #333;
 			}
-
 			.allOrder {
 				color: #7a7a7a;
 				display: flex;
@@ -261,7 +233,6 @@
 			}
 		}
 	}
-
 	.status {
 		display: flex;
 		margin-top: 20upx;
@@ -274,14 +245,15 @@
 			color: #333;
 			line-height: 40upx;
 			width: 25%;
-
 			image {
 				width: 56upx;
-				height: 56upx;
+				height: 50upx;
 			}
 		}
+		.sItem1{
+			width: 33.3%;
+			}
 	}
-
 	.fuwu {
 		flex-direction: row-reverse;
 		top: 10upx;

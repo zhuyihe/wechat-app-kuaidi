@@ -8,29 +8,29 @@
 		</view>
 		<!-- 考虑非APP端长列表和复杂的DOM使用scroll-view会卡顿，所以漂浮顶部选项卡使用page本身的滑动 -->
 		<view class="order-list">
-			<view class="list">
-				<!-- <view class="onorder" v-if="list.length==0">
+			<view class="list" >
+				<vi<!-- ew class="onorder" v-if="list.length==0">
 					<image src="../../../static/noorder.png"></image>
 					<view class="text">
 						没有相关订单
 					</view>
 				</view> -->
-				<view class="row">
+				<view class="row" v-for="(row,index) in orderList" :key="index">
 					<view class="top">
 						<view class="bh">
-							<text>编号:A1</text><text class="time">2019.06.10</text>
+							<text>编号:{{row.bh}}</text><text class="time">{{row.time}}</text>
 						</view>
 						<view class="orderStaus">
-							待付款
+							{{typeText[row.type]}}
 						</view>
 					</view>
 					<view class="middle">
 						<view class="left">
 							<view class="didian">
-								湖北省武汉市
+								{{row.now}}
 							</view>
 							<view class="name">
-								刘晓文
+									{{row.nowname}}
 							</view>
 						</view>
 						<view class="jw">
@@ -39,61 +39,29 @@
 						</view>
 						<view class="right">
 							<view class="didian">
-								湖北省武汉市
+								{{row.go}}
 							</view>
 							<view class="name">
-								刘晓文
+								{{row.goname}}
 							</view>
 						</view>
 					</view>
 					<view class="bottom">
 						<view class="sf">
-							实付:￥78.00
+							实付:￥{{row.pay}}.00
 						</view>
 						<view class="btns">
 							<block v-if="row.type=='unpaid'">
 								<view class="default" @tap="cancelOrder(row)">取消订单</view>
 								<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">付款</view>
-							</block> 
-							<!-- <block v-if="row.type=='unreceived'">
-								<view class="default" @tap="showLogistics(row)">查看物流</view>
-								<view class="pay">确认收货</view>
-								<view class="pay">我要退货</view>
-							</block> -->
-							<!-- <block v-if="row.type=='received'">
-								<view class="default">评价</view>
 							</block>
-							<block v-if="row.type=='completed'">
-								<view class="default">再次购买</view>
+							<block v-if="row.type=='received'||row.type=='completed'">
+								<view class="sf">
+									快递编号:{{code}}
+								</view>
 							</block>
-							<block v-if="row.type=='refunds'">
-								<view class="default">查看进度</view>
-							</block>
-							<block v-if="row.type=='cancelled'">
-								<view class="default">已取消</view>
-							</block> -->
 						</view>
 					</view>
-					<!-- <view class="type">{{typeText[row.type]}}</view>
-					<view class="order-info">
-						<view class="left">
-							<image :src="row.img"></image>
-						</view>
-						<view class="right">
-							<view class="name">
-								{{row.name}}
-							</view>
-							<view class="spec">{{row.spec}}</view>
-							<view class="price-number">
-								￥<view class="price">{{row.price}}</view>
-								x<view class="number">{{row.numner}}</view>
-							</view>
-						</view>
-						
-					</view>
-					<view class="detail">
-						<view class="number">共{{row.numner}}件商品</view><view class="sum">合计￥<view class="price">{{row.payment}}</view></view><view class="nominal">(含运费 ￥{{row.freight}})</view>
-					</view> -->
 
 				</view>
 			</view>
@@ -114,168 +82,17 @@
 				orderType: ['全部', '待付款', '运输中', '已签收'],
 				//订单列表 演示数据
 				orderList: [
-					[{
-							type: "unpaid",
-							ordersn: 0,
-							goods_id: 0,
-							img: '/static/img/goods/p1.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '168.00',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "unpaid",
-							ordersn: 1,
-							goods_id: 1,
-							img: '/static/img/goods/p2.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '168.00',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "back",
-							ordersn: 2,
-							goods_id: 1,
-							img: '/static/img/goods/p3.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '168.00',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "unreceived",
-							ordersn: 3,
-							goods_id: 1,
-							img: '/static/img/goods/p4.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '168.00',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "received",
-							ordersn: 4,
-							goods_id: 1,
-							img: '/static/img/goods/p5.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '168.00',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "completed",
-							ordersn: 5,
-							goods_id: 1,
-							img: '/static/img/goods/p6.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '168.00',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "refunds",
-							ordersn: 6,
-							goods_id: 1,
-							img: '/static/img/goods/p5.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '￥168',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "cancelled",
-							ordersn: 7,
-							goods_id: 1,
-							img: '/static/img/goods/p5.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '￥168',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						}
-					],
-					[{
-							type: "unpaid",
-							ordersn: 0,
-							goods_id: 0,
-							img: '/static/img/goods/p1.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '￥168',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						},
-						{
-							type: "unpaid",
-							ordersn: 1,
-							goods_id: 1,
-							img: '/static/img/goods/p2.jpg',
-							name: '商品名称商品名称商品名称商品名称商品名称',
-							price: '￥168',
-							payment: 168.00,
-							freight: 12.00,
-							spec: '规格:S码',
-							numner: 1
-						}
-					],
-					[
-						//无
-					],
-					[{
-						type: "unreceived",
-						ordersn: 3,
-						goods_id: 1,
-						img: '/static/img/goods/p4.jpg',
-						name: '商品名称商品名称商品名称商品名称商品名称',
-						price: '￥168',
-						payment: 168.00,
-						freight: 12.00,
-						spec: '规格:S码',
-						numner: 1
-					}],
-					[{
-						type: "received",
-						ordersn: 4,
-						goods_id: 1,
-						img: '/static/img/goods/p5.jpg',
-						name: '商品名称商品名称商品名称商品名称商品名称',
-						price: '￥168',
-						payment: 168.00,
-						freight: 12.00,
-						spec: '规格:S码',
-						numner: 1
-					}],
-					[{
-						type: "refunds",
-						ordersn: 6,
-						goods_id: 1,
-						img: '/static/img/goods/p5.jpg',
-						name: '商品名称商品名称商品名称商品名称商品名称',
-						price: '￥168',
-						payment: 168.00,
-						freight: 12.00,
-						spec: '规格:S码',
-						numner: 1
-					}]
-
+					{
+						type: "unpaid",
+						now: '湖北武汉',
+						go: '广东深圳',
+						goname: 'zyh',
+						nowname: 'zzz',
+						pay: 16,
+						code:'130024004300',
+						time:"2019.06.10",
+						bh:'A1'
+					}
 				],
 				list: [],
 				tabbarIndex: 0
@@ -285,7 +102,9 @@
 			//option为object类型，会序列化上个页面传递的参数
 			console.log("option: " + JSON.stringify(option));
 			let tbIndex = parseInt(option.tbIndex) + 1;
+			console.log(tbIndex)
 			this.list = this.orderList[tbIndex];
+			console.log(this.list)
 			this.tabbarIndex = tbIndex;
 		},
 		onPageScroll(e) {
@@ -370,6 +189,7 @@
 		height: 80upx;
 		display: flex;
 		justify-content: space-around;
+
 		.grid {
 			width: 25%;
 			height: 80upx;
@@ -400,6 +220,7 @@
 		font-size: 30upx;
 		margin: 20upx auto;
 		border-radius: 6px;
+
 		.top {
 			display: flex;
 			justify-content: space-between;
@@ -409,11 +230,13 @@
 			margin-top: 100upx;
 			border-bottom: 1px solid #e0e0e0;
 			align-items: center;
-			.time{
+
+			.time {
 				margin-left: 40upx;
 				color: #666;
 			}
-			.orderStaus{
+
+			.orderStaus {
 				color: #cc0000;
 			}
 		}
@@ -427,41 +250,48 @@
 
 		.middle {
 			border-bottom: 1px solid #e0e0e0;
-			padding:25upx 0;
+			padding: 25upx 0;
+
 			.imgs {
 				width: 123upx;
 				height: 13upx;
 			}
+
 			.left {
 				text-align: left;
 				line-height: 50upx;
 				margin-left: 20upx;
 			}
-			.right{
+
+			.right {
 				text-align: right;
 				line-height: 50upx;
 				margin-right: 20upx;
 			}
-			.didian{
+
+			.didian {
 				font-size: 28upx;
 				color: #8f8f8f;
 			}
-			.jw{
+
+			.jw {
 				text-align: center;
 				color: #666666;
 			}
 		}
-			
-		.bottom{
+
+		.bottom {
 			height: 100upx;
 			display: flex;
 			justify-content: space-between;
 			padding-left: 20upx;
 			align-items: center;
-			.btns{
+
+			.btns {
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
+
 				view {
 					height: 56upx;
 					width: 140upx;
