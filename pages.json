@@ -28,12 +28,7 @@
 	],
 	"subPackages": [{
 			"root": "pageStatic",
-			"pages": [{
-				"path": "layout",
-				"style": {
-					"navigationBarTitleText": "组件"
-				}
-			}, {
+			"pages": [ {
 				"path": "location/location",
 				"style": {
 					"navigationBarTitleText": "学校选择"
@@ -85,16 +80,25 @@
 				}
 			}, {
 				"path": "transactions/detail/detail",
-				"style": {"navigationBarTitleText": "详情"}
-			}    ,{
-                    "path" : "bbs/bbs",
-                    "style" : {"navigationBarTitleText": "论坛"}
-                }
-                ,{
-                    "path" : "bbs/detail/detail",
-                    "style" : {"navigationBarTitleText": "详情"}
-                }
-            ]
+				"style": {
+					"navigationBarTitleText": "详情"
+				}
+			}, {
+				"path": "bbs/bbs",
+				"style": {
+					"navigationBarTitleText": "论坛"
+				}
+			}, {
+				"path": "bbs/detail/detail",
+				"style": {
+					"navigationBarTitleText": "详情"
+				}
+			},{
+            "path" : "order_list/order_list",
+            "style" : {
+				"navigationBarTitleText":"我的订单"
+			}
+        }]
 		}
 		// 	,{
 		// 		"root":"pageComponent",

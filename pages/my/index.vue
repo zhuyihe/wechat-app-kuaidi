@@ -1,102 +1,391 @@
 <template>
-	<view>
-		<scroll-view scroll-y class="page">
-			<!-- <cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/cjkz2329.jpg"> -->
-				<!-- <block slot="content">
-					<image src="/static/cjkz.png" mode="aspectFill" style="width: 240upx;height: 60upx;"></image>
-				</block> -->
-			</cu-custom>
-			<view class="cu-card">
-				<view class="cu-item bg-img shadow-blur" :style="[{backgroundImage:'url('+item.img+')'}]" @tap="toChild" :data-url="item.url"
-				 v-for="(item,index) in list" :key="index">
-					<view class="cardTitle">
-						{{item.title}}
+	<view class="global">
+		<view class="tou">
+			<view class="names">
+				<image src="../../static/xiang.png"></image><text>西亚</text>
+			</view>
+			<view class="school">
+				——汉口学院的小伙伴
+			</view>
+		</view>
+		<view class="orderList">
+			<view class="myorder">
+				<view class="order">
+					我的订单
+				</view>
+				<view class="allOrder">
+					<text>全部订单</text>
+					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
+				</view>
+			</view>
+			<view class="status">
+				<view class="sItem" v-for="(row,index) in orderList" :key="index" @tap="toOrderList(index)">
+					<image :src="row.img" mode=""></image>
+					<view class="dfk">
+						{{row.text}}
 					</view>
 				</view>
 			</view>
-			<view class="cu-tabbar-height"></view>
-		</scroll-view>
+		</view>
+		<view class="orderList fuwu">
+			<view class="myorder">
+				<view class="order">
+					我的服务
+				</view>
+			</view>
+			<view class="status">
+				<view class="sItem">
+					<image src="../../static/dzhi.png" mode="" style="width: 46upx;"></image>
+					<view class="dfk">
+						收货地址
+					</view>
+				</view>
+				<view class="sItem">
+					<image src="../../static/youhui.png" mode=""></image>
+					<view class="dfk">
+						优惠券
+					</view>
+				</view>
+				<view class="sItem">
+					<image src="../../static/er.png" mode=""></image>
+					<view class="dfk">
+						二手交易
+					</view>
+				</view>
+				<view class="sItem">
+					<image src="../../static/xy.png" mode=""></image>
+					<view class="dfk">
+						校园论坛
+					</view>
+				</view>
+				<view class="sItem">
+					<image src="../../static/fx.png" mode=""></image>
+					<view class="dfk">
+						分享
+					</view>
+				</view>
+				<view class="sItem">
+					<image src="../../static/cj.png" mode=""></image>
+					<view class="dfk">
+						常见问题
+					</view>
+				</view>
+				<view class="sItem">
+					<image src="../../static/gl.png" mode=""></image>
+					<view class="dfk">
+						奖励金攻略
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="orderList fensi">
+			<view class="myorder">
+				<view class="order">
+					我的粉丝
+				</view>
+			</view>
+			<view class="mains">
+				<view class="main">
+					<view class="count">
+						88
+					</view>
+					<view class="fs">
+						我的粉丝
+					</view>
+				</view>
+				<view class="main">
+					<view class="count">
+						88
+					</view>
+					<view class="fs">
+						我的访问
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="orderList shouru">
+			<view class="myorder">
+				<view class="order">
+					我的收入(元)
+				</view>
+				<view class="order">
+					<uni-icon type="arrowright" size="20" color="#666"></uni-icon>
+				</view>
+			</view>
+			<view class="tx">
+				<view class="left">
+					<view class="main main1">
+						<view class="count">
+							88.00
+						</view>
+						<view class="fs">
+							今日(元)
+						</view>
+					</view>
+					<view class="mains">
+						<view class="main">
+							<view class="count">
+								188.00
+							</view>
+							<view class="fs">
+								本月(元)
+							</view>
+						</view>
+						<view class="main">
+							<view class="count">
+								288.00
+							</view>
+							<view class="fs">
+								累计(元)
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="mainsss">
+					<view class="count red">
+						188.00
+					</view>
+					<view class="fs">
+						可提现余额
+					</view>
+					<view class="txs">
+						提现
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="orderList rz">
+			<view class="status">
+				<view class="sItems">
+					<image src="../../static/gys.png" mode=""></image>
+					<view class="dfk">
+						供应商入驻
+					</view>
+				</view>
+				<view class="sItems">
+					<image src="../../static/hehuo.png" mode=""></image>
+					<view class="dfk">
+						校园合伙人
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	export default {
+		components: {
+			uniIcon
+		},
 		data() {
 			return {
-				StatusBar: this.StatusBar,
-				CustomBar: this.CustomBar,
-				list: [{
-						title: '索引列表',
-						img: 'https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg',
-						url: '../plugin/indexes'
-					},
-					{
-						title: '微动画',
-						img: 'https://image.weilanwl.com/color2.0/plugin/wdh2236.jpg',
-						url: '../plugin/animation'
-					},
-					{
-						title: '全屏抽屉',
-						img: 'https://image.weilanwl.com/color2.0/plugin/qpct2148.jpg',
-						url: '../plugin/drawer'
-					},
-					{
-						title: '垂直导航',
-						img: 'https://image.weilanwl.com/color2.0/plugin/qpczdh2307.jpg',
-						url: '../plugin/verticalnav'
-					}
-				]
+				// 订单类型
+				orderList:[
+					{text:'待付款',img:"../../static/pay.png"},
+					{text:'运输中',img:"../../static/paijian.png"},
+					{text:'已签收',img:"../../static/qs.png"},
+				],
 			};
 		},
 		methods: {
-			toChild(e) {
-				uni.navigateTo({
-					url: e.currentTarget.dataset.url
-				})
+			toOrderList(index){
+				uni.setStorageSync('tbIndex',index);
+				uni.navigateTo({url:'../../pageStatic/order_list/order_list?tbIndex='+index}) 
 			},
 		},
 	}
 </script>
 
-<style>
-	.page {
-		height: 100vh;
+<style lang="scss" scoped>
+	.global {
+		margin-bottom: 100upx;
 	}
 
-	.cardTitle {
-		color: #fff;
-		padding: 90upx 60upx;
-		font-size: 40upx;
-		font-weight: 300;
-		transform: skew(-10deg, 0deg);
+	.tou {
+		height: 240upx;
+		background: #ffd84d;
+		// display: flex;
+		align-items: center;
+		padding-left: 55upx;
+		padding-right: 25upx;
+
+		.names {
+			align-items: center;
+			font-size: 36upx;
+			padding-top: 40upx;
+			font-weight: bold;
+			display: flex;
+
+			image {
+				width: 120upx;
+				height: 120upx;
+				margin-right: 30upx;
+			}
+		}
+
+		.school {
+			text-align: right;
+			font-size: 28upx;
+		}
+	}
+
+	.orderList {
+		width: 700upx;
+		margin-left: 25upx;
 		position: relative;
-		text-shadow: 0px 0px 6upx rgba(0, 0, 0, 0.3)
+		top: -25upx;
+		background: #fff;
+		border-radius: 6px;
+		padding-bottom: 30upx;
+		box-shadow: 0 2px 4px 0 #C6CFD7;
+
+		.myorder {
+			display: flex;
+			padding: 0 45upx;
+			line-height: 100upx;
+			justify-content: space-between;
+
+			.order {
+				font-size: 32upx;
+				color: #333;
+			}
+
+			.allOrder {
+				color: #7a7a7a;
+				display: flex;
+				align-items: center;
+				font-size: 28upx;
+
+			}
+		}
 	}
 
-	.cardTitle::before {
-		content: "";
-		position: absolute;
-		width: 60upx;
-		height: 6upx;
-		border-radius: 20upx;
-		background-color: #fff;
-		display: block;
-		top: 60upx;
-		left: 50upx;
-		transform: skew(10deg, 0deg);
+	.status {
+		display: flex;
+		margin-top: 20upx;
+		padding: 0 25upx;
+
+		// justify-content: space-between;
+		.sItem {
+			text-align: center;
+			font-size: 26upx;
+			color: #333;
+			line-height: 40upx;
+			width: 25%;
+
+			image {
+				width: 56upx;
+				height: 56upx;
+			}
+		}
 	}
 
-	.cardTitle::after {
-		content: "";
-		position: absolute;
-		width: 140upx;
-		border-radius: 6upx;
-		height: 24upx;
-		background-color: #fff;
-		display: block;
-		bottom: 76upx;
-		left: 90upx;
-		transform: skew(10deg, 0deg);
-		opacity: 0.1;
+	.fuwu {
+		flex-direction: row-reverse;
+		top: 10upx;
+		.status {
+			padding: 0;
+			flex-wrap: wrap;
+			.sItem {
+				margin-bottom: 35upx;
+			}
+		}
+	}
+
+	.fensi {
+		top: 35upx;
+		padding-bottom: 0;
+
+		.myorder {
+			border-bottom: 1px solid #e0e0e0;
+		}
+
+		.mains {
+			display: flex;
+
+			.main {
+				width: 50%;
+				text-align: center;
+				border-right: 1px solid #e0e0e0;
+				padding: 40upx 0;
+
+				.count {
+					font-size: 42upx;
+				}
+
+				.fs {
+					color: #999;
+					font-size: 26upx;
+					line-height: 40upx;
+				}
+			}
+		}
+	}
+
+	.shouru {
+		top: 65upx;
+		padding-bottom: 0;
+
+		.myorder {
+			border-bottom: 1px solid #e0e0e0;
+		}
+	}
+
+	.tx {
+		align-items: center;
+		text-align: center;
+		display: flex;
+		.left {
+			width: 60%;
+			border-right: 1px solid #e0e0e0;
+			.main1 {
+				border-bottom: 1px solid #e0e0e0;
+				padding:15upx 0 ;
+			}
+		}
+		.mains {
+			display: flex;
+			padding:15upx 0 ;
+			.main {
+				text-align: center;
+				width: 50%;
+			}
+		}
+		.mainsss {
+			width: 40%;
+		}
+		.fs {
+			color: #999;
+			font-size: 26upx;
+			line-height: 40upx;
+		}
+		.txs{
+			width: 100upx;
+			font-size: 28upx;
+			margin: auto;
+			line-height: 40upx;
+			border: 1px solid #d32222;
+			color: #d32222;
+			border-radius: 20upx;
+			margin-top: 10upx;
+		}
+		.red{
+			color: #d32222;
+		}
+	}
+	.rz{
+		top: 85upx;
+		padding: 20upx 0;
+		.sItems{
+			text-align: center;
+			font-size: 30upx;
+			width: 50%;
+			image{
+				width: 56upx;
+				height: 48upx;
+			}
+		}
 	}
 </style>
