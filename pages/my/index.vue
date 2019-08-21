@@ -155,11 +155,11 @@
 				],
 				list:[
 					{url:'../../pageStatic/address/address',text:'收货地址',img:"../../static/dzhi.png"},
-					{url:'../../pageStatic/address/address',text:'优惠券',img:"../../static/youhui.png"},
+					{url:'../../pageStatic/discount/discount',text:'优惠券',img:"../../static/youhui.png"},
 					{url:'../../pageStatic/transactions/transactions',text:'二手交易',img:"../../static/er.png"},
 					{url:'../../pageStatic/bbs/bbs',text:'校园论坛',img:"../../static/xy.png"},
 					{url:'../../pageStatic/address/address',text:'分享',img:"../../static/fx.png"},
-					{url:'../../pageStatic/address/address',text:'常见问题',img:"../../static/cj.png"},
+					{url:'../../pageStatic/question/question',text:'常见问题',img:"../../static/cj.png"},
 					{url:'../../pageStatic/address/address',text:'奖励金攻略',img:"../../static/gl.png"}
 				]
 			};

@@ -98,25 +98,16 @@
             "style" : {
 				"navigationBarTitleText":"我的订单"
 			}
-        }]
+        }    ,{
+                    "path" : "discount/discount",
+                    "style" : {"navigationBarTitleText":"优惠券"}
+                }
+                ,{
+                    "path" : "question/question",
+                    "style" : {"navigationBarTitleText":"常见问题"}
+                }
+            ]
 		}
-		// 	,{
-		// 		"root":"pageComponent",
-		// 		"pages":[{
-		// 			"path": "home/home",
-		// 			"style": {
-		// 				"navigationBarTitleText": "组件"
-		// 			}
-		// 		}]
-		// 	},{
-		// 		"root":"pagePlugin",
-		// 		"pages":[{
-		// 			"path": "home/home",
-		// 			"style": {
-		// 				"navigationBarTitleText": "插件"
-		// 			}
-		// 		}]
-		// 	},
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
