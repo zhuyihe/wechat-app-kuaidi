@@ -27,88 +27,107 @@
 		}
 	],
 	"subPackages": [{
-			"root": "pageStatic",
-			"pages": [ {
-				"path": "location/location",
-				"style": {
-					"navigationBarTitleText": "学校选择"
-				}
-			}, {
-				"path": "address/address",
-				"style": {
-					"navigationBarTitleText": "收货地址"
-				}
-			}, {
-				"path": "address/edit/edit",
-				"style": {
-					"navigationBarTitleText": "编辑地址"
-				}
-			}, {
-				"path": "order/order",
-				"style": {
-					"navigationBarTitleText": "确认订单"
-				}
-			}, {
-				"path": "paySuccess/paySuccess",
-				"style": {
-					"navigationBarTitleText": "支付成功"
-				}
-			}, {
-				"path": "partTime/partTime",
-				"style": {
-					"navigationBarTitleText": "校园兼职"
-				}
-			}, {
-				"path": "partTime/detail/detail",
-				"style": {
-					"navigationBarTitleText": "详情"
-				}
-			}, {
-				"path": "takeOut/takeOut",
-				"style": {
-					"navigationBarTitleText": "外卖"
-				}
-			}, {
-				"path": "takeOut/detail/detail",
-				"style": {
-					"navigationBarTitleText": "详情"
-				}
-			}, {
-				"path": "transactions/transactions",
-				"style": {
-					"navigationBarTitleText": "二手交易"
-				}
-			}, {
-				"path": "transactions/detail/detail",
-				"style": {
-					"navigationBarTitleText": "详情"
-				}
-			}, {
-				"path": "bbs/bbs",
-				"style": {
-					"navigationBarTitleText": "论坛"
-				}
-			}, {
-				"path": "bbs/detail/detail",
-				"style": {
-					"navigationBarTitleText": "详情"
-				}
-			},{
-            "path" : "order_list/order_list",
-            "style" : {
-				"navigationBarTitleText":"我的订单"
+		"root": "pageStatic",
+		"pages": [{
+			"path": "location/location",
+			"style": {
+				"navigationBarTitleText": "学校选择"
 			}
-        }    ,{
-                    "path" : "discount/discount",
-                    "style" : {"navigationBarTitleText":"优惠券"}
+		}, {
+			"path": "address/address",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		}, {
+			"path": "address/edit/edit",
+			"style": {
+				"navigationBarTitleText": "编辑地址"
+			}
+		}, {
+			"path": "order/order",
+			"style": {
+				"navigationBarTitleText": "确认订单"
+			}
+		}, {
+			"path": "paySuccess/paySuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		}, {
+			"path": "partTime/partTime",
+			"style": {
+				"navigationBarTitleText": "校园兼职"
+			}
+		}, {
+			"path": "partTime/detail/detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		}, {
+			"path": "takeOut/takeOut",
+			"style": {
+				"navigationBarTitleText": "外卖"
+			}
+		}, {
+			"path": "takeOut/detail/detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		}, {
+			"path": "transactions/transactions",
+			"style": {
+				"navigationBarTitleText": "二手交易"
+			}
+		}, {
+			"path": "transactions/detail/detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		}, {
+			"path": "bbs/bbs",
+			"style": {
+				"navigationBarTitleText": "论坛"
+			}
+		}, {
+			"path": "bbs/detail/detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		}, {
+			"path": "order_list/order_list",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		}, {
+			"path": "discount/discount",
+			"style": {
+				"navigationBarTitleText": "优惠券"
+			}
+		}, {
+			"path": "question/question",
+			"style": {
+				"navigationBarTitleText": "常见问题"
+			}
+		}, {
+			"path": "fans/fans",
+			"style": {
+				"navigationBarTitleText": "我的粉丝"
+			}
+		}, {
+			"path": "incomes/incomes",
+			"style": {
+				"navigationBarTitleText": "我的收入"
+			}
+		}    ,{
+                    "path" : "share/share",
+                    "style" : {"navigationBarTitleText": "分享"}
                 }
                 ,{
-                    "path" : "question/question",
-                    "style" : {"navigationBarTitleText":"常见问题"}
+                    "path" : "detial/detial",
+                    "style" : {"navigationBarTitleText": "查看详情"}
                 }
             ]
-		}
-	],
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "演示",

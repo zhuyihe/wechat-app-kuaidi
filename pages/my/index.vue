@@ -45,9 +45,12 @@
 			</view>
 		</view>
 		<view class="orderList fensi">
-			<view class="myorder">
+			<view class="myorder" @tap="toFans">
 				<view class="order">
 					我的粉丝
+				</view>
+				<view class="order" >
+					<uni-icon type="arrowright" size="20" color="#666"></uni-icon>
 				</view>
 			</view>
 			<view class="mains">
@@ -70,7 +73,7 @@
 			</view>
 		</view>
 		<view class="orderList shouru">
-			<view class="myorder">
+			<view class="myorder" @tap="income">
 				<view class="order">
 					我的收入(元)
 				</view>
@@ -122,13 +125,13 @@
 		</view>
 		<view class="orderList rz">
 			<view class="status">
-				<view class="sItems">
+				<view class="sItems" @tap="gogong('enter')">
 					<image src="../../static/gys.png" mode=""></image>
 					<view class="dfk">
 						供应商入驻
 					</view>
 				</view>
-				<view class="sItems">
+				<view class="sItems" @tap="gogong('hehuo')">
 					<image src="../../static/hehuo.png" mode=""></image>
 					<view class="dfk">
 						校园合伙人
@@ -156,11 +159,11 @@
 				list:[
 					{url:'../../pageStatic/address/address',text:'收货地址',img:"../../static/dzhi.png"},
 					{url:'../../pageStatic/discount/discount',text:'优惠券',img:"../../static/youhui.png"},
-					{url:'../../pageStatic/transactions/transactions',text:'二手交易',img:"../../static/er.png"},
-					{url:'../../pageStatic/bbs/bbs',text:'校园论坛',img:"../../static/xy.png"},
-					{url:'../../pageStatic/address/address',text:'分享',img:"../../static/fx.png"},
+					{url:'../../pageStatic/transactions/transactions?state=my',text:'二手交易',img:"../../static/er.png"},
+					{url:'../../pageStatic/bbs/bbs?state=my',text:'校园论坛',img:"../../static/xy.png"},
+					{url:'../../pageStatic/share/share',text:'分享',img:"../../static/fx.png"},
 					{url:'../../pageStatic/question/question',text:'常见问题',img:"../../static/cj.png"},
-					{url:'../../pageStatic/address/address',text:'奖励金攻略',img:"../../static/gl.png"}
+					{url:'../../pageStatic/question/question',text:'奖励金攻略',img:"../../static/gl.png"}
 				]
 			};
 		},
@@ -169,6 +172,15 @@
 				uni.setStorageSync('tbIndex',index);
 				uni.navigateTo({url:'../../pageStatic/order_list/order_list?tbIndex='+index}) 
 			},
+			toFans(){
+				uni.navigateTo({url:'../../pageStatic/fans/fans'}) 
+			},
+			income(){
+				uni.navigateTo({url:'../../pageStatic/incomes/incomes'}) 
+			},
+			gogong(state){
+				uni.navigateTo({url:'../../pageStatic/detial/detial?state='+state}) 
+			}
 		},
 	}
 </script>

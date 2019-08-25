@@ -30,7 +30,7 @@
 				</view>
 			</view>
 			<view class="bottoms">
-				<view class="detai" @tap="isOpen(true)">
+				<view class="detai" @tap="goDetail">
 					查看详情
 				</view>
 				<view class="tel" @tap="call">
@@ -39,27 +39,11 @@
 			</view>
 			
 		</view>
-		<uni-popup ref="popup" type="bottom">
-			<view class="header">
-				<!-- <view class="header1"></view> -->
-				<view class="header2"></view>
-				<view class="header3" @tap="isOpen(false)"><uni-icon type="closeempty" size="20"  ></uni-icon></view>
-			</view>
-			<view class="contents">
-				<image src="../../../static/detail.png" mode=""></image>
-			</view>
-		</uni-popup>
 	</view>
 </template>
 
 <script>
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	export default {
-		components:{
-			uniPopup,
-			uniIcon
-		},
 		data() {
 			return {
 				
@@ -71,14 +55,10 @@
 				    phoneNumber: '114' //仅为示例
 				});
 			},
-			isOpen(value){
-				if(value){
-					console.log(this.$refs)
-					this.$refs.popup.open()
-				}else{
-					this.$refs.popup.close()
-				}
-				
+			goDetail(){
+				uni.navigateTo({
+					url:'../../detial/detial?state=detail'
+				})
 			}
 		}
 	}

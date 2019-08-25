@@ -1,24 +1,32 @@
 <template>
-	<view class="row">
-		<view class="jz">
-			<image src="../../static/wr.png" mode=""></image>
+	<view >
+		<view class="row">
+			<view class="jz">
+				<image src="../../static/wr.png" mode=""></image>
+			</view>
+			<view class="li">
+				<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
+					<view class="content">
+						{{item.content}}
+					</view>
+					<view class="footer">
+						<view class="left">
+							<image :src="item.img" mode=""></image>
+							<text>{{item.name}}</text>
+							<text>{{item.time}}</text>
+						</view>
+						<view class="right">
+							<text>{{item.reamrk}}</text>
+							<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
-		<view class="li">
-			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
-				<view class="content">
-					{{item.content}}
-				</view>
-				<view class="footer">
-					<view class="left">
-						<image :src="item.img" mode=""></image>
-						<text>{{item.name}}</text>
-						<text>{{item.time}}</text>
-					</view>
-					<view class="right">
-						<text>{{item.reamrk}}</text>
-						<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
-					</view>
-				</view>
+		
+		<view class="add" v-if='reamrk'>
+			<view class="btn">
+				发布闲置
 			</view>
 		</view>
 	</view>
@@ -67,8 +75,24 @@
 					name:"牵绊易世荣",
 					img:'../../static/tou.png',
 					reamrk:12
-				}]
+				},{
+					id:1,
+					content:'床头挂篮有三个，每个五块钱。',
+					time:'2019.08.17',
+					name:"牵绊易世荣",
+					img:'../../static/tou.png',
+					reamrk:12
+				}],
+				reamrk:false
 			};
+		},
+		onLoad(option){
+			if(option.state){
+				this.reamrk=true
+			}else{
+				this.reamrk=false
+			}
+			
 		},
 		methods:{
 			toDetial(){
@@ -83,6 +107,7 @@
 <style lang="scss">
 .row{
 	padding:0 25upx; 
+	padding-bottom: 100upx;
 }
 .jz {
 	margin:20upx 0;
@@ -128,8 +153,14 @@ image{
 		margin-right: 5upx;
 	}
 }
-// .time{
-// 	text-align: right;
-// 	color: #999;
-// }
+.add{
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: #ffd84d;
+		text-align: center;
+		color: #000;
+		line-height: 50px;
+	}
 </style>

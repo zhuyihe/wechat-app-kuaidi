@@ -20,7 +20,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> 
 		<view class="add">
 			<view class="btn" @tap="add">
 				新增地址

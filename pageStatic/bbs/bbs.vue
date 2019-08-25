@@ -1,33 +1,40 @@
 <template>
-	<view class="row">
-		<view class="jz">
-			<image src="../../static/bbs.png" mode=""></image>
+	<view>
+		<view class="row">
+			<view class="jz">
+				<image src="../../static/bbs.png" mode=""></image>
+			</view>
+			<view class="li">
+				<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
+					<view class="headers">
+						《航海王 启航》2.0大海战公测了
+					</view>
+					<view class="content">
+						{{item.content}}
+					</view>
+					<view class="footer">
+						<view class="left">
+							<image :src="item.img" mode=""></image>
+							<text>{{item.name}}</text>
+							<text>{{item.time}}</text>
+						</view>
+						<view class="right">
+							<view class="see">
+								<text>{{item.see}}</text>
+								<uni-icon type="eye" size="16" color='#8d8d8d'></uni-icon>
+							</view>
+							<view class="mark">
+								<text>{{item.reamrk}}</text>
+								<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
-		<view class="li">
-			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
-				<view class="headers">
-					《航海王 启航》2.0大海战公测了
-				</view>
-				<view class="content">
-					{{item.content}}
-				</view>
-				<view class="footer">
-					<view class="left">
-						<image :src="item.img" mode=""></image>
-						<text>{{item.name}}</text>
-						<text>{{item.time}}</text>
-					</view>
-					<view class="right">
-						<view class="see">
-							<text>{{item.see}}</text>
-							<uni-icon type="eye" size="16" color='#8d8d8d'></uni-icon>
-						</view>
-						<view class="mark">
-							<text>{{item.reamrk}}</text>
-							<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
-						</view>
-					</view>
-				</view>
+		<view class="add" v-if="reamrk">
+			<view class="btn">
+				发布帖子
 			</view>
 		</view>
 	</view>
@@ -81,8 +88,16 @@
 					img:'../../static/tou.png',
 					reamrk:12,
 					see:2
-				}]
+				}],
+				reamrk:false
 			};
+		},
+		onLoad(option){
+			if(option.state){
+				this.reamrk=true
+			}else{
+				this.reamrk=false
+			}
 		},
 		methods:{
 			toDetial(){
@@ -97,6 +112,7 @@
 <style lang="scss">
 .row{
 	padding:0 25upx; 
+	padding-bottom: 100upx;
 }
 .headers{
 	height: 70upx;
@@ -157,8 +173,14 @@ image{
 		margin-right: 10upx;
 	}
 }
-// .time{
-// 	text-align: right;
-// 	color: #999;
-// }
+.add{
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: #ffd84d;
+		text-align: center;
+		color: #000;
+		line-height: 50px;
+	}
 </style>
