@@ -85,23 +85,23 @@
 		.header2{
 			width: 90%;
 			text-align: center;
-			margin-left: 30px;
+			margin-left: 60upx;
 			
 		}
 	}
 	.itemBody{
 		justify-content: space-around;
 		flex-wrap:wrap ;
-		padding: 10px;
+		padding: 20upx;
 		display:flex;
 		font-size: 30upx;
 		.item{
-			width: 100px;
+			width: 190upx;
 			text-align: center;
 			background: #d1d1d1;
-			line-height: 40px;
+			line-height: 65upx;
 			border-radius: 20px;
-			margin: 10px;
+			margin: 20upx;
 		}
 		.active{
 			background: #ffd84d;
@@ -109,9 +109,9 @@
 	}
 	.noAllow{
 		width: 100%;
-		line-height: 25px;
-		font-size: 16px;
-		padding: 10px 5px;
+		line-height: 50upx;
+		font-size: 32upx;
+		padding: 20upx 10upx;
 	}
 	 .comfirm{
 		 width: 80%;

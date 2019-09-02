@@ -2,7 +2,7 @@
 	<view class="global">
 		<view class="tou">
 			<view class="names">
-				<image src="../../static/xiang.png"></image><text>西亚</text>
+				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xiang.png?sign=e2aec6f0952adc062e281a29677467a6&t=1567395046"></image><text>西亚</text>
 			</view>
 			<view class="school">
 				——汉口学院的小伙伴
@@ -126,13 +126,13 @@
 		<view class="orderList rz">
 			<view class="status">
 				<view class="sItems" @tap="gogong('enter')">
-					<image src="../../static/gys.png" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gys.png?sign=7329a4585f019bf5815fc8f9414e0902&t=1567395079" mode=""></image>
 					<view class="dfk">
 						供应商入驻
 					</view>
 				</view>
 				<view class="sItems" @tap="gogong('hehuo')">
-					<image src="../../static/hehuo.png" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/hehuo.png?sign=796ae9a52fb7f619923a66d5004e9b10&t=1567395095" mode=""></image>
 					<view class="dfk">
 						校园合伙人
 					</view>
@@ -152,18 +152,18 @@
 			return {
 				// 订单类型
 				orderList:[
-					{text:'待付款',img:"../../static/pay.png"},
-					{text:'运输中',img:"../../static/paijian.png"},
-					{text:'已签收',img:"../../static/qs.png"},
+					{text:'待付款',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/pay.png?sign=4764662a01d7201a5ed287b4419472f7&t=1567395117"},
+					{text:'运输中',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/paijian.png?sign=f5d824d5992303521d0cbcceaec1d706&t=1567395129"},
+					{text:'已签收',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/qs.png?sign=6dd6c1770cbc17b4efdf714d354a8c78&t=1567395141"},
 				],
 				list:[
-					{url:'../../pageStatic/address/address',text:'收货地址',img:"../../static/dzhi.png"},
-					{url:'../../pageStatic/discount/discount',text:'优惠券',img:"../../static/youhui.png"},
-					{url:'../../pageStatic/transactions/transactions?state=my',text:'二手交易',img:"../../static/er.png"},
-					{url:'../../pageStatic/bbs/bbs?state=my',text:'校园论坛',img:"../../static/xy.png"},
-					{url:'../../pageStatic/share/share',text:'分享',img:"../../static/fx.png"},
-					{url:'../../pageStatic/question/question',text:'常见问题',img:"../../static/cj.png"},
-					{url:'../../pageStatic/question/question',text:'奖励金攻略',img:"../../static/gl.png"}
+					{url:'../../pageStatic/address/address',text:'收货地址',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/dzhi.png?sign=2bcc9cbd71082c0e870da85f763997b2&t=1567395331"},
+					{url:'../../pageStatic/discount/discount',text:'优惠券',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/youhui.png?sign=7e5672f131a0b99a4d2016cd5a053fd3&t=1567395350"},
+					{url:'../../pageStatic/transactions/transactions?state=my',text:'二手交易',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/er.png?sign=8d3e7d22db8c871bfa92a0a04d1e2407&t=1567395373"},
+					{url:'../../pageStatic/bbs/bbs?state=my',text:'校园论坛',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xy.png?sign=cbce07233b739b4ff59a1a0fefa475e7&t=1567395384"},
+					{url:'../../pageStatic/share/share',text:'分享',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/fx.png?sign=b09897ebaffa309a82a50d65c336b4fe&t=1567395421"},
+					{url:'../../pageStatic/question/question',text:'常见问题',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/cj.png?sign=27f62b2b9bfa03a084897fea160db145&t=1567400289"},
+					{url:'../../pageStatic/question/question',text:'奖励金攻略',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gl.png?sign=aff994d6f96384edafe7b00bf2ee935c&t=1567400304"}
 				]
 			};
 		},
@@ -187,7 +187,7 @@
 
 <style lang="scss" scoped>
 	.global {
-		margin-bottom: 100upx;
+		padding-bottom: 100upx;
 	}
 
 	.tou {
@@ -281,11 +281,9 @@
 	.fensi {
 		top: 35upx;
 		padding-bottom: 0;
-
 		.myorder {
 			border-bottom: 1px solid #e0e0e0;
 		}
-
 		.mains {
 			display: flex;
 
@@ -293,12 +291,10 @@
 				width: 50%;
 				text-align: center;
 				border-right: 1px solid #e0e0e0;
-				padding: 40upx 0;
-
+				padding: 32upx 0;
 				.count {
 					font-size: 42upx;
 				}
-
 				.fs {
 					color: #999;
 					font-size: 26upx;

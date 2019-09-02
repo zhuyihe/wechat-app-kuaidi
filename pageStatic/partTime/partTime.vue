@@ -1,7 +1,7 @@
 <template>
 	<view class="row">
 		<view class="jz">
-			<image src="../../static/jz.png" mode=""></image>
+			<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/jz.png?sign=e1db5f3e4f92324f98e378c7e9f24789&t=1567401576" mode=""></image>
 		</view>
 		<view class="li">
 			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">

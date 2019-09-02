@@ -2,14 +2,14 @@
 	<view class="page">
 		<!-- <scroll-view scroll-y class="page"> -->
 		<view class="location" @tap="toLocation">
-			<image class="locationImg" src="../../static/location1.png"></image>
+			<image class="locationImg" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/location1.png?sign=922f5ce57a2fe8093cb9ab273e0ce7f5&t=1567400339"></image>
 			<text class="xue">武汉大学</text>
-			<image class="locationImgxia" src="../../static/xia.png"></image>
+			<image class="locationImgxia" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xia.png?sign=70c596069d17237b0b99b161b87a700b&t=1567400365"></image>
 		</view>
 		<bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%" :textTip="true"
 		 :swiperType='true'> </bw-swiper>
 		<button class="kf_button" open-type="contact" session-from="weapp">
-			<image class="kf_image" src="../../static/ke.png"></image>
+			<image class="kf_image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/ke.png?sign=edb4e8aaaf95a8ad3378d9e537a5b322&t=1567400491"></image>
 		</button>
 		<view class="jijian">
 			<view class="text">
@@ -34,7 +34,7 @@
 							大旗网大旗网大旗网大旗网
 						</view>
 					</view>
-					<image class="jiImg" src="../../static/back.png"></image>
+					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
 				<view class="shou">
 					<text class="text">收</text>
@@ -54,7 +54,7 @@
 							大旗网大旗网大旗网大旗网
 						</view>
 					</view>
-					<image class="jiImg" src="../../static/back.png"></image>
+					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
 			</view>
 			<view class="zl">
@@ -63,11 +63,11 @@
 						预估重量
 					</view>
 					<view class="jisuan">
-						<image src="../../static/reduce.png" class="li" @tap="reduce"></image>
+						<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/reduce.png?sign=431bbafe6460c79eae46b56a4a919347&t=1567400431" class="li" @tap="reduce"></image>
 						<view class="kg">
 							{{Number(weight)}}<text class="zi">kg</text>
 						</view>
-						<image src="../../static/add.png" @tap="add"></image>
+						<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/add.png?sign=ac27fca13dfdb3d8182b70f8604ecf15&t=1567400451" @tap="add"></image>
 					</view>
 				</view>
 				<view class="zl1">
@@ -77,7 +77,7 @@
 					<view class="msgs" @tap="selectSort(1)">
 						{{sorts.value}}
 					</view>
-					<image class="img" src="../../static/back.png"></image>
+					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
 			</view>
 			<view class="ji ji1">
@@ -85,7 +85,8 @@
 				<view class="msg" @tap="selects(1)">
 					{{to.value}}
 				</view>
-				<image class="jiImg" src="../../static/back.png"></image>
+				<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
+				<!-- <image class="jiImg" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/back.png?sign=e2ed5ca23c61802cdc29ddc98331c87f&t=1567400389"></image> -->
 			</view>
 			<view class="xiadan">
 				<view class="yf">
@@ -220,7 +221,7 @@
 <style scoped lang="scss">
 	.page {
 		background: #f5f5f5;
-		margin-bottom: 30px;
+		padding-bottom: 30px;
 	}
 
 	.kf_button {
@@ -273,12 +274,12 @@
 		margin: 0 24px;
 		margin-top: 30px;
 		font-size: 30rpx;
-		padding-left: 40rpx;
+		padding-left: 30rpx;
 		background: white;
-		padding-top: 30px;
+		padding-top: 20px;
 		box-shadow: 0 2px 4px 0 #C6CFD7;
 		border-radius: 10px;
-		padding-bottom: 30px;
+		padding-bottom: 20px;
 	}
 
 	.text {
@@ -316,7 +317,7 @@
 		line-height: 35px;
 		margin-left: 10px;
 		color: #999;
-		width: 75%;
+		width: 76%;
 		padding-bottom: 10px;
 	}
 
@@ -350,7 +351,7 @@
 	}
 
 	.zl1 {
-		width: 50%;
+		width: 49%;
 		display: flex;
 
 		// font-size: 26rpx;

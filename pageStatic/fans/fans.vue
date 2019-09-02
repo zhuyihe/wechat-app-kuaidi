@@ -22,17 +22,17 @@
 				list: [{
 						name: "一枚实景",
 						time: "2019.09.10",
-						img: "../../static/tou.png"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164"
 					},
 					{
 						name: "一枚实景",
 						time: "2019.09.10",
-						img: "../../static/tou.png"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164"
 					},
 					{
 						name: "一枚实景",
 						time: "2019.09.10",
-						img: "../../static/tou.png"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164"
 					}
 				]
 			}

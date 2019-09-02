@@ -4,7 +4,7 @@
 			<view class="item">
 				<view class="footer">
 					<view class="left">
-						<image class="image" src="../../../static/tou.png" mode=""></image>
+						<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=404191945d458a6bb6d6abb5416b445a&t=1567400960" mode=""></image>
 						<text class="name">牵绊易世荣</text>
 						<text class="time">2019.08.17</text>
 					</view>
@@ -18,9 +18,9 @@
 					</view>
 				</view>
 				<view class="imgs">
-					<image src="../../../static/d.png" mode=""></image>
-					<image src="../../../static/d.png" mode=""></image>
-					<image src="../../../static/d.png" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
 				</view>
 			</view> 
 		</view>
@@ -39,7 +39,7 @@
 				<view class="itemList">
 					<view class="footer">
 						<view class="left">
-							<image class="image" src="../../../static/tou.png" mode=""></image>
+							<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=6518609ce25df47c20b8f9f0693ec45b&t=1567401028" mode=""></image>
 							<text class="name">牵绊易世荣</text>
 							<text class="time">2019.08.17</text>
 						</view>
@@ -57,7 +57,7 @@
 				<view class="itemList">
 					<view class="footer">
 						<view class="left">
-							<image class="image" src="../../../static/tou.png" mode=""></image>
+							<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=6518609ce25df47c20b8f9f0693ec45b&t=1567401028" mode=""></image>
 							<text class="name">牵绊易世荣</text>
 							<text class="time">2019.08.17</text>
 						</view>

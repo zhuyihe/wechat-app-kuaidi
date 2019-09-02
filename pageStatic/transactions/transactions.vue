@@ -2,7 +2,7 @@
 	<view>
 		<view class="row">
 			<view class="jz">
-				<image src="../../static/wr.png" mode=""></image>
+				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/wr.png?sign=6ba93069f15dda34385cdf3a5e31e3a8&t=1567402001" mode=""></image>
 			</view>
 			<view class="li">
 				<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
@@ -45,42 +45,42 @@
 					content: '床头挂篮有三个，每个五块钱',
 					time: '2019.08.17',
 					name: "牵绊易世荣",
-					img: '../../static/tou.png',
+					img: 'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=425a5168a8bd69edf73d8bd01b2ee606&t=1567402019',
 					reamrk: 12
 				}, {
 					id: 1,
 					content: '床头挂篮有三个，每个五块钱',
 					time: '2019.08.17',
 					name: "牵绊易世荣",
-					img: '../../static/tou.png',
+					img: 'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=425a5168a8bd69edf73d8bd01b2ee606&t=1567402019',
 					reamrk: 12
 				}, {
 					id: 1,
 					content: '床头挂篮有三个，每个五块钱。',
 					time: '2019.08.17',
 					name: "牵绊易世荣",
-					img: '../../static/tou.png',
+					img: 'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=425a5168a8bd69edf73d8bd01b2ee606&t=1567402019',
 					reamrk: 12
 				}, {
 					id: 1,
 					content: '床头挂篮有三个，每个五块钱。',
 					time: '2019.08.17',
 					name: "牵绊易世荣",
-					img: '../../static/tou.png',
+					img: 'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=425a5168a8bd69edf73d8bd01b2ee606&t=1567402019',
 					reamrk: 12
 				}, {
 					id: 1,
 					content: '床头挂篮有三个，每个五块钱。',
 					time: '2019.08.17',
 					name: "牵绊易世荣",
-					img: '../../static/tou.png',
+					img: 'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=425a5168a8bd69edf73d8bd01b2ee606&t=1567402019',
 					reamrk: 12
 				}, {
 					id: 1,
 					content: '床头挂篮有三个，每个五块钱。',
 					time: '2019.08.17',
 					name: "牵绊易世荣",
-					img: '../../static/tou.png',
+					img: 'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=425a5168a8bd69edf73d8bd01b2ee606&t=1567402019',
 					reamrk: 12
 				}],
 				reamrk: false

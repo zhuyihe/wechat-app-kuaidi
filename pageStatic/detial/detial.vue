@@ -1,7 +1,7 @@
 <template>
 	<view >
 		<view class="img">
-			<image src="../../static/detail.png" mode="widthFix"></image>
+			<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/detail.png?sign=c5187670bc326c6f315e334be1b9514f&t=1567401203" mode="widthFix"></image>
 		</view>
 	</view>
 </template>

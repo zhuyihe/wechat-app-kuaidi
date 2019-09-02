@@ -3,7 +3,7 @@
 		<view class="nowcur">
 			<text class="wei">当前定位</text>
 			<view class="now">
-				<image src="../../static/location.png" mode=""></image>
+				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/location.png?sign=79d94d4b350b3f09a1736a5a7a919bdf&t=1567401419" mode=""></image>
 				<text class="daxue">武汉大学</text>
 			</view>
 		</view>

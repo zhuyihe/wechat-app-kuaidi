@@ -2,11 +2,11 @@
 	<view>
 		<view class="tops">
 			<view class="bg">
-				<image class="bgimg" src="../../static/income.png" mode=""></image>
+				<image class="bgimg" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/income.png?sign=cae7423f6f57e4a9323d8016d18c3552&t=1567401290" mode=""></image>
 				<view class='tou'>
 					<view class="left">
 						<view class="imgs">
-							<image src="../../static/tou.png" mode=""></image>
+							<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164" mode=""></image>
 						</view>
 						<view class="times">
 							<view class="">
@@ -85,17 +85,17 @@
 				list: [{
 						name: "一枚实景",
 						time: "2019.09.10",
-						img: "../../static/tou.png"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=3a51c6d5519cd48ec2281c50769aad04&t=1567401322"
 					},
 					{
 						name: "一枚实景",
 						time: "2019.09.10",
-						img: "../../static/tou.png"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=3a51c6d5519cd48ec2281c50769aad04&t=1567401322"
 					},
 					{
 						name: "一枚实景",
 						time: "2019.09.10",
-						img: "../../static/tou.png"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=3a51c6d5519cd48ec2281c50769aad04&t=1567401322"
 					}
 				]
 			};

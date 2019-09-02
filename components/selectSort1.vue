@@ -70,7 +70,7 @@
 		.header2{
 			width: 90%;
 			text-align: center;
-			margin-left: 30px;
+			margin-left: 6upx;
 			
 		}
 	}
@@ -78,15 +78,15 @@
 		font-size: 30rpx;
 		justify-content: space-around;
 		flex-wrap:wrap ;
-		padding: 10px;
+		padding: 20upx;
 		display:flex;
 		.item{
-			width: 150px;
+			width: 300upx;
 			text-align: center;
 			background: #d1d1d1;
-			line-height: 40px;
-			border-radius: 20px;
-			margin: 10px;
+			line-height: 80upx;
+			border-radius: 40upx;
+			margin: 20upx;
 		}
 		.active{
 			background: #ffd84d;

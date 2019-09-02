@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view>
-			<view class="header"><image src="../../static/logo.png"></image></view>
+			<view class="header"><image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/logo.png?sign=23bc5ff95f2e37a6a63a29cac9f6248c&t=1567395015"></image></view>
 
 			<view class="content">
 				<view>申请获取以下权限</view>

@@ -1,7 +1,7 @@
 <template>
 	<view class="global">
 		<view class="icon">
-			<image src="../../static/success.png"></image>
+			<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/success.png?sign=fcfb08e82c7f76a1fdc5f35e24cc3027&t=1567401618"></image>
 		</view>
 		<view class="tis">
 			支付成功

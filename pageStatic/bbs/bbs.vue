@@ -2,7 +2,7 @@
 	<view>
 		<view class="row">
 			<view class="jz">
-				<image src="../../static/bbs.png" mode=""></image>
+				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/bbs.png?sign=9316f53bdfc0ef61d7049ecfc425f685&t=1567401140" mode=""></image>
 			</view>
 			<view class="li">
 				<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
@@ -53,7 +53,7 @@
 					content:'《航海王 启航》2.0大海战公测了，在全新的《航海王 启航》官方网站发布了全新的CG视频，十分酷炫，分享给大家看一下哦！为了庆祝《航海王 启航》2.0公测 ...',
 					time:'2019.08.17',
 					name:"牵绊易世荣",
-					img:'../../static/tou.png',
+					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
 					reamrk:12,
 					see:2
 				},{
@@ -61,7 +61,7 @@
 					content:'床头挂篮有三个，每个五块钱',
 					time:'2019.08.17',
 					name:"牵绊易世荣",
-					img:'../../static/tou.png',
+					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
 					reamrk:12,
 					see:2
 				},{
@@ -69,7 +69,7 @@
 					content:'床头挂篮有三个，每个五块钱。',
 					time:'2019.08.17',
 					name:"牵绊易世荣",
-					img:'../../static/tou.png',
+					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
 					reamrk:12,
 					see:2
 				},{
@@ -77,7 +77,7 @@
 					content:'床头挂篮有三个，每个五块钱。',
 					time:'2019.08.17',
 					name:"牵绊易世荣",
-					img:'../../static/tou.png',
+					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
 					reamrk:12,
 					see:2
 				},{
@@ -85,7 +85,7 @@
 					content:'床头挂篮有三个，每个五块钱。',
 					time:'2019.08.17',
 					name:"牵绊易世荣",
-					img:'../../static/tou.png',
+					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
 					reamrk:12,
 					see:2
 				}],

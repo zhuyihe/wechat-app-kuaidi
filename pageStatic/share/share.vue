@@ -1,6 +1,6 @@
 <template>
 	<view class="er">
-		<image src="../../static/erweima.png" mode=""></image>
+		<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/erweima.png?sign=e134d3de9d30abaca7238c87c9936240&t=1567401792" mode=""></image>
 	</view>
 </template>
 
