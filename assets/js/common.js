@@ -103,3 +103,29 @@ export const showShare = () => {
 // export const checkPhone = (phone) => {
 // 	return PHONE_REGEXP.test(phone.trim()) ? true : false
 // }
+export const uniLogin=()=>{
+	return new Promise((resolve,reject)=>{
+		uni.login({
+			provider:'weixin',
+			success:res=>{
+				resolve(res)
+			},
+			fail:e=>{
+				reject(e)
+			}
+		})	
+	})
+}
+export const uniGetuserinfo=()=>{
+	return new Promise((resolve,reject)=>{
+		uni.getUserInfo({
+			provider:'weixin',
+			success:res=>{
+				resolve(res)
+			},
+			fail:e=>{
+				reject(e)
+			}
+		})	
+	})
+}

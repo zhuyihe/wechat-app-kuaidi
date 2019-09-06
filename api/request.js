@@ -8,11 +8,17 @@ const request = (url, data, method = 'GET') => {
 			data,
 			method,
 			header: {
-				"Authorization":"Bearer " + store.state.token,
+				// "Authorization":"Bearer " + store.state.token,
 			},
 			dataType: 'json',
 			success: res => {
-				resovle(res.data)
+				if(res.statusCode==200){
+					resovle(res.data)
+				}else if(res.statusCode==403){
+					console.log(res.statusCode)
+				}else{
+					console.log(res.statusCode)
+				}
 			},
 			fail: res => {
 				//请求超时 
