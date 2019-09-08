@@ -34,7 +34,7 @@ export const showToast = (title = "", icon = "none") => {
 		})
 	})
 }
-export const showModal = (title = "", content = "", cancelText = '取消', showCancel = true, confirmText = "确定") => {
+export const showModal = (title = "", content = "",confirmText = "确定",showCancel = true, cancelText = '取消' ) => {
 	return new Promise((resovle, reject) => {
 		uni.showModal({
 			title,
@@ -43,7 +43,12 @@ export const showModal = (title = "", content = "", cancelText = '取消', showC
 			showCancel,
 			confirmText,
 			success: res => {
-				resovle(res)
+				if(res.confirm){
+					resovle(res)
+				}else{
+					reject(res)
+				}
+				
 			},
 			fail: res => {
 				reject(res)

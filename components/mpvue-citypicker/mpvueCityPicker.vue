@@ -118,7 +118,8 @@ export default {
       let pickObj = {
         label: this._getLabel(),
         value: this.pickerValue,
-        cityCode: this._getCityCode()
+        cityCode: this._getCityCode(),
+		cityCodeObj:this._getCityCodeObj()
       };
       this.$emit(emitName, pickObj);
     },
@@ -133,7 +134,15 @@ export default {
     },
     _getCityCode() {
       return this.areaDataList[this.pickerValue[2]].value;
-    }
+    },
+	_getCityCodeObj(){
+		let obj={
+			province_id:this.provinceDataList[this.pickerValue[0]].value,
+			city_id:this.cityDataList[this.pickerValue[1]].value,
+			area_id:this.areaDataList[this.pickerValue[2]].value
+		}
+		return obj
+	}
   }
 };
 </script>

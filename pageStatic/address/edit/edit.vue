@@ -14,7 +14,7 @@
 					电话号码
 				</view>
 				<view class="input">
-					<input placeholder="请输入收件人电话号码" type="text" v-model="tel" />
+					<input placeholder="请输入收件人电话号码" type="text" v-model="mobile " />
 				</view>
 			</view>
 			<view class="row">
@@ -31,7 +31,7 @@
 					详细地址
 				</view>
 				<view class="input">
-					<textarea v-model="detailed" auto-height="true" placeholder="输入详细地址"></textarea>
+					<textarea v-model="address" auto-height="true" placeholder="输入详细地址"></textarea>
 				</view>
 			</view>
 			<view class="row" v-if="addShou.isDefault">
@@ -55,6 +55,8 @@
 
 <script>
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	import {phone_reg} from '@/assets/js/const.js'
+	import {setUserAdress} from '@/api/api'
 	export default {
 		components: {
 			mpvueCityPicker
@@ -64,8 +66,8 @@
 				editType: 'edit',
 				id: '',
 				name: '',
-				tel: '',
-				detailed: '',
+				mobile : '',
+				address: '',
 				isDefault: false,
 				cityPickerValue: [0, 0, 1],
 				themeColor: '#007AFF',
@@ -85,6 +87,7 @@
 				this.$refs.mpvueCityPicker.show()
 			},
 			onConfirm(e) {
+				console.log(e)
 				this.region = e;
 				this.cityPickerValue = e.value;
 			},
@@ -92,68 +95,70 @@
 				this.isDefault = e.detail.value;
 			},
 			save() {
+				console.log(this.region)
 				let data = {
 					"name": this.name,
-					"head": this.name.substr(0, 1),
-					"tel": this.tel,
-					"address": {
-						"region": this.region,
-						"detailed": this.detailed
-					},
-					"isDefault": this.isDefault
+					"mobile": this.mobile ,
+					"address": this.address,
 				}
+				console.log(data)
 				if (this.editType == 'edit') {
 					data.id = this.id
 				}
 				if (!data.name) {
 					uni.showToast({
-						title: '请输入收件人姓名',
+						title: '请输入姓名',
 						icon: 'none'
 					});
 					return;
 				}
-				if (!data.tel) {
+				if (!phone_reg.test(data.mobile)) {
 					uni.showToast({
-						title: '请输入收件人电话号码',
+						title: '请输入正确电话号码',
 						icon: 'none'
 					});
 					return;
 				}
-				if (!data.address.detailed) {
+				if (!data.address) {
 					uni.showToast({
-						title: '请输入收件人详细地址',
+						title: '请输入详细地址',
 						icon: 'none'
 					});
 					return;
 				}
-				if (data.address.region.value.length == 0) {
+				if (!this.region.cityCodeObj) {
 					uni.showToast({
-						title: '请选择收件地址',
+						title: '请选择地址',
 						icon: 'none'
 					});
 					return;
 				}
+				Object.assign(data,this.region.cityCodeObj)
+				console.log(data)
 				uni.showLoading({
 					title: '正在提交'
 				})
-				//实际应用中请提交ajax,模板定时器模拟提交效果
-				setTimeout(() => {
-					uni.setStorage({
-						key: 'saveAddress',
-						data: data,
-						success() {
-							uni.hideLoading();
-							uni.navigateBack();
-						}
-					})
-				}, 300)
+				setUserAdress(data).then(res=>{
+					console.log(res)
+				})
+				// //实际应用中请提交ajax,模板定时器模拟提交效果
+				// setTimeout(() => {
+				// 	uni.setStorage({
+				// 		key: 'saveAddress',
+				// 		data: data,
+				// 		success() {
+				// 			uni.hideLoading();
+				// 			uni.navigateBack();
+				// 		}
+				// 	})
+				// }, 300)
 
 
 			}
 		},
 		onLoad(e) {
 			//获取传递过来的参数
-			console.log(e)
+			//添加收件人
 			if(e.state=='shou'){
 				this.addShou=e
 				uni.setNavigationBarTitle({'title': e.title});

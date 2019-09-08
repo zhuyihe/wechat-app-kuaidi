@@ -2,7 +2,7 @@
 var cityData = [
   [{
     "label": "市辖区",
-    "value": "1101"
+    "value": "110000110100"
   }],
   [{
     "label": "市辖区",

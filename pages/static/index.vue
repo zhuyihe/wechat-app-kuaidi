@@ -3,7 +3,7 @@
 		<!-- <scroll-view scroll-y class="page"> -->
 		<view class="location" @tap="toLocation">
 			<image class="locationImg" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/location1.png?sign=922f5ce57a2fe8093cb9ab273e0ce7f5&t=1567400339"></image>
-			<text class="xue">武汉大学</text>
+			<text class="xue">{{schoolName}}</text>
 			<image class="locationImgxia" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xia.png?sign=70c596069d17237b0b99b161b87a700b&t=1567400365"></image>
 		</view>
 		<bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%" :textTip="true"
@@ -63,11 +63,13 @@
 						预估重量
 					</view>
 					<view class="jisuan">
-						<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/reduce.png?sign=431bbafe6460c79eae46b56a4a919347&t=1567400431" class="li" @tap="reduce"></image>
+						<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/reduce.png?sign=431bbafe6460c79eae46b56a4a919347&t=1567400431"
+						 class="li" @tap="reduce"></image>
 						<view class="kg">
 							{{Number(weight)}}<text class="zi">kg</text>
 						</view>
-						<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/add.png?sign=ac27fca13dfdb3d8182b70f8604ecf15&t=1567400451" @tap="add"></image>
+						<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/add.png?sign=ac27fca13dfdb3d8182b70f8604ecf15&t=1567400451"
+						 @tap="add"></image>
 					</view>
 				</view>
 				<view class="zl1">
@@ -97,11 +99,11 @@
 				</view>
 			</view>
 		</view>
-		<uni-popup ref="popup" type="bottom" >
+		<uni-popup ref="popup" type="bottom">
 			<select-sort @closePo='selectSort' @comfirmSort='comfirmSort'></select-sort>
 		</uni-popup>
-		<uni-popup ref="popup1" type="bottom" >
-			<select-sort1 @close='selects'  @comfirmJi='comfirmJi'></select-sort1>
+		<uni-popup ref="popup1" type="bottom">
+			<select-sort1 @close='selects' @comfirmJi='comfirmJi'></select-sort1>
 		</uni-popup>
 	</view>
 </template>
@@ -111,7 +113,8 @@
 		getStorageSync
 	} from '@/assets/js/common';
 	import {
-		showToast
+		showToast,
+		showModal
 	} from '@/assets/js/common'
 	import bwSwiper from '@/components/bw-swiper/bw-swiper.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
@@ -145,21 +148,24 @@
 					text: '加油',
 				}],
 				weight: 1,
-				to:{value:'请选择寄件类型'},
-				sorts:{value:'物品类型'},
-				isAddJi:false,//是否添加寄件人信息
-				isAddShou:false,//是否添加收件人信息
+				to: {
+					value: '请选择寄件类型'
+				},
+				sorts: {
+					value: '物品类型'
+				},
+				isAddJi: false, //是否添加寄件人信息
+				isAddShou: false, //是否添加收件人信息
+				schoolName:""
 			};
 		},
 		created() {
-			// 			console.log(this.$store)
-			// 			let token=getStorageSync('state').token
-			// 			console.log(token)
+			// this.goToselectarea()
 		},
 		methods: {
 			toLocation() {
 				uni.navigateTo({
-					url: '../../pageStatic/location/location'
+					url: '../../pageStatic/location/location?schoolName='+this.schoolName
 				})
 			},
 			//选择物品类型
@@ -186,32 +192,39 @@
 			add() {
 				this.weight++
 			},
-			adress(){
+			adress() {
 				uni.navigateTo({
-					url:'../../pageStatic/address/address'
+					url: '../../pageStatic/address/address'
 				})
 			},
-			comfirmSort(data){
+			comfirmSort(data) {
 				// console.log(data)
-				this.sorts=data
+				this.sorts = data
 				this.$refs.popup.close()
 			},
-			comfirmJi(data){
+			comfirmJi(data) {
 				// console.log(data)
-				this.to=data
+				this.to = data
 				this.$refs.popup1.close()
 			},
-			adressEdit(){
-				let isDefult=false
-				let title='添加收件人地址'
-				let state='shou'
+			adressEdit() {
+				let isDefult = false
+				let title = '添加收件人地址'
+				let state = 'shou'
 				uni.navigateTo({
 					url: `../../pageStatic/address/edit/edit?isDefult=${isDefult}&title=${title}&state=${state}`
 				})
 			},
-			order(){
+			order() {
 				uni.navigateTo({
-					url:'../../pageStatic/order/order'
+					url: '../../pageStatic/order/order'
+				})
+			},
+			goToselectarea() {
+				showModal('提示', "小程序检测您还未还未选择当前院校，无法体验完整功能。", '去选择', false).then(res => {
+					uni.navigateTo({
+						url: '../../pageStatic/location/location?schoolName='+this.schoolName
+					})
 				})
 			}
 		}
@@ -298,6 +311,7 @@
 	.ji {
 		align-items: center;
 		display: flex;
+
 		.text {
 			line-height: 45px;
 			width: 45px;
@@ -332,6 +346,7 @@
 		display: flex;
 		margin-top: 30px;
 		align-items: center;
+
 		.text {
 			line-height: 45px;
 			width: 45px;
@@ -429,17 +444,20 @@
 	.mon {
 		color: #cf1111;
 	}
-	.msgj{
+
+	.msgj {
 		width: 75%;
 		margin-left: 10px;
 		color: #666;
-		font-size:28upx;
-		.top{
+		font-size: 28upx;
+
+		.top {
 			display: flex;
 			justify-content: space-between;
 			padding-right: 10px;
 		}
-		.bottom{
+
+		.bottom {
 			border-bottom: 1px solid #ccc;
 			line-height: 70upx;
 		}

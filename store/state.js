@@ -1,5 +1,6 @@
 export const state={
-	token:'111',
+	token:'',
 	code:null,
-	userInfo:null
+	userInfo:null,
+	schoolName:''
 }

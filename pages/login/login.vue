@@ -22,7 +22,10 @@
 		uniLogin,
 		uniGetuserinfo
 	} from '@/assets/js/common'
-	import {login} from '@/api/api'
+	import {
+		userLogin,
+		getOpenid
+	} from '@/api/api'
 	export default {
 		data() {
 			return {};
@@ -41,15 +44,29 @@
 				console.log(1)
 				uniLogin().then(res => {
 					console.log(res)
-					uniGetuserinfo().then(re=>{
-						console.log(re)
-						console.log(encodeURIComponent(re.iv))
-						console.log(encodeURIComponent(re.encryptedData))
-						let parmas={
-							code:res.code,
-							iv:encodeURIComponent(re.iv),
-							encryptedData:encodeURIComponent(re.encryptedData)
-						}
+					getOpenid({
+						code: res.code
+					}).then(res => {
+						console.log(res)
+						this.$store.commit('LOGIN_SESSIONKEY', res.data.sessionKey)
+						//否则注册
+						uniGetuserinfo().then(res => {
+							let parmas = {
+								openid: res.data.openid,
+								iv: re.iv,
+								encryptedData: re.encryptedData
+							}
+							userLogin(parmas).then(user => {
+								if(user.code==0){
+									uni.switchTab({
+										url:'/pages/static/index '
+									})
+								}
+							}).catch(e => {})
+						}).catch(e => {
+							showToast('授权失败')
+						})
+
 					})
 				})
 			}

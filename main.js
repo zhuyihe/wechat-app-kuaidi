@@ -11,6 +11,7 @@ Vue.component('sunui-upbasic',sunUiBasic)
 Vue.component('sunui-upoos',sunUiOos)
 // Vue.component('sunui-upqiniu',sunUiqiNiu)
 Vue.component('sunui-upcos',sunUiCos)
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'

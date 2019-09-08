@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="content">
-			<view class="list">
+			<view class="list" v-if='addressList.length>0'>
 				<view class="row" v-for="(item,index) in addressList">
 					<view class="top">
 						<text>{{item.name}}</text>
@@ -20,6 +20,9 @@
 					</view>
 				</view>
 			</view>
+			<view class="" v-else>
+				暂无数据
+			</view>
 		</view> 
 		<view class="add">
 			<view class="btn" @tap="add">
@@ -30,43 +33,43 @@
 </template>
 <script>
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import {
+		getUserAdress
+	} from '@/api/api'
 	export default {
 		components:{
 			uniIcon
 		},
 		mounted(){
-			console.log(this.addressList)
+			this.getUserAdress()
 		},
 		data() {
 			return {
 				isSelect:false,
-				addressList:[
-					{id:1,name:"大黑哥",head:"大",tel:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true},
-					{id:2,name:"大黑哥",head:"大",tel:"15812341234",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深北小道2222号有名公寓502'},isDefault:false},
-					{id:3,name:"老大哥",head:"老",tel:"18155467897",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
-					{id:4,name:"王小妹",head:"王",tel:"13425654895",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
-				]
+				addressList:[]
 			};
 		},
 		methods:{
 			edit(row){
-				uni.setStorage({
-					key:'address',
-					data:row,
-					success() {
-						uni.navigateTo({
-							url:"edit/edit?type=edit"
-						})
-					}
-				});
+				uni.navigateTo({
+					url:"edit/edit?type=edit"
+				})
 				
 			},
 			add(){
 				uni.navigateTo({
 					url:'edit/edit'
 				})
+			},
+			async getUserAdress(){
+				let res=await getUserAdress()
+				console.log(res)
+				if(res.code==0){
+					this.addressList=res.data
+				}
 			}
-		}
+		},
+		
 	}
 </script>
 

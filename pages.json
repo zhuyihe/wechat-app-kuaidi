@@ -32,6 +32,7 @@
 			"path": "location/location",
 			"style": {
 				"navigationBarTitleText": "学校选择"
+				// "enablePullDownRefresh": true
 			}
 		}, {
 			"path": "address/address",
@@ -159,14 +160,6 @@
 			"iconPath": "static/tabbar/my.png", 
 			"selectedIconPath": "static/tabbar/my1.png",
 			"text": "我的"
-		}]
-	},
-	"condition": { //模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [{
-			"name": "", //模式名称
-			"path": "partTime/partTime", //启动页面，必选
-			"query": "" //启动参数，在页面的onLoad函数里面得到
 		}]
 	}
 }

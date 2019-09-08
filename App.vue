@@ -1,40 +1,35 @@
 <script>
 	import {
-		getStorageSync
+		getStorageSync,
+		uniLogin
 	} from '@/assets/js/common'
+	import {
+		getOpenid
+	} from '@/api/api'
 	import store from '@/store/store'
 	export default {
 		onLaunch: function() {
 			let that = this
 			// 小程序启动判断用户是否授权，根据是否授权来请求不同的业务数据
-			wx.getSetting({
-				success: (res) => {
-					//用户已授权
-					if (res.authSetting['scope.userInfo']) {
-						// 判断登录态是否过期
-						uni.checkSession({
-							// 登录态未过期，直接进行业务请求
-							success: (res) => {
-								uni.switchTab({
-									url: 'pages/static/index'
-								})
-							},
-							// 登录态已过期 。
-							fail: (res) => {
-								uni.redirectTo({
-									url: '../login/login'
-								})
-							}
+			uniLogin().then(res => {
+				console.log(res)
+				getOpenid({
+					code: res.code
+				}).then(re => {
+					this.$store.commit('LOGIN_SESSIONKEY', re.data.sessionKey)
+					if (re.code == 0) {
+						uni.switchTab({
+							url: '/pages/static/index'
 						})
-					}
-					// 为授权 
-					else {
+					} else if (re.code == 403) {
 						uni.redirectTo({
-							url: '../login/login'
+							url: '/pages/login/login'
 						})
 					}
-				}
-			})
+				}).catch(e => {
+
+				})
+			}).catch(e => {})
 		},
 		onShow: function(options) {
 			let option = JSON.stringify(options);
@@ -50,8 +45,7 @@
 </script>
 
 <style>
-	/* @import 'colorui/icon.css'; 
-@import 'colorui/main.css'; */
+	
 	page {
 		background: #f5f5f5;
 	}
