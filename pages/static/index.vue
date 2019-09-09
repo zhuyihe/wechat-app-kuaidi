@@ -3,7 +3,7 @@
 		<!-- <scroll-view scroll-y class="page"> -->
 		<view class="location" @tap="toLocation">
 			<image class="locationImg" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/location1.png?sign=922f5ce57a2fe8093cb9ab273e0ce7f5&t=1567400339"></image>
-			<text class="xue">{{schoolName}}</text>
+			<text class="xue">{{schoolMsg.schoolName}}</text>
 			<image class="locationImgxia" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xia.png?sign=70c596069d17237b0b99b161b87a700b&t=1567400365"></image>
 		</view>
 		<bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%" :textTip="true"
@@ -156,16 +156,32 @@
 				},
 				isAddJi: false, //是否添加寄件人信息
 				isAddShou: false, //是否添加收件人信息
-				schoolName:""
+				schoolMsg:{}
 			};
 		},
-		created() {
-			// this.goToselectarea()
+		onLoad() {
+			console.log(2)
+			this.schoolMsg=this.$store.state.schoolMsg
+			console.log(this.schoolMsg)
+			if(this.schoolMsg.schoolName=='请选择学校'){
+				this.goToselectarea()
+			}
+			
+		},
+		onShow(){
+			console.log('show')
+			
+		},
+		watch:{
+			'$store.state.schoolMsg'(n){
+				this.schoolMsg=n
+				console.log(n)
+			}
 		},
 		methods: {
 			toLocation() {
 				uni.navigateTo({
-					url: '../../pageStatic/location/location?schoolName='+this.schoolName
+					url: '../../pageStatic/location/location?schoolName='+this.schoolMsg.schoolName
 				})
 			},
 			//选择物品类型
@@ -222,8 +238,8 @@
 			},
 			goToselectarea() {
 				showModal('提示', "小程序检测您还未还未选择当前院校，无法体验完整功能。", '去选择', false).then(res => {
-					uni.navigateTo({
-						url: '../../pageStatic/location/location?schoolName='+this.schoolName
+					uni.redirectTo({
+						url: '../../pageStatic/location/location?schoolName='+this.schoolMsg.schoolName
 					})
 				})
 			}

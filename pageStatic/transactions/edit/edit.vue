@@ -3,95 +3,54 @@
 		<view class="uni-textarea">
 			<textarea placeholder="请输入文字,最多150" blur="bindTextAreaBlur" maxlength="150" class="text" />
 			</view>
-		<sunui-upbasic :upImgConfig="upImgBasic" @onUpImg="upBasicData" @onImgDel="delImgInfo" ref="uImage"></sunui-upbasic>
+			<ss-upload-image :url="url" :file-list="fileList" :name="name" @on-success="onSuccess" @on-error="" @on-remove="onRemove" @on-process="onProcess" />
 		</view>
 </template>
 <script>
+	import ssUploadImage from '@/components/ss-upload-image/ss-upload-image.vue'
 	export default {
+		components:{
+			ssUploadImage
+		},
 		data() {
 			return {
 				title: 'textarea',
 				focus: false,
-				basicArr: [],
-				// 基础版配置
-				upImgBasic: {
-					// 后端图片接口地址
-					basicConfig: {
-						url: 'https://p.dns06.net.cn/index.php?m=Api&c=index&a=upload'
-					},
-					// 是否开启提示(提醒上传图片的数量)
-					// tips: false,
-					// 是否开启notli(开启的话就是选择完直接上传，关闭的话当count满足数量时才上传)
-					notli: false,
-					// 图片数量
-					count: 2,
-					// 相机来源(相机->camera,相册->album,两者都有->all,默认all)
-					sourceType: 'camera',
-					// 是否压缩上传照片(仅小程序生效)
-					sizeType: true,
-					// 上传图片背景修改 
-					upBgColor: '#E8A400',
-					// 上传icon图标颜色修改(仅限于iconfont)
-					upIconColor: '#fff',
-					// 上传svg图标名称
-					// upSvgIconName: 'icon-card',
-					// 上传文字描述(仅限四个字)
-					// upTextDesc: '上传证书',
-					// 删除按钮位置(left,right,bleft,bright),默认右上角
-					delBtnLocation: '',
-					// 是否隐藏添加图片
-					// isAddImage: false,
-					// 是否隐藏删除图标
-					// isDelIcon: false,
-					// 删除图标定义背景颜色
-					// delIconColor: '',
-					// 删除图标字体颜色
-					// delIconText: '',
-					// 上传图标替换(+),是个http,https图片地址(https://www.playsort.cn/right.png)
-					iconReplace: ''
-				}
+				fileList: [],
+				url: 'http://',
+				name: 'file'
 			}
 		},
 		methods: {
 			bindTextAreaBlur: function (e) {
 				console.log(e.detail.value)
 			},
-			// 手动上传图片(适用于表单等上传) -2019/05/10增加
-			uImageTap() {
-				this.$refs.uImage.uploadimage(this.upImgBasic);
+			// 上传成功
+			onSuccess(res) {
+			  // 响应示例
+			  // {
+			  //    code: 0,
+			  //    data: {
+			  //      image_url: 'http://www.xxxxx.png'
+			  //    },
+			  //    message: '上传成功'
+			  // }
+			  if (res.code === 0) {
+			    this.fileList.push(res.data.image_url)
+			  }
+			  console.log(res)
 			},
-			// 删除图片 -2019/05/12(本地图片进行删除)
-			async delImgInfo(e) {
-				console.log('你删除的图片地址为:', e, this.basicArr.splice(e.index, 1));
+			// 上传进程
+			onProcess(res) {
+			  console.log(res)
 			},
-			// 基础版
-			async upBasicData(e) {
-				console.log('===>',e);
-				// 上传图片数组
-				let arrImg = [];
-				for (let i = 0, len = e.length; i < len; i++) {
-					try {
-						if (e[i].path_server != "") {
-							await arrImg.push(e[i].path_server.split(','));
-						}
-					} catch (err) {
-						console.log('上传失败...');
-					}
-				}
-				// 图片信息保存到data数组
-				this.basicArr = arrImg;
-			
-				// 可以根据长度来判断图片是否上传成功. 2019/4/11新增
-				if (arrImg.length == this.upImgBasic.count) {
-					uni.showToast({
-						title: `上传成功`,
-						icon: 'none'
-					});
-				}
+			// 上传失败
+			onError(err) {
+			  console.log(err)
 			},
-			// 获取上传图片basic
-			getUpImgInfoBasic() {
-				console.log('后端转成一维数组:', this.basicArr.join().split(','));
+			// 移除
+			onRemove(index) {
+			  this.fileList.splice(index, 1)
 			}
 		}
 	}

@@ -18,8 +18,9 @@ const request = (url, data, method = 'GET') => {
 					resovle(res.data)
 				}else if(res.statusCode==403){
 					if(store.state.token){
+						console.log(store.state.token)
 						uni.redirectTo({
-							url:"/pages/login/login"
+							url:"/pages/login/login?hasAuth="+true
 						})
 					}else{
 						console.log('获取openid')

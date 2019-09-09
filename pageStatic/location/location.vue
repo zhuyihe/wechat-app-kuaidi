@@ -31,16 +31,12 @@
 				loadMoreText: "加载中...",
 				showLoadMore: false,
 				pageNo: 1,
-				schoolName:''
+				schoolName: ''
 			};
 		},
 		onLoad(option) {
 			console.log(option)
-			if(option.schoolName){
-				this.schoolName=option.schoolName
-			}else{
-				this.schoolName='请选择学校'
-			}
+			this.schoolName = option.schoolName
 			this.initData();
 		},
 		onUnload() {
@@ -51,44 +47,34 @@
 		},
 		onReachBottom() {
 			console.log("onReachBottom");
-			if (this.max > 40) {
-				this.loadMoreText = "没有更多数据了!"
-				return;
-			}
+			this.pageNo++
 			this.showLoadMore = true;
 			setTimeout(() => {
-				this.setDate();
-			}, 300);
+				this.getSchoolList(this.pageNo, res => {
+					console.log(res)
+					if (res.data.schoolList) {
+						this.data = this.data.concat(res.data.schoolList)
+					} else {
+						this.loadMoreText = "没有更多数据了!"
+						return;
+					}
+				})
+			}, 300)
 		},
 		methods: {
 			initData() {
 				setTimeout(() => {
-					getSchoolList({
-						pageNo: this.pageNo
-					}).then(res => {
-						console.log(res)
+					this.getSchoolList(this.pageNo, res => {
 						this.data = res.data.schoolList
-						uni.stopPullDownRefresh();
-					}).catch(e => {
-						console.log(e)
 					})
-					// this.max = 0;
-					// this.data = [];
-					// let data = [];
-					// this.max += 10;
-					// for (var i = this.max - 9; i < this.max + 1; i++) {
-					// 	data.push(i)
-					// }
-					// this.data = this.data.concat(data);
 				}, 300);
 			},
-			setDate() {
-				let data = [];
-				this.max += 10;
-				for (var i = this.max - 9; i < this.max + 1; i++) {
-					data.push(i)
-				}
-				this.data = this.data.concat(data);
+			getSchoolList(pageNo, callback) {
+				getSchoolList({
+					pageNo: pageNo
+				}).then(res => {
+					callback(res)
+				})
 			},
 			selectSchool(item) {
 				let parmas = {
@@ -96,14 +82,13 @@
 					schoolName: item.storeName
 				}
 				//修改上一页面的数据
-				let pages = getCurrentPages()
-				let prevPage = pages[pages.length - 2]
 				showModal('选择学校', `你确认选择${item.storeName}吗？`).then(res => {
 					selectSchool(parmas).then(re => {
+						console.log(re)
 						if (re.code == 0) {
-							prevPage.$vm.schoolName=item.storeName
-							uni.navigateBack({
-								delta:1
+							this.$store.commit('SCHOOLMSG',{schoolName:parmas.schoolName,school_id:parmas.schoolId})
+							uni.switchTab({
+								url:'../../pages/static/index'
 							})
 						}
 					}).catch(e => {
@@ -119,6 +104,7 @@
 
 <style lang="scss">
 	@import '../../assets/css/uni.css';
+
 	.location {
 		background: #f5f5f5;
 		padding-top: 25px;

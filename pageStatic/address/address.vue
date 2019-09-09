@@ -42,6 +42,7 @@
 		},
 		mounted(){
 			this.getUserAdress()
+			console.log(1)
 		},
 		data() {
 			return {
@@ -54,7 +55,6 @@
 				uni.navigateTo({
 					url:"edit/edit?type=edit"
 				})
-				
 			},
 			add(){
 				uni.navigateTo({

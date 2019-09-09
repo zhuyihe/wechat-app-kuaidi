@@ -10,7 +10,8 @@
 				<text>获得你的公开信息(昵称，头像等)</text>
 			</view>
 
-			<button class="bottom" type="primary" open-type="getUserInfo" lang="zh_CN" @getuserinfo="login">授权登录</button>
+			<button class="bottom" type="primary" open-type="getUserInfo" lang="zh_CN" @getuserinfo="login" v-if='!hasAuth'>授权登录</button>
+			<button class="bottom" type="primary"  @tap="login" v-else>登录</button>
 			<!-- <button open-type="getPhoneNumber" class="bottom" type="primary" @getphonenumber="getPhoneNumber">获取手机号</button> -->
 		</view>
 	</view>
@@ -28,7 +29,13 @@
 	} from '@/api/api'
 	export default {
 		data() {
-			return {};
+			return {hasAuth: false};
+			
+		},
+		onLoad(option) {
+			if(option.hasAuth){
+				this.hasAuth = Boolean(option.hasAuth)
+			}
 		},
 		methods: {
 			getPhoneNumber(e) {
@@ -41,32 +48,42 @@
 				// });
 			},
 			login() {
-				console.log(1)
 				uniLogin().then(res => {
 					console.log(res)
 					getOpenid({
 						code: res.code
 					}).then(res => {
-						console.log(res)
-						this.$store.commit('LOGIN_SESSIONKEY', res.data.sessionKey)
-						//否则注册
-						uniGetuserinfo().then(res => {
-							let parmas = {
-								openid: res.data.openid,
-								iv: re.iv,
-								encryptedData: re.encryptedData
-							}
-							userLogin(parmas).then(user => {
-								if(user.code==0){
-									uni.switchTab({
-										url:'/pages/static/index '
-									})
+						//判断是否授权
+						//授权了,token过期
+						if (this.hasAuth) {
+							this.$store.commit('LOGIN_SESSIONKEY', res.data.wxMaJscode2SessionResult.sessionKey)
+							this.$store.commit('SCHOOLMSG',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
+							uni.switchTab({
+								url: '../static/index'
+							})
+						} else {
+							this.$store.commit('LOGIN_SESSIONKEY', res.data.sessionKey)
+							//否则注册
+							uniGetuserinfo().then(re => {
+								let parmas = {
+									openid: res.data.openid,
+									iv: re.iv,
+									encryptedData: re.encryptedData
 								}
-							}).catch(e => {})
-						}).catch(e => {
-							showToast('授权失败')
-						})
-
+								userLogin(parmas).then(user => {
+									if (user.code == 0) {
+										this.$store.commit('SCHOOLMSG', {
+											schoolName: '请选择学校'
+										})
+										uni.switchTab({
+											url: '../static/index'
+										})
+									}
+								}).catch(e => {})
+							}).catch(e => {
+								showToast('授权失败')
+							})
+						}
 					})
 				})
 			}

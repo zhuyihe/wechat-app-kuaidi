@@ -5,8 +5,9 @@ export const mutations={
 		state.token=sessionKey
 		setStorageSync('state',state)
 	},
-	SCHOOLNAME(state,schoolName){
-		state.schoolName=schoolName
+	SCHOOLMSG(state,schoolMsg){
+		console.log(schoolMsg)
+		state.schoolMsg=schoolMsg
 		setStorageSync('state',state)
 	}
 	// USER_INFO(state,userInfo){
