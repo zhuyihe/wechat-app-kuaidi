@@ -7,7 +7,7 @@ export const getOpenid = (params) => request(BASE_URL + "weixin/getOpenidByCode.
 //获取学校列表
 export const getSchoolList = (params) => request(BASE_URL + "applet/school/list.do", params);
 //选择学校
-export const selectSchool = (params) => request(BASE_URL + "applet/school/selectSchool.do", 'PUT');
+export const selectSchool = (params) => request(BASE_URL + "applet/school/selectSchool.do",params, 'POST');
 //获取省市区
 export const getArea = (params) => request(BASE_URL + "area/querySonByPid.do?pid="+params);
 //获取用户地址列表applet/memberUser/address.do

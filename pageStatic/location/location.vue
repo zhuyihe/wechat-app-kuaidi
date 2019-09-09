@@ -78,15 +78,15 @@
 			},
 			selectSchool(item) {
 				let parmas = {
-					schoolId: item.id,
-					schoolName: item.storeName
+					id: item.id,
+					storeName: item.storeName
 				}
 				//修改上一页面的数据
 				showModal('选择学校', `你确认选择${item.storeName}吗？`).then(res => {
 					selectSchool(parmas).then(re => {
 						console.log(re)
 						if (re.code == 0) {
-							this.$store.commit('SCHOOLMSG',{schoolName:parmas.schoolName,school_id:parmas.schoolId})
+							this.$store.commit('SCHOOLMSG',{schoolName:parmas.storeName,school_id:parmas.id})
 							uni.switchTab({
 								url:'../../pages/static/index'
 							})
