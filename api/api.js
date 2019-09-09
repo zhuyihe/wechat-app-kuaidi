@@ -14,3 +14,5 @@ export const getArea = (params) => request(BASE_URL + "area/querySonByPid.do?pid
 export const getUserAdress = () => request(BASE_URL + "applet/memberUser/address.do");
 //保存地址applet/memberUser/address.do
 export const setUserAdress = (params) => request(BASE_URL + "applet/memberUser/address.do",params,'POST');
+//获取首页信息
+export const getHomeIndex = () => request(BASE_URL + "home/index.do");

@@ -30,7 +30,6 @@
 	export default {
 		data() {
 			return {hasAuth: false};
-			
 		},
 		onLoad(option) {
 			if(option.hasAuth){

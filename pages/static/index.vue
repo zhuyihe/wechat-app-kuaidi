@@ -6,8 +6,9 @@
 			<text class="xue">{{schoolMsg.schoolName}}</text>
 			<image class="locationImgxia" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xia.png?sign=70c596069d17237b0b99b161b87a700b&t=1567400365"></image>
 		</view>
-		<bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%" :textTip="true"
-		 :swiperType='true'> </bw-swiper>
+		<j-swiper :swiperList='swiperList'></j-swiper>
+		<!-- <bw-swiper :swiperList="swiperList" indicatorActiveColor="#ff0000" @clickItem="clickItem" style="width:100%" :textTip="true"
+		 :swiperType='true'> </bw-swiper> -->
 		<button class="kf_button" open-type="contact" session-from="weapp">
 			<image class="kf_image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/ke.png?sign=edb4e8aaaf95a8ad3378d9e537a5b322&t=1567400491"></image>
 		</button>
@@ -21,37 +22,37 @@
 					<view class="msg" @tap="adress" v-if='!isAddJi'>
 						请添加寄件人信息
 					</view>
-					<view class="msgj" v-else>
+					<view class="msgj" v-else @tap="adress">
 						<view class="top">
 							<view class="name">
-								朱依禾
+								{{sendItem.userName}}
 							</view>
 							<view class="phone">
-								18186140272
+								{{sendItem.telNumber}}
 							</view>
 						</view>
 						<view class="bottom">
-							大旗网大旗网大旗网大旗网
+							{{sendItem.detailInfo}}
 						</view>
 					</view>
 					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
 				<view class="shou">
 					<text class="text">收</text>
-					<view class="msg" @tap="adressEdit" v-if='!isAddShou'>
+					<view class="msg" @tap="adressGet" v-if='!isAddShou'>
 						请添加寄件人信息
 					</view>
-					<view class="msgj" v-else>
+					<view class="msgj" v-else @tap="adressGet">
 						<view class="top">
 							<view class="name">
-								朱依禾
+								{{getItem.userName}}
 							</view>
 							<view class="phone">
-								18186140272
+								{{getItem.telNumber}}
 							</view>
 						</view>
 						<view class="bottom">
-							大旗网大旗网大旗网大旗网
+							{{getItem.detailInfo}}
 						</view>
 					</view>
 					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
@@ -77,7 +78,7 @@
 						物品类型
 					</view>
 					<view class="msgs" @tap="selectSort(1)">
-						{{sorts.value}}
+						{{sorts.c_name}}
 					</view>
 					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
@@ -100,7 +101,7 @@
 			</view>
 		</view>
 		<uni-popup ref="popup" type="bottom">
-			<select-sort @closePo='selectSort' @comfirmSort='comfirmSort'></select-sort>
+			<select-sort @closePo='selectSort' @comfirmSort='comfirmSort' :goodTypeList='goodTypeList'></select-sort>
 		</uni-popup>
 		<uni-popup ref="popup1" type="bottom">
 			<select-sort1 @close='selects' @comfirmJi='comfirmJi'></select-sort1>
@@ -116,66 +117,50 @@
 		showToast,
 		showModal
 	} from '@/assets/js/common'
-	import bwSwiper from '@/components/bw-swiper/bw-swiper.vue'
+	import jSwiper from '@/components/jing-swiper/jing-swiper.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import selectSort from '@/components/selectSort.vue'
 	import selectSort1 from '@/components/selectSort1.vue'
+	import {getHomeIndex} from '@/api/api'
+	import {BASE_URL} from '../../assets/js/const.js'
 	export default {
 		components: {
-			bwSwiper,
+			jSwiper,
 			uniPopup,
-			uniIcon,
 			selectSort,
 			selectSort1
 		},
 		data() {
 			return {
-				swiperList: [{
-					id: 4,
-					type: 'image',
-					img: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg',
-					text: '加油',
-				}, {
-					id: 1,
-					type: 'image',
-					img: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg',
-					text: '加油',
-				}, {
-					id: 2,
-					type: 'image',
-					img: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg',
-					text: '加油',
-				}],
+				swiperList: [],
 				weight: 1,
 				to: {
 					value: '请选择寄件类型'
 				},
 				sorts: {
-					value: '物品类型'
+					c_name: '物品类型'
 				},
 				isAddJi: false, //是否添加寄件人信息
 				isAddShou: false, //是否添加收件人信息
-				schoolMsg:{}
+				schoolMsg:{},
+				goodTypeList:[],
+				sendItem:{},//寄件
+				getItem:{}//收件
 			};
 		},
 		onLoad() {
-			console.log(2)
 			this.schoolMsg=this.$store.state.schoolMsg
-			console.log(this.schoolMsg)
 			if(this.schoolMsg.schoolName=='请选择学校'){
 				this.goToselectarea()
 			}
-			
+			this.getHomeIndex()
 		},
 		onShow(){
 			console.log('show')
-			
 		},
 		watch:{
 			'$store.state.schoolMsg'(n){
 				this.schoolMsg=n
-				console.log(n)
 			}
 		},
 		methods: {
@@ -209,8 +194,14 @@
 				this.weight++
 			},
 			adress() {
-				uni.navigateTo({
-					url: '../../pageStatic/address/address'
+				uni.chooseAddress({
+					success:res=>{
+						this.sendItem=res
+						this.isAddJi=true
+					},
+					fail:e=>{
+						console.log(e)
+					}
 				})
 			},
 			comfirmSort(data) {
@@ -223,12 +214,15 @@
 				this.to = data
 				this.$refs.popup1.close()
 			},
-			adressEdit() {
-				let isDefult = false
-				let title = '添加收件人地址'
-				let state = 'shou'
-				uni.navigateTo({
-					url: `../../pageStatic/address/edit/edit?isDefult=${isDefult}&title=${title}&state=${state}`
+			adressGet() {
+				uni.chooseAddress({
+					success:res=>{
+						this.getItem=res
+						this.isAddShou=true
+					},
+					fail:e=>{
+						console.log(e)
+					}
 				})
 			},
 			order() {
@@ -241,6 +235,18 @@
 					uni.redirectTo({
 						url: '../../pageStatic/location/location?schoolName='+this.schoolMsg.schoolName
 					})
+				})
+			},
+			getHomeIndex(){
+				getHomeIndex().then(res=>{
+					console.log(res)
+					if(res.code==0){
+						for(let i of res.data.bannerList ){
+							i.img=BASE_URL+i.img
+						}
+						this.swiperList=res.data.bannerList
+						this.goodTypeList=res.data.goodTypeList
+					}
 				})
 			}
 		}
@@ -418,7 +424,9 @@
 		border-bottom: 1px solid #ccc;
 		height: 25px;
 		color: #999;
-		padding: 0 10px;
+		// padding: 0 10px;
+		width: 84px;
+		text-align: center;
 		// margin:0 7px ;
 	}
 

@@ -6,7 +6,7 @@ export const mutations={
 		setStorageSync('state',state)
 	},
 	SCHOOLMSG(state,schoolMsg){
-		console.log(schoolMsg)
+		// console.log(schoolMsg)
 		state.schoolMsg=schoolMsg
 		setStorageSync('state',state)
 	}

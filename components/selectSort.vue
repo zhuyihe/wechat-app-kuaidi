@@ -6,9 +6,9 @@
 			<view class="header3" @tap='closePo'><uni-icon type="closeempty" size="20"  ></uni-icon></view>
 		</view>
 		<view class="itemBody">
-			<template v-for="(item,index) in sort">
+			<template v-for="(item,index) in goodTypeList">
 				<view class="item"  :key='index' :class="item.id===checkItem.id?'active':''" @tap="selctItem(item)">
-					{{item.value}}
+					{{item.c_name}}
 				</view>
 			</template>
 			<view class="noAllow">
@@ -29,30 +29,21 @@
 		},
 		data() {
 			return {
-				sort:[{
-					id:1,
-					value:'文件',
-				},{
-					id:2,
-					value:'数码产品'
-				},{
-					id:3,
-					value:'生活用品'
-				},{
-					id:4,
-					value:'服饰'
-				},{
-					id:5,
-					value:'食品'
-				},{
-					id:6,
-					value:'其他'
-				}],
 				checkItem:{}
 			};
 		},
+		props:{
+			goodTypeList:{
+				type:Array,
+				default:function(){
+					return []
+				}
+			}
+		},
 		mounted(){
-			this.checkItem=this.sort[0]
+			setTimeout(()=>{
+				this.checkItem=this.goodTypeList[0]
+			},1000)
 		},
 		methods:{
 			closePo(){
