@@ -9,6 +9,10 @@ export const mutations={
 		// console.log(schoolMsg)
 		state.schoolMsg=schoolMsg
 		setStorageSync('state',state)
+	},
+	SET_HOMEFLAG(state,homeFlag){
+		state.homeFlag=homeFlag
+		setStorageSync('state',state)
 	}
 	// USER_INFO(state,userInfo){
 	// 	state.userInfo=userInfo

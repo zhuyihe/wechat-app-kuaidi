@@ -7,7 +7,7 @@
 		</view>
 		<view class="itemBody">
 			<template v-for="(item,index) in sort">
-				<view class="item"  :key='index' :class="item.id===checkItem.id?'active':''" @tap="selctItem(item)">
+				<view class="item"  :key='index' :class="item.id===checkItem.id?'active':''" @tap="selctItem(item)" v-if='item.homeFlag==1'>
 					{{item.value}}
 				</view>
 			</template>
@@ -28,16 +28,23 @@
 			return {
 				sort:[{
 					id:1,
-					value:'上门取件',
+					value:'放置快递寄放点',
+					homeFlag:1
 				},{
 					id:2,
-					value:'放置快递寄放点'
+					value:'上门取件',
+					homeFlag:1
 				}],
-				checkItem:{}
+				checkItem:{},
+				
 			};
 		},
 		mounted(){
 			this.checkItem=this.sort[0]
+			this.$nextTick(function(){
+				this.sort[1].homeFlag=this.$store.state.homeFlag
+				console.log(this.sort)
+			})
 		},
 		methods:{
 			close(){

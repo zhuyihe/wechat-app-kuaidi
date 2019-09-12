@@ -8,7 +8,7 @@
 </template>
 <script>
 	import ssUploadImage from '@/components/ss-upload-image/ss-upload-image.vue'
-	import {UPLOAD_URL,BASE_URL} from '../../../assets/js/const.js'
+	import {UPLOAD_URL,IMG_URL} from '../../../assets/js/const.js'
 	export default {
 		components:{
 			ssUploadImage
@@ -29,16 +29,8 @@
 			// 上传成功
 			onSuccess(res) {
 				 console.log(res)
-			  // 响应示例
-			  // {
-			  //    code: 0,
-			  //    data: {
-			  //      image_url: 'http://www.xxxxx.png'
-			  //    },
-			  //    message: '上传成功'
-			  // }
 			  if (res.code === 0) {
-			    this.fileList.push(BASE_URL+res.data)
+			    this.fileList.push(IMG_URL+res.data)
 			  }
 			 
 			},

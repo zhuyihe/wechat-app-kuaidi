@@ -122,7 +122,7 @@
 	import selectSort from '@/components/selectSort.vue'
 	import selectSort1 from '@/components/selectSort1.vue'
 	import {getHomeIndex} from '@/api/api'
-	import {BASE_URL} from '../../assets/js/const.js'
+	import {IMG_URL} from '../../assets/js/const.js'
 	export default {
 		components: {
 			jSwiper,
@@ -242,7 +242,7 @@
 					console.log(res)
 					if(res.code==0){
 						for(let i of res.data.bannerList ){
-							i.img=BASE_URL+i.img
+							i.img=IMG_URL+i.img
 						}
 						this.swiperList=res.data.bannerList
 						this.goodTypeList=res.data.goodTypeList
