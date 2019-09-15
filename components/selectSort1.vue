@@ -27,11 +27,11 @@
 		data() {
 			return {
 				sort:[{
-					id:1,
+					id:2,
 					value:'放置快递寄放点',
 					homeFlag:1
 				},{
-					id:2,
+					id:1,
 					value:'上门取件',
 					homeFlag:1
 				}],

@@ -13,7 +13,7 @@ const request = (url, data, method = 'GET') => {
 			},
 			dataType: 'json',
 			success: res => {
-				console.log(res)
+				// console.log(res)
 				if(res.statusCode==200){
 					resovle(res.data)
 				}else if(res.statusCode==403){

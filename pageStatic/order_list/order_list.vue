@@ -8,67 +8,78 @@
 		</view>
 		<!-- 考虑非APP端长列表和复杂的DOM使用scroll-view会卡顿，所以漂浮顶部选项卡使用page本身的滑动 -->
 		<view class="order-list">
-			<view class="list" >
-				<vi<!-- ew class="onorder" v-if="list.length==0">
-					<image src="../../../static/noorder.png"></image>
-					<view class="text">
-						没有相关订单
-					</view>
-				</view> -->
-				<view class="row" v-for="(row,index) in orderList" :key="index">
-					<view class="top">
-						<view class="bh">
-							<text>编号:{{row.bh}}</text><text class="time">{{row.time}}</text>
-						</view>
-						<view class="orderStaus">
-							{{typeText[row.type]}}
-						</view>
-					</view>
-					<view class="middle">
-						<view class="left">
-							<view class="didian">
-								{{row.now}}
-							</view>
-							<view class="name">
-									{{row.nowname}}
-							</view>
-						</view>
-						<view class="jw">
-							<text class="tx">寄往</text><br>
-							<image class="imgs" src="../../static/jt.png" mode=""></image>
-						</view>
-						<view class="right">
-							<view class="didian">
-								{{row.go}}
-							</view>
-							<view class="name">
-								{{row.goname}}
-							</view>
-						</view>
-					</view>
-					<view class="bottom">
-						<view class="sf">
-							实付:￥{{row.pay}}.00
-						</view>
-						<view class="btns">
-							<block v-if="row.type=='unpaid'">
-								<view class="default" @tap="cancelOrder(row)">取消订单</view>
-								<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">付款</view>
-							</block>
-							<block v-if="row.type=='received'||row.type=='completed'">
-								<view class="sf">
-									快递编号:{{code}}
-								</view>
-							</block>
-						</view>
-					</view>
-
+			<view class="list">
+				<view class="onorder" v-if="orderList.length==0||!orderList">
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/noorder.png?sign=053b745ab238f7558c57ddc8ef71f5e4&t=1568446821"></image>
 				</view>
+				<template v-else>
+					<view class="row" v-for="(row,index) in orderList" :key="index">
+						<view class="top">
+							<view class="bh">
+								<text>编号:{{row.orderCode}}</text><text class="time">{{row.time}}</text>
+							</view>
+							<view class="orderStaus">
+								{{orderType[row.orderStatus+1]}}
+							</view>
+						</view>
+						<view class="middle">
+							<view class="left">
+								<view class="didian">
+									{{row.senders_city}}
+								</view>
+								<view class="name">
+									{{row.senders_name}}
+								</view>
+							</view>
+							<view class="jw">
+								<text class="tx">寄往</text><br>
+								<image class="imgs" src="../../static/jt.png" mode=""></image>
+							</view>
+							<view class="right">
+								<view class="didian">
+									{{row.receipt_city}}
+								</view>
+								<view class="name">
+									{{row.receipt_name}}
+								</view>
+							</view>
+						</view>
+						<view class="bottom">
+							<view class="sf">
+								实付:￥{{row.payPrice.toFixed(2)}}
+							</view>
+							<view class="btns">
+								<block v-if="row.orderStatus+1==1">
+									<view class="default" @tap="cancelOrder(row)">取消订单</view>
+									<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去付款</view>
+								</block>
+								<block v-if="row.orderStatus+1==2||row.orderStatus+1==5">
+									<view class="pay" @tap="toPayment(row,'see')" >查看详情</view>
+								</block>
+								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4">
+									<view class="sf">
+										快递编号:{{code}}
+									</view>
+									<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;background: #ffd84d;">查看详情</view>
+								</block>
+							</view>
+						</view>
+					</view>
+					<view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>
+				</template>
 			</view>
 		</view>
 	</view>
 </template>
 <script>
+	import {
+		getOrderList,
+		delmemberOrder
+	} from '@/api/api'
+	import {
+		showModal,
+		showToast
+	} from '@/assets/js/common'
 	export default {
 		data() {
 			return {
@@ -79,65 +90,83 @@
 					received: '运输中',
 					completed: '已签收',
 				},
-				orderType: ['全部', '待付款', '运输中', '已签收'],
+				orderType: ['全部', '待付款','待发货','运输中', '已签收', '已取消'],
 				//订单列表 演示数据
-				orderList: [
-					{
-						type: "unpaid",
-						now: '湖北武汉',
-						go: '广东深圳',
-						goname: 'zyh',
-						nowname: 'zzz',
-						pay: 16,
-						code:'130024004300',
-						time:"2019.06.10",
-						bh:'A1'
-					}
-				],
-				list: [],
-				tabbarIndex: 0
+				orderList: [],
+				tabbarIndex: 0,
+				pageNo: 1,
+				loadMoreText: "加载中...",
+				showLoadMore: false,
 			};
 		},
 		onLoad(option) {
 			//option为object类型，会序列化上个页面传递的参数
 			console.log("option: " + JSON.stringify(option));
 			let tbIndex = parseInt(option.tbIndex) + 1;
-			console.log(tbIndex)
-			this.list = this.orderList[tbIndex];
-			console.log(this.list)
 			this.tabbarIndex = tbIndex;
+			this.loadMoreText = "加载更多",
+				this.showLoadMore = false;
+			this.getOrderList(this.tabbarIndex)
 		},
 		onPageScroll(e) {
 			return;
 			//兼容iOS端下拉时顶部漂移
 			this.headerPosition = e.scrollTop >= 0 ? "fixed" : "absolute";
 		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.pageNo++
+			this.showLoadMore = true;
+			setTimeout(() => {
+				this.getOrderList(this.tabbarIndex, this.pageNo)
+			}, 300)
+		},
 		methods: {
 			showType(tbIndex) {
 				this.tabbarIndex = tbIndex;
-				this.list = this.orderList[tbIndex];
+				this.orderList=[]
+				this.loadMoreText = "加载更多",
+				this.pageNo=1
+				this.getOrderList(this.tabbarIndex)
 			},
 			showLogistics(row) {
 
 			},
-			remindDeliver(row) {
-				uni.showToast({
-					title: '已提醒商家发货'
-				})
-			},
-			cancelOrder(row) {
-				uni.showModal({
-					title: '取消订单',
-					content: '确定取消此订单？',
-					success: (res) => {
-						if (res.confirm) {
-							console.log('用户点击确定');
-							this.doCancelOrder(row.ordersn);
-						} else if (res.cancel) {
-							console.log('用户点击取消');
+			async getOrderList(tbIndex, pageNo = 1) {
+				try {
+					let status = tbIndex - 1;
+					let parmas = {
+						status: status,
+						pageNo: pageNo
+					}
+					let res = await getOrderList(parmas)
+					if (res.code == 0) {
+						if (res.data.memberOrderList) {
+							this.orderList = this.orderList.concat(res.data.memberOrderList)
+						} else {
+							this.loadMoreText = "没有更多数据了!"
+							return;
 						}
 					}
-				});
+				} catch (e) {
+					//TODO handle the exception
+				}
+
+			},
+			cancelOrder(row) {
+				showModal('取消订单', '确定取消此订单？', '确定', true).then(re => {
+					delmemberOrder(row.payCode).then(res => {
+						console.log(res)
+						if (res.code == 0) {
+							showToast('订单取消成功')
+							this.getOrderList(1)
+						} else {
+							showToast(res.msg)
+						}
+					}).catch(e => {
+						console.log(e)
+					})
+				}).catch(e => console.log(e))
 			},
 			doCancelOrder(ordersn) {
 				let typeNum = this.orderList.length;
@@ -155,23 +184,16 @@
 
 				}
 			},
-			toPayment(row) {
+			toPayment(row,state) {
 				//本地模拟订单提交UI效果
 				uni.showLoading({
 					title: '正在获取订单...'
 				})
-				let paymentOrder = [];
-				paymentOrder.push(row);
+				
 				setTimeout(() => {
-					uni.setStorage({
-						key: 'paymentOrder',
-						data: paymentOrder,
-						success: () => {
-							uni.hideLoading();
-							uni.navigateTo({
-								url: '../../pay/payment/payment?amount=' + row.payment
-							})
-						}
+					uni.hideLoading()
+					uni.navigateTo({
+						url: '../order/payment?paycode='+row.payCode
 					})
 				}, 500)
 			}
@@ -180,6 +202,7 @@
 </script>
 
 <style lang="scss">
+	@import '../../assets/css/uni.css';
 	.topTabBar {
 		width: 100%;
 		position: fixed;
@@ -220,6 +243,11 @@
 		font-size: 30upx;
 		margin: 20upx auto;
 		border-radius: 6px;
+		margin-top: 30upx;
+
+		&:nth-child(1) {
+			margin-top: 100upx;
+		}
 
 		.top {
 			display: flex;
@@ -227,7 +255,7 @@
 			padding: 0 20upx;
 			line-height: 80upx;
 			height: 80upx;
-			margin-top: 100upx;
+
 			border-bottom: 1px solid #e0e0e0;
 			align-items: center;
 
@@ -306,138 +334,13 @@
 
 	}
 
-	// .order-list{
-	// 	margin-top: 80upx;
-	// 	padding-top: 20upx;
-	// 	width: 100%;
-	// 	.list{
-	// 		width: 94%;
-	// 		margin: 0 auto;
-	// 		.onorder{
-	// 			width: 100%;
-	// 			height: 50vw;
-	// 			display: flex;
-	// 			justify-content: center;
-	// 			align-content: center;
-	// 			flex-wrap: wrap;
-	// 			image{
-	// 				width: 20vw;
-	// 				height: 20vw;
-	// 				border-radius: 100%;
-	// 			}
-	// 			.text{
-	// 				width: 100%;
-	// 				height: 60upx;
-	// 				font-size: 28upx;
-	// 				color: #444;
-	// 				display: flex;
-	// 				justify-content: center;
-	// 				align-items: center;
-	// 			}
-	// 		}
-	// 		.row{
-	// 			width: calc(100% - 40upx);
-	// 			padding: 10upx 20upx;
-	// 			border-radius: 10upx;
-	// 			background-color: #fff;
-	// 			margin-bottom: 20upx;
-	// 			.type{
-	// 				font-size: 26upx;
-	// 				color: #ec652f;
-	// 				height: 50upx;
-	// 				display: flex;
-	// 				align-items: center;
-	// 			}
-	// 			.order-info{
-	// 				width: 100%;
-	// 				display: flex;
-	// 				.left{
-	// 					flex-shrink: 0;
-	// 					width: 25vw;
-	// 					height: 25vw;
-	// 					image{
-	// 						width: 25vw;
-	// 						height: 25vw;
-	// 						border-radius: 10upx;
-	// 					}
-	// 				}
-	// 				.right{
-	// 					width: 100%;
-	// 					margin-left: 10upx;
-	// 					position: relative;
-	// 					.name{
-	// 						width: 100%;
-	// 						font-size: 28upx;
-	// 						display: -webkit-box;
-	// 						-webkit-box-orient: vertical;
-	// 						-webkit-line-clamp: 2;
-	// 						overflow: hidden;
-	// 					}
-	// 					.spec{
-	// 						color: #a7a7a7;
-	// 						font-size: 22upx;
-	// 
-	// 					}
-	// 					.price-number{
-	// 						position: absolute;
-	// 						bottom: 0;
-	// 						width: 100%;
-	// 						display: flex;
-	// 						justify-content: flex-end;
-	// 						font-size: 22upx;
-	// 						color: #333;
-	// 						display: flex;
-	// 						align-items: flex-end;
-	// 						.price{
-	// 							font-size: 24upx;
-	// 							margin-right: 5upx;
-	// 						}
-	// 						
-	// 					}
-	// 				}
-	// 			}
-	// 			.detail{
-	// 				display: flex;
-	// 				justify-content: flex-end;
-	// 				align-items: flex-end;
-	// 				height: 60upx;
-	// 				font-size: 26upx;
-	// 				.sum{
-	// 					padding: 0 8upx;
-	// 					display: flex;
-	// 					align-items: flex-end;
-	// 					.price{
-	// 						font-size: 30upx;
-	// 					}
-	// 				}
-	// 				
-	// 			}
-	// 			.btns{
-	// 				height: 80upx;
-	// 				display: flex;
-	// 				align-items: center;
-	// 				justify-content: flex-end;
-	// 				view{
-	// 					min-width: 120upx;
-	// 					height: 50upx;
-	// 					padding: 0 20upx;
-	// 					border-radius: 50upx;
-	// 					display: flex;
-	// 					justify-content: center;
-	// 					align-items: center;
-	// 					font-size: 28upx;
-	// 					margin-left: 20upx;
-	// 				}
-	// 				.default{
-	// 					border: solid 1upx #ccc;
-	// 					color: #666;
-	// 				}
-	// 				.pay{
-	// 					border: solid 1upx #ec652f;
-	// 					color: #ec652f;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
+	.onorder {
+		text-align: center;
+		margin-top: 160upx;
+
+		image {
+			width: 282upx;
+			height: 462upx;
+		}
+	}
 </style>

@@ -21,8 +21,9 @@
 						this.$store.commit('LOGIN_SESSIONKEY', re.data.wxMaJscode2SessionResult.sessionKey)
 						this.$store.commit('SCHOOLMSG',{schoolName:re.data.member.schoolName,school_id:re.data.member.school_id})
 						this.$store.commit('SET_HOMEFLAG',re.data.member.homeFlag)
+						this.$store.commit('IS_NEW',false)
 						uni.switchTab({
-							url: `/pages/static/index`
+							url: '/pages/static/index'
 						})
 					} else if (re.code == 403) {
 						uni.redirectTo({

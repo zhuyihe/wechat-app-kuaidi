@@ -13,7 +13,11 @@ export const mutations={
 	SET_HOMEFLAG(state,homeFlag){
 		state.homeFlag=homeFlag
 		setStorageSync('state',state)
-	}
+	},
+	IS_NEW(state,isNew){
+		state.isNew=isNew
+		setStorageSync('state',state)
+	},
 	// USER_INFO(state,userInfo){
 	// 	state.userInfo=userInfo
 	// 	console.log(state)

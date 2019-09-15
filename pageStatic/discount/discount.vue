@@ -9,10 +9,10 @@
 		<view class="list">
 			<!-- 优惠券列表 -->
 			<view class="sub-list valid" :class="subState">
-				<view class="tis" v-if="couponValidList.length==0">没有数据~</view>
+				<view class="tis" v-if="couponValidList.length==0">暂无优惠券~</view>
 				<view class="row" v-for="(row,index) in couponValidList" :key="index">
 					<!-- 删除按钮 -->
-					<view class="menu" @tap.stop="deleteCoupon(row.id,couponValidList)">
+					<view class="menu" @tap.stop="deleteCoupon(row.id,row.state)">
 						<uni-icon type="trash" size="50" color="#fff"></uni-icon>
 					</view>
 					<!-- content -->
@@ -20,10 +20,10 @@
 					 @touchstart="touchStart(index,$event)" @touchmove="touchMove(index,$event)" @touchend="touchEnd(index,$event)">
 						<view class="left">
 							<view class="title">
-								{{row.title}}
+								{{row.name}}
 							</view>
 							<view class="term">
-								{{row.termStart}} ~ {{row.termEnd}}
+								{{row.createTime}} ~ {{row.endTime}}
 							</view>
 							<view class="gap-top"></view>
 							<view class="gap-bottom"></view>
@@ -31,14 +31,14 @@
 						<view class="right">
 							<view class="ticket">
 								<view class="num">
-									{{row.ticket}}
+									{{row.amount}}
 								</view>
 								<view class="unit">
 									元
 								</view>
 							</view>
-							<view class="criteria">
-								{{row.criteria}}
+							<view class="limitAmount">
+								满{{row.limitAmount}}使用
 							</view>
 							<view class="use">
 								去使用
@@ -48,10 +48,10 @@
 				</view>
 			</view>
 			<view class="sub-list invalid" :class="subState">
-				<view class="tis" v-if="couponinvalidList.length==0">没有数据~</view>
+				<view class="tis" v-if="couponinvalidList.length==0">暂无优惠券~</view>
 				<view class="row" v-for="(row,index) in couponinvalidList" :key="index">
 					<!-- 删除按钮 -->
-					<view class="menu" @tap.stop="deleteCoupon(row.id,couponinvalidList)">
+					<view class="menu" @tap.stop="deleteCoupon(row.id,row.state)">
 						<uni-icon type="trash" size="50" color="#fff"></uni-icon>
 					</view>
 					<!-- content -->
@@ -59,10 +59,10 @@
 					 @touchstart="touchStart(index,$event)" @touchmove="touchMove(index,$event)" @touchend="touchEnd(index,$event)">
 						<view class="left">
 							<view class="title">
-								{{row.title}}
+								{{row.name}}
 							</view>
 							<view class="term">
-								{{row.termStart}} ~ {{row.termEnd}}
+								{{row.createTime}} ~ {{row.endTime}}
 							</view>
 							<view class="icon shixiao">
 
@@ -73,14 +73,14 @@
 						<view class="right invalid">
 							<view class="ticket">
 								<view class="num">
-									{{row.ticket}}
+									{{row.amount}}
 								</view>
 								<view class="unit">
 									元
 								</view>
 							</view>
-							<view class="criteria">
-								{{row.criteria}}
+							<view class="limitAmount">
+								满{{row.limitAmount}}使用
 							</view>
 							<view class="use">
 								去查看
@@ -95,80 +95,17 @@
 </template>
 
 <script>
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import{
+		couponMemberlist,couponDelCoupon
+	} from '@/api/api'
+	import {
+		showModal
+	} from '@/assets/js/common'
 	export default {
-		components: {
-			uniIcon
-		},
 		data() {
 			return {
-				couponValidList: [{
-						id: 1,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "10",
-						criteria: "满50使用"
-					},
-					{
-						id: 2,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "100",
-						criteria: "满500使用"
-					},
-					{
-						id: 3,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "10",
-						criteria: "无门槛"
-					},
-					{
-						id: 4,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "50",
-						criteria: "满1000使用"
-					}
-
-				],
-				couponinvalidList: [{
-						id: 1,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "10",
-						criteria: "满50使用"
-					},
-					{
-						id: 2,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "100",
-						criteria: "满500使用"
-					},
-					{
-						id: 3,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "10",
-						criteria: "无门槛"
-					},
-					{
-						id: 4,
-						title: "商城专享",
-						termStart: "2019-04-01",
-						termEnd: "2019-05-30",
-						ticket: "50",
-						criteria: "满1000使用"
-					}
-				],
+				couponValidList: [],
+				couponinvalidList: [],
 				headerTop: 0,
 				//控制滑动效果
 				typeClass: 'valid',
@@ -182,26 +119,17 @@
 
 		},
 		//下拉刷新，需要自己在page.json文件中配置开启页面下拉刷新 "enablePullDownRefresh": true
-		onPullDownRefresh() {
-			setTimeout(function() {
-				uni.stopPullDownRefresh();
-			}, 1000);
-		},
+		// onPullDownRefresh() {
+		// 	setTimeout(function() {
+		// 		uni.stopPullDownRefresh();
+		// 	}, 1000);
+		// },
 		onLoad() {
-			//兼容H5下排序栏位置
-			// #ifdef H5
-			//定时器方式循环获取高度为止，这么写的原因是onLoad中head未必已经渲染出来。
-			let Timer = setInterval(() => {
-				let uniHead = document.getElementsByTagName('uni-page-head');
-				if (uniHead.length > 0) {
-					this.headerTop = uniHead[0].offsetHeight + 'px';
-					clearInterval(Timer); //清除定时器
-				}
-			}, 1);
-			// #endif
+			this.couponMemberlist(0)
 		},
 		methods: {
 			switchType(type) {
+				console.log(type)
 				if (this.typeClass == type) {
 					return;
 				}
@@ -211,6 +139,11 @@
 				})
 				this.typeClass = type;
 				this.subState = this.typeClass == '' ? '' : 'show' + type;
+				if(type=='valid'){
+					this.couponMemberlist(0)
+				}else{
+					this.couponMemberlist(1)
+				}
 				setTimeout(() => {
 					this.oldIndex = null;
 					this.theIndex = null;
@@ -268,23 +201,27 @@
 			},
 
 			//删除商品
-			deleteCoupon(id, List) {
-				let len = List.length;
-				for (let i = 0; i < len; i++) {
-					if (id == List[i].id) {
-						List.splice(i, 1);
-						break;
-					}
-				}
-				this.oldIndex = null;
-				this.theIndex = null;
+			deleteCoupon(id,state) {
+				showModal('您确定删除优惠券？','删除优惠券之后将无法再使用优惠','确认',true).then(res=>{
+					couponDelCoupon(id).then(re=>{
+						if(re.code==0){
+							showToast('优惠券删除成功')
+							this.couponMemberlist(state)
+						}
+					})
+				}).catch(e=>{
+					console.log(e)
+				})
 			},
 
-			discard() {
-				//丢弃
-			}
-
-
+			async couponMemberlist(state){
+				let res=await couponMemberlist(state)
+				if(state==0){
+					this.couponValidList=res.data
+					}else{
+						this.couponinvalidList=res.data
+					}
+			},
 		}
 	}
 </script>
@@ -528,7 +465,7 @@
 					justify-content: center;
 
 					.ticket,
-					.criteria {
+					.limitAmount {
 						width: 100%;
 					}
 
@@ -548,7 +485,7 @@
 						}
 					}
 
-					.criteria {
+					.limitAmount {
 						justify-content: center;
 
 						font-size: 28upx;

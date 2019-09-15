@@ -16,3 +16,17 @@ export const getUserAdress = () => request(BASE_URL + "applet/memberUser/address
 export const setUserAdress = (params) => request(BASE_URL + "applet/memberUser/address.do",params,'POST');
 //获取首页信息
 export const getHomeIndex = () => request(BASE_URL + "home/index.do");
+//计算价格
+export const getMemberOrderPrice = (params) => request(BASE_URL + "applet/memberOrder/getMemberOrderPrice.do",params,'POST');
+//提交订单
+export const saveMemberOrder=(params) => request(BASE_URL + "applet/memberOrder/saveMemberOrder.do",params,'POST');
+//获取订单 
+export const memberOrderDetail = (params) => request(BASE_URL + "applet/memberOrder/memberOrderDetail.do?payCode="+params);
+//获取订单列表
+export const getOrderList = (params) => request(BASE_URL + "applet/memberOrder/list.do?pageNo="+params.pageNo+'&status='+params.status);
+// 删除订单
+export const delmemberOrder = (params) => request(BASE_URL + "applet/memberOrder/delmemberOrder.do?payCode="+params);
+//会员优惠券列表
+export const couponMemberlist = (params) => request(BASE_URL + "applet/memberUser/coupon/memberlist.do?state="+params);
+//删除优惠券
+export const couponDelCoupon = (params) => request(BASE_URL + "applet/memberUser/coupon/delCoupon.do?id="+params);

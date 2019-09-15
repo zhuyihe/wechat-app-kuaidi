@@ -45,11 +45,16 @@
 				"navigationBarTitleText": "编辑地址"
 			}
 		}, {
+			"path": "order/payment",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		}, {
 			"path": "order/order",
 			"style": {
 				"navigationBarTitleText": "确认订单"
 			}
-		}, {
+		},{
 			"path": "paySuccess/paySuccess",
 			"style": {
 				"navigationBarTitleText": "支付成功"

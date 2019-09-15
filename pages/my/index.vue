@@ -14,7 +14,7 @@
 					我的订单
 				</view>
 				<view class="allOrder">
-					<text>全部订单</text>
+					<text @tap="toOrderList(-1)">全部订单</text>
 					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
 			</view>
@@ -169,6 +169,12 @@
 		},
 		methods: {
 			toOrderList(index){
+				console.log(index)
+				if(index==1){
+					index=2
+				}else if(index==2){
+					index=3
+				}
 				uni.setStorageSync('tbIndex',index);
 				uni.navigateTo({url:'../../pageStatic/order_list/order_list?tbIndex='+index}) 
 			},

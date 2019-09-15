@@ -58,6 +58,7 @@
 							this.$store.commit('LOGIN_SESSIONKEY', res.data.wxMaJscode2SessionResult.sessionKey)
 							this.$store.commit('SCHOOLMSG',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
 							this.$store.commit('SET_HOMEFLAG',res.data.member.homeFlag)
+							this.$store.commit('IS_NEW',false)
 							uni.switchTab({
 								url: '../static/index'
 							})
@@ -75,6 +76,7 @@
 										this.$store.commit('SCHOOLMSG', {
 											schoolName: '请选择学校'
 										})
+										this.$store.commit('IS_NEW',true)
 										uni.switchTab({
 											url: '../static/index'
 										})

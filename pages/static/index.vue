@@ -40,7 +40,7 @@
 				<view class="shou">
 					<text class="text">收</text>
 					<view class="msg" @tap="adressGet" v-if='!isAddShou'>
-						请添加寄件人信息
+						请添加收件人信息
 					</view>
 					<view class="msgj" v-else @tap="adressGet">
 						<view class="top">
@@ -93,7 +93,7 @@
 			</view>
 			<view class="xiadan">
 				<view class="yf">
-					预估运费：<text class="mon">0.00</text>
+					价格：<text class="mon">{{price}}</text>
 				</view>
 				<view class="go" @tap="order">
 					立即下单
@@ -121,7 +121,7 @@
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import selectSort from '@/components/selectSort.vue'
 	import selectSort1 from '@/components/selectSort1.vue'
-	import {getHomeIndex} from '@/api/api'
+	import {getHomeIndex,getMemberOrderPrice} from '@/api/api'
 	import {IMG_URL} from '../../assets/js/const.js'
 	export default {
 		components: {
@@ -145,7 +145,8 @@
 				schoolMsg:{},
 				goodTypeList:[],
 				sendItem:{},//寄件
-				getItem:{}//收件
+				getItem:{},//收件
+				price:0
 			};
 		},
 		onLoad() {
@@ -157,6 +158,15 @@
 		},
 		onShow(){
 			console.log('show')
+		},
+		updated(){
+			if(this.schoolMsg.schoolName!=='请选择学校'){
+				//第一次进入选学校 弹出优惠券以后不再弹
+				if(this.$store.state.isNew){
+					showToast('新人专享优惠券送给你！')
+					this.$store.commit('IS_NEW',false)
+				}
+			}
 		},
 		watch:{
 			'$store.state.schoolMsg'(n){
@@ -187,11 +197,29 @@
 				}
 			},
 			reduce() {
-				this.weight <= 1 ? showToast('您的重量不符合标准') : this.weight--
-
+				this.weight <= 1 ? showToast('您的重量不符合标准') : this.weight--;
+				this.getPrice(this.weight,this.to.id)
 			},
 			add() {
 				this.weight++
+				this.getPrice(this.weight,this.to.id)
+			},
+			getPrice(weight,sendersType){
+				let parmas={
+					weight:weight,
+					sendersType:sendersType
+				}
+				if(parmas.sendersType){
+					getMemberOrderPrice(parmas).then(res=>{
+						if(res.code==0){
+							console.log(res)
+							this.price=res.data.toFixed(2)
+						}else{
+							showToast(res.msg)
+						}
+						
+					}).catch(e=>{console.log(e)})
+				}
 			},
 			adress() {
 				uni.chooseAddress({
@@ -200,7 +228,34 @@
 						this.isAddJi=true
 					},
 					fail:e=>{
-						console.log(e)
+						uni.getSetting({
+							success:set=>{
+								console.log()
+								if(!set.authSetting['scope.address']){
+									uni.showModal({
+										title:'警告',
+										content:'您点击了拒绝授权,将无法享受快递寄件功能。',
+										showCancel:false,
+										success:res=>{
+											console.log(res)
+											if(res.confirm){
+												uni.openSetting({
+														success:re=> {
+															console.log(re)
+														},
+														fail:e=>{
+															console.log(e)
+														}
+													})
+											}
+										}
+									})
+								}
+							},
+							fail:e=>{
+								
+							}
+						})
 					}
 				})
 			},
@@ -210,24 +265,83 @@
 				this.$refs.popup.close()
 			},
 			comfirmJi(data) {
-				// console.log(data)
+				console.log(data)
 				this.to = data
+				this.getPrice(this.weight,this.to.id)
 				this.$refs.popup1.close()
 			},
 			adressGet() {
 				uni.chooseAddress({
 					success:res=>{
+						console.log(res)
 						this.getItem=res
 						this.isAddShou=true
 					},
 					fail:e=>{
-						console.log(e)
+						uni.getSetting({
+							success:set=>{
+								console.log()
+								if(!set.authSetting['scope.address']){
+									uni.showModal({
+										title:'警告',
+										content:'您点击了拒绝授权,将无法享受快递寄件功能。',
+										showCancel:false,
+										success:res=>{
+											console.log(res)
+											if(res.confirm){
+												uni.openSetting({
+														success:re=> {
+															console.log(re)
+														},
+														fail:e=>{
+															console.log(e)
+														}
+													})
+											}
+										}
+									})
+								}
+							},
+							fail:e=>{
+								
+							}
+						})
 					}
 				})
 			},
 			order() {
+				if(JSON.stringify(this.sendItem)=='{}'){
+					showToast('请填寄件地址')
+					return;
+				}else if(JSON.stringify(this.getItem)=='{}'){
+					showToast('请填写收件地址')
+					return;
+				}else if(!this.sorts.id){
+					showToast('请选择物品类型')
+					return;
+				}else if(!this.to.id){
+					showToast('请选择寄件类型')
+					return;
+				}
+				let parmas={
+					senders_name:this.sendItem.userName,
+					senders_mobile:this.sendItem.telNumber,
+					senders_address:this.sendItem.provinceName+this.sendItem.cityName+this.sendItem.countyName+this.sendItem.detailInfo,
+					receipt_name:this.getItem.userName,
+					receipt_mobile:this.getItem.telNumber,
+					receipt_address:this.getItem.provinceName+this.getItem.cityName+this.getItem.countyName+this.getItem.detailInfo,
+					weight:this.weight,
+					goodTypeId:this.sorts.id,
+					sendersType:this.to.id,
+					goodTypeName:this.sorts.c_name,
+					price:this.price,
+					senders_city:this.sendItem.provinceName+(this.sendItem.provinceName==this.sendItem.cityName?this.sendItem.countyName:this.sendItem.cityName),
+					receipt_city:this.getItem.provinceName+(this.getItem.provinceName==this.getItem.cityName?this.getItem.countyName:this.getItem.cityName),
+				}
+				
+				console.log(parmas)
 				uni.navigateTo({
-					url: '../../pageStatic/order/order'
+					url: '../../pageStatic/order/order?orderDetail='+JSON.stringify(parmas)
 				})
 			},
 			goToselectarea() {

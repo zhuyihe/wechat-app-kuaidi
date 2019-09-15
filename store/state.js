@@ -6,4 +6,5 @@ export const state={
 		schoolName:'选择学校',
 	},
 	homeFlag:1,//是否支持上门取件，1支持，2不支持
+	isNew:false //是否是新用户
 }
