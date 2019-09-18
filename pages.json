@@ -136,6 +136,10 @@
                     "path" : "transactions/edit/edit",
                     "style" : {"navigationBarTitleText": "发布信息"}
                 }
+                ,{
+                    "path" : "coupon/coupon",
+                    "style" : {"navigationBarTitleText": "领取优惠券"}
+                }
             ]
 	}],
 	"globalStyle": {

@@ -30,3 +30,7 @@ export const delmemberOrder = (params) => request(BASE_URL + "applet/memberOrder
 export const couponMemberlist = (params) => request(BASE_URL + "applet/memberUser/coupon/memberlist.do?state="+params);
 //删除优惠券
 export const couponDelCoupon = (params) => request(BASE_URL + "applet/memberUser/coupon/delCoupon.do?id="+params);
+//领取优惠券列表
+export const getCouponList = () => request(BASE_URL + "applet/memberUser/coupon/list.do");
+//领取优惠券
+export const getCoupon = (params) => request(BASE_URL + "applet/memberUser/coupon/getCoupon.do?code="+params);
