@@ -44,13 +44,16 @@
 							<text class="time">2019.08.17</text>
 						</view>
 					</view>
-					<view class="content">
+					<view class="content content1">
 						<text>床头挂篮有三个，每个五块钱</text>
-						<view class="replay">
-							<view class="raname">牵绊易世荣:</view>
-							<view class="recontent">
-								580元，原价是690元,我这个鞋子一次都没穿过这个你可以放心
-							</view>
+						<uni-icon type="chat" size="16" color='#8d8d8d' @tap='remark'></uni-icon>
+					</view>
+					<view class="replay">
+						<view class="replayList">
+							<view class="raname"><text>牵绊易世荣</text>:580元，原价是690元,我这个鞋子一次都没穿过这个你可以放心</view>
+						</view>
+						<view class="totalReplay">
+							共54条评论
 						</view>
 					</view>
 				</view>
@@ -64,35 +67,39 @@
 					</view>
 					<view class="content content1">
 						<text>床头挂篮有三个，每个五块钱</text>
-						<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
+						<uni-icon type="chat" size="16" color='#8d8d8d' @tap='remark'></uni-icon>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="pinlun">
-			<view class="rec">
-				<input type="text" value="" placeholder="评论" />
+		<uni-popup ref="popup" type="bottom">
+			<view class="pinlun">
+				<view class="rec">
+					<input type="text" value="" placeholder="评论" />
+				</view>
+				<view class="submit">
+					<text>发布</text>
+				</view>
 			</view>
-			<view class="submit">
-				<text>发布</text>
-			</view>
-		</view>
+		</uni-popup>
+		
 	</view>
 </template>
 
 <script>
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
 		components: {
-			uniIcon
+			uniPopup
 		},
 		data() {
 			return {
-
 			}
 		},
 		methods: {
-
+			remark(){
+				this.$refs.popup.open()
+			}
 		}
 	}
 </script>
@@ -101,7 +108,9 @@
 	.row {
 		font-size: 30upx;
 	}
-
+	.totalReplay{
+		color: #008de1;
+	}
 	.li {
 		padding: 30upx 25upx;
 		background: #FFFFFF;
@@ -169,7 +178,7 @@
 
 	.remark {
 		background: #FFFFFF;
-		margin-bottom: 160upx;
+		/* margin-bottom: 160upx; */
 		.tou {
 			line-height: 90upx;
 			border-bottom: 1px solid #e0e0e0;
@@ -197,6 +206,7 @@
 	}
 
 	.rearkList {
+		padding-bottom:30upx;
 		.itemList {
 			padding: 23upx 22px;
 		}
@@ -210,14 +220,18 @@
 		}
 
 		.raname {
-			color: #008de1;
-			width: 400upx;
-			text-align: center;
+			text{
+				color: #008de1;
+			}
 		}
-
-		.replay {
-			display: flex;
+		.replay{
+			margin-left: 90upx;
 			background: #ebebeb;
+			font-size:26upx ;
+			padding-left:20upx;
+		}
+		.replayList {
+			display: flex;
 			line-height: 50upx;
 			margin-top: 20upx;
 		}
@@ -237,8 +251,6 @@
 	}
 
 	.pinlun {
-		position: fixed;
-		bottom: 0;
 		line-height: 120upx;
 		display: flex;
 		align-items: center;
