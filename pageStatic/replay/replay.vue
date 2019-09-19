@@ -1,40 +1,6 @@
 <template>
 	<view class="row">
-		<view class="li">
-			<view class="item">
-				<view class="footer">
-					<view class="left">
-						<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=404191945d458a6bb6d6abb5416b445a&t=1567400960" mode=""></image>
-						<text class="name">牵绊易世荣</text>
-						<text class="time">2019.08.17</text>
-					</view>
-				</view>
-				<view class="content cons">
-					<view class="header">
-						我作为盗墓笔记的粉丝，感觉还是李易峰杨洋他们演的好看…剩下...
-					</view>
-					<view class="com">
-						我作为盗墓笔记的粉丝，感觉还是李易峰杨洋他们演的好看…剩下老九门，沙海这几部拍的什么…啰哩啰嗦的老九门就几个地方好看…沙海强点剧情有地方跟上了…但是感觉还是第一部最好看我看了5遍了…三叔是请不起以前这些人了还是他们档期不够…粉丝们很期待啊
-					</view>
-				</view>
-				<view class="imgs">
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
-				</view>
-			</view> 
-		</view>
 		<view class="remark">
-			<view class="tou">
-				<view class="tou1">
-					<view class="xian"></view>
-					<view>评论<text>3</text></view>
-				</view>
-				<view class="tou2">
-					<text class="see">2</text>
-					<uni-icon type="eye" size="16" color='#8d8d8d'></uni-icon>
-				</view>
-			</view>
 			<view class="rearkList">
 				<view class="itemList">
 					<view class="footer">
@@ -45,19 +11,11 @@
 						</view>
 					</view>
 					<view class="content content1">
-						<text>床头挂篮有三个，每个五块钱</text>
+						<text class="text">床头挂篮有三个，每个五块钱</text>
 						<uni-icon type="chat" size="16" color='#8d8d8d' @tap='remark'></uni-icon>
 					</view>
-					<view class="replay">
-						<view class="replayList">
-							<view class="raname"><text>牵绊易世荣</text>:580元，原价是690元,我这个鞋子一次都没穿过这个你可以放心</view>
-						</view>
-						<view class="totalReplay" @tap="allReplay">
-							共54条评论
-						</view>
-					</view>
 				</view>
-				<view class="itemList">
+				<view class="itemList itemListitem">
 					<view class="footer">
 						<view class="left">
 							<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=6518609ce25df47c20b8f9f0693ec45b&t=1567401028" mode=""></image>
@@ -66,7 +24,22 @@
 						</view>
 					</view>
 					<view class="content content1">
-						<text>床头挂篮有三个，每个五块钱</text>
+						<text class="text">床头挂篮有三个，每个五块钱</text>
+						<uni-icon type="chat" size="16" color='#8d8d8d' @tap='remark'></uni-icon>
+					</view>
+				</view>
+				<view class="itemList itemListitem">
+					<view class="footer">
+						<view class="left">
+							<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=6518609ce25df47c20b8f9f0693ec45b&t=1567401028" mode=""></image>
+							<text class="name">牵绊易世荣</text>
+							<text class="time">2019.08.17</text>
+						</view>
+					</view>
+					<view class="content content1">
+						<view class="text">
+							<text class="names">@牵绊易世荣</text>床头挂篮有三个，每个五块钱
+						</view>
 						<uni-icon type="chat" size="16" color='#8d8d8d' @tap='remark'></uni-icon>
 					</view>
 				</view>
@@ -96,14 +69,12 @@
 			return {
 			}
 		},
+		onLoad(option){
+			console.log(option)
+		},
 		methods: {
 			remark(){
 				this.$refs.popup.open()
-			},
-			allReplay(){
-				uni.navigateTo({
-					url:'../../replay/replay?path=bbs'
-				})
 			}
 		}
 	}
@@ -133,7 +104,7 @@
 		display: flex;
 		align-items: center;
 		line-height: 40upx;
-		margin-bottom: 20upx;
+		margin-bottom: 15upx;
 		font-size: 30upx;
 	}
 
@@ -161,13 +132,13 @@
 	}
 
 	.name {
-		font-size: 32upx;
+		font-size: 30upx;
 		color: #000020;
 	}
 
 	.time {
 		font-size: 26upx;
-		margin-top: 10upx;
+		margin-top: 5upx;
 	}
 
 	.imgs {
@@ -182,7 +153,7 @@
 	}
 
 	.remark {
-		background: #FFFFFF;
+		/* background: #FFFFFF; */
 		/* margin-bottom: 160upx; */
 		.tou {
 			line-height: 90upx;
@@ -209,7 +180,7 @@
 		}
 		
 	}
-
+	
 	.rearkList {
 		padding-bottom:30upx;
 		.itemList {
@@ -222,6 +193,13 @@
 
 		.content {
 			margin-left: 90upx;
+			
+			.text{
+				margin-right:10upx;
+			}
+			.names{
+				color: #008de1;
+			}
 		}
 
 		.raname {
@@ -242,13 +220,11 @@
 		}
 
 		.itemList {
-			border-bottom: 1px solid #e0e0e0;
-
-			&:nth-last-child(1) {
-				border: 0;
-			}
+			background: #fff;
 		}
-
+		.itemListitem{
+			background: #f5f5f5;
+		}
 		.content1 {
 			display: flex;
 			justify-content: space-between;

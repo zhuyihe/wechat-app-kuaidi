@@ -54,7 +54,7 @@
 			"style": {
 				"navigationBarTitleText": "确认订单"
 			}
-		},{
+		}, {
 			"path": "paySuccess/paySuccess",
 			"style": {
 				"navigationBarTitleText": "支付成功"
@@ -124,27 +124,36 @@
 			"style": {
 				"navigationBarTitleText": "我的收入"
 			}
-		}    ,{
-                    "path" : "share/share",
-                    "style" : {"navigationBarTitleText": "分享"}
-                }
-                ,{
-                    "path" : "detial/detial",
-                    "style" : {"navigationBarTitleText": "查看详情"}
-                }
-                ,{
-                    "path" : "transactions/edit/edit",
-                    "style" : {"navigationBarTitleText": "发布信息"}
-                }
-                ,{
-                    "path" : "coupon/coupon",
-                    "style" : {"navigationBarTitleText": "领取优惠券"}
-                }
-            ]
+		}, {
+			"path": "share/share",
+			"style": {
+				"navigationBarTitleText": "分享"
+			}
+		}, {
+			"path": "detial/detial",
+			"style": {
+				"navigationBarTitleText": "查看详情"
+			}
+		}, {
+			"path": "transactions/edit/edit",
+			"style": {
+				"navigationBarTitleText": "发布信息"
+			}
+		}, {
+			"path": "coupon/coupon",
+			"style": {
+				"navigationBarTitleText": "领取优惠券"
+			}
+		},{
+			"path": "replay/replay",
+			"style": {
+				"navigationBarTitleText": "评论"
+			}
+		}]
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "演示",
+		"navigationBarTitleText": "奇校园",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	},
@@ -166,7 +175,7 @@
 			"text": "校园中心"
 		}, {
 			"pagePath": "pages/my/index",
-			"iconPath": "static/tabbar/my.png", 
+			"iconPath": "static/tabbar/my.png",
 			"selectedIconPath": "static/tabbar/my1.png",
 			"text": "我的"
 		}]

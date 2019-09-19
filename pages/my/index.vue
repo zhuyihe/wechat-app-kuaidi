@@ -35,12 +35,23 @@
 			</view>
 			<view class="status">
 				<view class="sItem" v-for='(item,index) in list' :key='index'>
-					<navigator :url="item.url">
-						<image :src="item.img" mode="" style="width: 46upx;"></image>
-						<view class="dfk">
-							{{item.text}}
+					<template v-if='item.url'>
+						<navigator :url="item.url">
+							<image :src="item.img" mode="" style="width: 46upx;"></image>
+							<view class="dfk">
+								{{item.text}}
+							</view>
+						</navigator>
+					</template>
+					<template v-else>
+						<view @tap='showAdress'>
+							<image :src="item.img" mode="" style="width: 46upx;"></image>
+							<view class="dfk">
+								{{item.text}}
+							</view>
 						</view>
-					</navigator>
+					</template>
+
 				</view>
 			</view>
 		</view>
@@ -49,7 +60,7 @@
 				<view class="order">
 					我的粉丝
 				</view>
-				<view class="order" >
+				<view class="order">
 					<uni-icon type="arrowright" size="20" color="#666"></uni-icon>
 				</view>
 			</view>
@@ -126,13 +137,15 @@
 		<view class="orderList rz">
 			<view class="status">
 				<view class="sItems" @tap="gogong('enter')">
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gys.png?sign=7329a4585f019bf5815fc8f9414e0902&t=1567395079" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gys.png?sign=7329a4585f019bf5815fc8f9414e0902&t=1567395079"
+					 mode=""></image>
 					<view class="dfk">
 						供应商入驻
 					</view>
 				</view>
 				<view class="sItems" @tap="gogong('hehuo')">
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/hehuo.png?sign=796ae9a52fb7f619923a66d5004e9b10&t=1567395095" mode=""></image>
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/hehuo.png?sign=796ae9a52fb7f619923a66d5004e9b10&t=1567395095"
+					 mode=""></image>
 					<view class="dfk">
 						校园合伙人
 					</view>
@@ -143,49 +156,129 @@
 </template>
 
 <script>
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import {
+		showToast,
+		showModal
+	} from '@/assets/js/common'
 	export default {
-		components: {
-			uniIcon
-		},
 		data() {
 			return {
 				// 订单类型
-				orderList:[
-					{text:'待付款',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/pay.png?sign=4764662a01d7201a5ed287b4419472f7&t=1567395117"},
-					{text:'运输中',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/paijian.png?sign=f5d824d5992303521d0cbcceaec1d706&t=1567395129"},
-					{text:'已签收',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/qs.png?sign=6dd6c1770cbc17b4efdf714d354a8c78&t=1567395141"},
+				orderList: [{
+						text: '待付款',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/pay.png?sign=4764662a01d7201a5ed287b4419472f7&t=1567395117"
+					},
+					{
+						text: '运输中',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/paijian.png?sign=f5d824d5992303521d0cbcceaec1d706&t=1567395129"
+					},
+					{
+						text: '已签收',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/qs.png?sign=6dd6c1770cbc17b4efdf714d354a8c78&t=1567395141"
+					},
 				],
-				list:[
-					{url:'../../pageStatic/address/address',text:'收货地址',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/dzhi.png?sign=2bcc9cbd71082c0e870da85f763997b2&t=1567395331"},
-					{url:'../../pageStatic/discount/discount',text:'优惠券',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/youhui.png?sign=7e5672f131a0b99a4d2016cd5a053fd3&t=1567395350"},
-					{url:'../../pageStatic/transactions/transactions?state=my',text:'二手交易',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/er.png?sign=8d3e7d22db8c871bfa92a0a04d1e2407&t=1567395373"},
-					{url:'../../pageStatic/bbs/bbs?state=my',text:'校园论坛',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xy.png?sign=cbce07233b739b4ff59a1a0fefa475e7&t=1567395384"},
-					{url:'../../pageStatic/share/share',text:'分享',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/fx.png?sign=b09897ebaffa309a82a50d65c336b4fe&t=1567395421"},
-					{url:'../../pageStatic/question/question',text:'常见问题',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/cj.png?sign=27f62b2b9bfa03a084897fea160db145&t=1567400289"},
-					{url:'../../pageStatic/question/question',text:'奖励金攻略',img:"https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gl.png?sign=aff994d6f96384edafe7b00bf2ee935c&t=1567400304"}
+				list: [{
+						text: '收货地址',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/dzhi.png?sign=cd99c765de20f9971667de3b8c8411d2&t=1568870638"
+					},
+					{
+						url: '../../pageStatic/discount/discount',
+						text: '优惠券',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/youhui.png?sign=7e5672f131a0b99a4d2016cd5a053fd3&t=1567395350"
+					},
+					{
+						url: '../../pageStatic/transactions/transactions?state=my',
+						text: '二手交易',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/er.png?sign=8d3e7d22db8c871bfa92a0a04d1e2407&t=1567395373"
+					},
+					{
+						url: '../../pageStatic/bbs/bbs?state=my',
+						text: '校园论坛',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xy.png?sign=cbce07233b739b4ff59a1a0fefa475e7&t=1567395384"
+					},
+					{
+						url: '../../pageStatic/share/share',
+						text: '分享',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/fx.png?sign=b09897ebaffa309a82a50d65c336b4fe&t=1567395421"
+					},
+					{
+						url: '../../pageStatic/question/question',
+						text: '常见问题',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/cj.png?sign=27f62b2b9bfa03a084897fea160db145&t=1567400289"
+					},
+					{
+						url: '../../pageStatic/question/question',
+						text: '奖励金攻略',
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gl.png?sign=aff994d6f96384edafe7b00bf2ee935c&t=1567400304"
+					}
 				]
 			};
 		},
 		methods: {
-			toOrderList(index){
+			toOrderList(index) {
 				console.log(index)
-				if(index==1){
-					index=2
-				}else if(index==2){
-					index=3
+				if (index == 1) {
+					index = 2
+				} else if (index == 2) {
+					index = 3
 				}
-				uni.setStorageSync('tbIndex',index);
-				uni.navigateTo({url:'../../pageStatic/order_list/order_list?tbIndex='+index}) 
+				uni.setStorageSync('tbIndex', index);
+				uni.navigateTo({
+					url: '../../pageStatic/order_list/order_list?tbIndex=' + index
+				})
 			},
-			toFans(){
-				uni.navigateTo({url:'../../pageStatic/fans/fans'}) 
+			toFans() {
+				uni.navigateTo({
+					url: '../../pageStatic/fans/fans'
+				})
 			},
-			income(){
-				uni.navigateTo({url:'../../pageStatic/incomes/incomes'}) 
+			income() {
+				uni.navigateTo({
+					url: '../../pageStatic/incomes/incomes'
+				})
 			},
-			gogong(state){
-				uni.navigateTo({url:'../../pageStatic/detial/detial?state='+state}) 
+			gogong(state) {
+				uni.navigateTo({
+					url: '../../pageStatic/detial/detial?state=' + state
+				})
+			},
+			showAdress(){
+				uni.chooseAddress({
+					success:res=>{
+						// this.sendItem=res
+						// this.isAddJi=true
+					},
+					fail:e=>{
+						uni.getSetting({
+							success:set=>{
+								console.log()
+								if(!set.authSetting['scope.address']){
+									uni.showModal({
+										title:'警告',
+										content:'您点击了拒绝授权,将无法享受快递寄件功能。',
+										showCancel:false,
+										success:res=>{
+											console.log(res)
+											if(res.confirm){
+												uni.openSetting({
+														success:re=> {
+															console.log(re)
+														},
+														fail:e=>{
+															console.log(e)
+														}
+													})
+											}
+										}
+									})
+								}
+							},
+							fail:e=>{
+								
+							}
+						})
+					}
+				})
 			}
 		},
 	}
@@ -233,15 +326,18 @@
 		border-radius: 6px;
 		padding-bottom: 30upx;
 		box-shadow: 0 2px 4px 0 #C6CFD7;
+
 		.myorder {
 			display: flex;
 			padding: 0 45upx;
 			line-height: 100upx;
 			justify-content: space-between;
+
 			.order {
 				font-size: 32upx;
 				color: #333;
 			}
+
 			.allOrder {
 				color: #7a7a7a;
 				display: flex;
@@ -251,6 +347,7 @@
 			}
 		}
 	}
+
 	.status {
 		display: flex;
 		margin-top: 20upx;
@@ -263,21 +360,26 @@
 			color: #333;
 			line-height: 40upx;
 			width: 25%;
+
 			image {
 				width: 56upx;
 				height: 50upx;
 			}
 		}
-		.sItem1{
+
+		.sItem1 {
 			width: 33.3%;
-			}
+		}
 	}
+
 	.fuwu {
 		flex-direction: row-reverse;
 		top: 10upx;
+
 		.status {
 			padding: 0;
 			flex-wrap: wrap;
+
 			.sItem {
 				margin-bottom: 35upx;
 			}
@@ -287,9 +389,11 @@
 	.fensi {
 		top: 35upx;
 		padding-bottom: 0;
+
 		.myorder {
 			border-bottom: 1px solid #e0e0e0;
 		}
+
 		.mains {
 			display: flex;
 
@@ -298,9 +402,11 @@
 				text-align: center;
 				border-right: 1px solid #e0e0e0;
 				padding: 32upx 0;
+
 				.count {
 					font-size: 42upx;
 				}
+
 				.fs {
 					color: #999;
 					font-size: 26upx;
@@ -323,31 +429,38 @@
 		align-items: center;
 		text-align: center;
 		display: flex;
+
 		.left {
 			width: 60%;
 			border-right: 1px solid #e0e0e0;
+
 			.main1 {
 				border-bottom: 1px solid #e0e0e0;
-				padding:15upx 0 ;
+				padding: 15upx 0;
 			}
 		}
+
 		.mains {
 			display: flex;
-			padding:15upx 0 ;
+			padding: 15upx 0;
+
 			.main {
 				text-align: center;
 				width: 50%;
 			}
 		}
+
 		.mainsss {
 			width: 40%;
 		}
+
 		.fs {
 			color: #999;
 			font-size: 26upx;
 			line-height: 40upx;
 		}
-		.txs{
+
+		.txs {
 			width: 100upx;
 			font-size: 28upx;
 			margin: auto;
@@ -357,18 +470,22 @@
 			border-radius: 20upx;
 			margin-top: 10upx;
 		}
-		.red{
+
+		.red {
 			color: #d32222;
 		}
 	}
-	.rz{
+
+	.rz {
 		top: 85upx;
 		padding: 20upx 0;
-		.sItems{
+
+		.sItems {
 			text-align: center;
 			font-size: 30upx;
 			width: 50%;
-			image{
+
+			image {
 				width: 56upx;
 				height: 48upx;
 			}
