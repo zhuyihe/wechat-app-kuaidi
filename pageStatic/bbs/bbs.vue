@@ -5,35 +5,46 @@
 				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/bbs.png?sign=9316f53bdfc0ef61d7049ecfc425f685&t=1567401140" mode=""></image>
 			</view>
 			<view class="li">
-				<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
-					<view class="headers">
-						《航海王 启航》2.0大海战公测了
-					</view>
-					<view class="content">
-						{{item.content}}
-					</view>
-					<view class="footer">
-						<view class="left">
-							<image :src="item.img" mode=""></image>
-							<text>{{item.name}}</text>
-							<text>{{item.time}}</text>
+				<view class="item" v-for="(item,index) of list" :key='index'>
+					<view @tap="toDetial(item.id)">
+						<view class="headers">
+							{{item.title}}
 						</view>
-						<view class="right">
-							<view class="see">
-								<text>{{item.see}}</text>
-								<uni-icon type="eye" size="16" color='#8d8d8d'></uni-icon>
+						<view class="content">
+							{{item.simpleMessage}}
+						</view>
+						<view class="footer">
+							<view class="left">
+								<image :src="item.headImg" mode=""></image>
+								<text>{{item.mname}}</text>
+								<text>{{item.createTime}}</text>
 							</view>
-							<view class="mark">
-								<text>{{item.reamrk}}</text>
-								<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
+							<view class="right">
+								<view class="see">
+									<text>{{item.lookNum}}</text>
+									<uni-icon type="eye" size="16" color='#8d8d8d'></uni-icon>
+								</view>
+								<view class="mark">
+									<text>{{item.discussNum}}</text>
+									<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
+								</view>
 							</view>
+						</view>
+					</view>
+					
+					<view class="bottom" v-if='state'>
+						<view class="bianji"  @tap="discuss('edit',item.id)">
+							<uni-icon type="compose" color='#9a9a9a' size="20" ></uni-icon>编辑
+						</view>
+						<view class="delete">
+							<uni-icon type="trash" size="20" color='#9a9a9a'></uni-icon>删除
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="add" v-if="reamrk">
-			<view class="btn">
+			<view class="btn" @tap="discuss('add','')">
 				发布帖子
 			</view>
 		</view>
@@ -41,68 +52,59 @@
 </template>
 
 <script>
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import {getForumList} from '@/api/api.js'
 	export default {
-		components:{
-			uniIcon
-		},
 		data() {
 			return {
-				list:[{
-					id:1,
-					content:'《航海王 启航》2.0大海战公测了，在全新的《航海王 启航》官方网站发布了全新的CG视频，十分酷炫，分享给大家看一下哦！为了庆祝《航海王 启航》2.0公测 ...',
-					time:'2019.08.17',
-					name:"牵绊易世荣",
-					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
-					reamrk:12,
-					see:2
-				},{
-					id:1,
-					content:'床头挂篮有三个，每个五块钱',
-					time:'2019.08.17',
-					name:"牵绊易世荣",
-					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
-					reamrk:12,
-					see:2
-				},{
-					id:1,
-					content:'床头挂篮有三个，每个五块钱。',
-					time:'2019.08.17',
-					name:"牵绊易世荣",
-					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
-					reamrk:12,
-					see:2
-				},{
-					id:1,
-					content:'床头挂篮有三个，每个五块钱。',
-					time:'2019.08.17',
-					name:"牵绊易世荣",
-					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
-					reamrk:12,
-					see:2
-				},{
-					id:1,
-					content:'床头挂篮有三个，每个五块钱。',
-					time:'2019.08.17',
-					name:"牵绊易世荣",
-					img:'https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164',
-					reamrk:12,
-					see:2
-				}],
-				reamrk:false
+				list:[],
+				reamrk:false,
+				pageNo:1,
+				state:'',
 			};
 		},
 		onLoad(option){
+			console.log(option.state)
+			this.state=option.state
+			this.getForumList(1)
 			if(option.state){
+				//个人中心自己发布的贴子
 				this.reamrk=true
+				this.changeBar('我的贴子')
 			}else{
+				//查看全部的帖子
 				this.reamrk=false
+				this.getForumList(1)
+				this.changeBar('论坛')
 			}
+			
+		},
+		onShow(){
+			if(this.state){
+				//个人中心进入
+			}
+			this.getForumList(1)
 		},
 		methods:{
-			toDetial(){
+			toDetial(id){
 				uni.navigateTo({
-					url:'detail/detail'
+					url:'detail/detail?id='+id
+				})
+			},
+			async getForumList(pageNo){
+				let res=await getForumList(pageNo)
+				console.log(res)
+				if(res.code==0){
+					this.list=res.data.memberForumList
+				}
+			},
+			discuss(state,id){
+				uni.navigateTo({
+					url:'detail/edit?state='+state+'&id='+id
+				})
+			},
+			changeBar(title){
+				uni.setNavigationBarTitle({
+					title:title
 				})
 			}
 		}
@@ -115,10 +117,9 @@
 	padding-bottom: 100upx;
 }
 .headers{
-	height: 70upx;
 	border-bottom: 1px solid #e0e0e0;
 	line-height:70upx;
-	padding: 20upx 0;
+	padding: 20upx;
 }
 .content{
 	padding: 20upx;
@@ -181,6 +182,23 @@ image{
 		background: #ffd84d;
 		text-align: center;
 		color: #000;
-		line-height: 50px;
+		line-height: 100upx;
+	}
+	.bottom{
+		display: flex;
+		text-align: center;
+		border-top:1px solid #e0e0e0 ;
+	}
+	.bianji,.delete{
+		width: 50%;
+		display: flex;
+		align-items:center ;
+		justify-content:center;
+		line-height: 40px;
+		color: #9a9a9a;
+		font-size: 30rpx;
+	}
+	.bianji{
+		border-right:1px solid #e0e0e0 ;
 	}
 </style>

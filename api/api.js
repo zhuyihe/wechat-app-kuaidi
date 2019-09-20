@@ -34,3 +34,9 @@ export const couponDelCoupon = (params) => request(BASE_URL + "applet/memberUser
 export const getCouponList = () => request(BASE_URL + "applet/memberUser/coupon/list.do");
 //领取优惠券
 export const getCoupon = (params) => request(BASE_URL + "applet/memberUser/coupon/getCoupon.do?code="+params);
+//获取论坛列表
+export const getForumList = (params) => request(BASE_URL + "applet/memberUser/forum/list.do?pageNo="+params);
+//获取论坛详情
+export const getForumDetial = (params) => request(BASE_URL + "applet/memberUser/forum/forumDetail.do?id="+params);
+//论坛发帖
+export const saveForum=(params) => request(BASE_URL + "applet/memberUser/forum/saveForum.do",params,'POST');

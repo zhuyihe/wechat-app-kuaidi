@@ -4,23 +4,23 @@
 			<view class="item">
 				<view class="footer">
 					<view class="left">
-						<image class="image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=404191945d458a6bb6d6abb5416b445a&t=1567400960" mode=""></image>
-						<text class="name">牵绊易世荣</text>
-						<text class="time">2019.08.17</text>
+						<image class="image" :src="detail.headImg" mode=""></image>
+						<text class="name">{{detail.mname}}</text>
+						<text class="time">{{detail.createTime}}</text>
 					</view>
 				</view>
 				<view class="content cons">
 					<view class="header">
-						我作为盗墓笔记的粉丝，感觉还是李易峰杨洋他们演的好看…剩下...
+						{{detail.title}}
 					</view>
 					<view class="com">
-						我作为盗墓笔记的粉丝，感觉还是李易峰杨洋他们演的好看…剩下老九门，沙海这几部拍的什么…啰哩啰嗦的老九门就几个地方好看…沙海强点剧情有地方跟上了…但是感觉还是第一部最好看我看了5遍了…三叔是请不起以前这些人了还是他们档期不够…粉丝们很期待啊
+						{{detail.message}}
 					</view>
 				</view>
 				<view class="imgs">
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
-					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/d.png?sign=0b212c559f7e9bf2a8d7e20bdf823a94&t=1567400989" mode=""></image>
+					<template >
+						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index'></image>
+					</template>
 				</view>
 			</view> 
 		</view>
@@ -28,10 +28,10 @@
 			<view class="tou">
 				<view class="tou1">
 					<view class="xian"></view>
-					<view>评论<text>3</text></view>
+					<view>评论<text>{{detail.discussNum}}</text></view>
 				</view>
 				<view class="tou2">
-					<text class="see">2</text>
+					<text class="see">{{detail.lookNum}}</text>
 					<uni-icon type="eye" size="16" color='#8d8d8d'></uni-icon>
 				</view>
 			</view>
@@ -87,6 +87,8 @@
 </template>
 
 <script>
+	import {getForumDetial} from '@/api/api.js'
+	import {IMG_URL} from '@/assets/js/const.js'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
 		components: {
@@ -94,7 +96,14 @@
 		},
 		data() {
 			return {
+				id:null,
+				detail:{},
+				imgUrl:IMG_URL
 			}
+		},
+		onLoad(option){
+			this.id=option.id;
+			this.getForumDetial(this.id)
 		},
 		methods: {
 			remark(){
@@ -104,6 +113,14 @@
 				uni.navigateTo({
 					url:'../../replay/replay?path=bbs'
 				})
+			},
+			async getForumDetial(id){
+				let res=await getForumDetial(id)
+				if(res.code==0){
+					this.detail=res.data.memberForum
+					this.detail.messageImg=res.data.memberForum.messageImg.split(',')
+					console.log(this.detail)
+				}
 			}
 		}
 	}
@@ -295,6 +312,7 @@
 			font-size: 28upx;
 			color: #666;
 			line-height: 40upx;
+			text-indent: 60upx;
 		}
 	}
 </style>

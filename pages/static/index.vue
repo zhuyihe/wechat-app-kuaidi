@@ -106,6 +106,16 @@
 		<uni-popup ref="popup1" type="bottom">
 			<select-sort1 @close='selects' @comfirmJi='comfirmJi'></select-sort1>
 		</uni-popup>
+		<!-- 插屏弹窗 -->
+		<uni-popup ref="image" type="center" :custom="true" :mask-click="false" >
+			<view class="uni-image">
+				<view class="uni-image-close"  @tap="togglePopup('image',1)">
+					<uni-icon type="clear" color="#fff" size="30" />
+				</view>
+				<image class="image hb" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/hb.png?sign=0dd479c3204010e6e1298e83b01977e0&t=1568940788" mode="" />
+				<view class="goyou" @tap="goCoupon"></view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -163,7 +173,8 @@
 			if(this.schoolMsg.schoolName!=='请选择学校'){
 				//第一次进入选学校 弹出优惠券以后不再弹
 				if(this.$store.state.isNew){
-					showToast('新人专享优惠券送给你！')
+					// showToast('新人专享优惠券送给你！')
+					this.togglePopup('image')
 					this.$store.commit('IS_NEW',false)
 				}
 			}
@@ -234,7 +245,7 @@
 								if(!set.authSetting['scope.address']){
 									uni.showModal({
 										title:'警告',
-										content:'您点击了拒绝授权,将无法享受快递寄件功能。',
+										content:'系统无法访问您的地址,将无法享受快递寄件功能。',
 										showCancel:false,
 										success:res=>{
 											console.log(res)
@@ -284,7 +295,7 @@
 								if(!set.authSetting['scope.address']){
 									uni.showModal({
 										title:'警告',
-										content:'您点击了拒绝授权,将无法享受快递寄件功能。',
+										content:'系统无法访问您的地址,将无法享受快递寄件功能。',
 										showCancel:false,
 										success:res=>{
 											console.log(res)
@@ -362,15 +373,30 @@
 						this.goodTypeList=res.data.goodTypeList
 					}
 				})
+			},
+			togglePopup(open,isClose) {
+				if(isClose){
+					this.$refs[open].close()
+				}else{
+					this.$refs[open].open()
+				}
+				
+			},
+			goCoupon(){
+				uni.navigateTo({
+					url:'../../pageStatic/discount/discount'
+				})
+				this.togglePopup('image',1)
 			}
 		}
 	};
 </script>
 
 <style scoped lang="scss">
+	@import '../../assets/css/uni.css';
 	.page {
 		background: #f5f5f5;
-		padding-bottom: 30px;
+		padding-bottom: 60upx;
 	}
 
 	.kf_button {
@@ -388,8 +414,8 @@
 
 	.kf_image {
 		z-index: 9999;
-		width: 60px;
-		height: 60px;
+		width: 120upx;
+		height: 120upx;
 	}
 
 	.location {
@@ -399,8 +425,8 @@
 		padding-left: 48rpx;
 		display: flex;
 		align-items: center;
-		margin-bottom: 20px;
-		padding-top: 20px;
+		margin-bottom: 40upx;
+		padding-top: 40upx;
 	}
 
 	.locationImg {
@@ -420,28 +446,28 @@
 	}
 
 	.jijian {
-		margin: 0 24px;
-		margin-top: 30px;
+		margin: 0 48upx;
+		margin-top: 60upx;
 		font-size: 30rpx;
 		padding-left: 30rpx;
 		background: white;
-		padding-top: 20px;
+		padding-top: 40upx;
 		box-shadow: 0 2px 4px 0 #C6CFD7;
 		border-radius: 10px;
-		padding-bottom: 20px;
+		padding-bottom: 40upx;
 	}
 
 	.text {
-		width: 50px;
-		line-height: 30px;
+		width: 100upx;
+		line-height: 60upx;
 		background: #e0e0e0;
 		text-align: center;
 		border-radius: 20px;
 	}
 
 	.kuaidi {
-		margin-top: 30px;
-		margin-bottom: 30px;
+		margin-top: 60upx;
+		margin-bottom: 60upx;
 	}
 
 	.ji {
@@ -449,66 +475,66 @@
 		display: flex;
 
 		.text {
-			line-height: 45px;
-			width: 45px;
+			line-height: 90upx;
+			width: 90upx;
 			border-radius: 50%;
 			text-align: center;
 			background: black;
 			color: white;
 			display: block;
-			font-size: 20px;
-			height: 45px;
+			font-size: 36upx;
+			height: 90upx;
 		}
 
 	}
 
 	.msg {
 		border-bottom: 1px solid #ccc;
-		line-height: 35px;
-		margin-left: 10px;
+		line-height: 70upx;
+		margin-left: 20upx;
 		color: #999;
 		width: 76%;
-		padding-bottom: 10px;
+		padding-bottom: 20upx;
 	}
 
 	.jiImg {
-		width: 12px;
-		height: 20px;
-		margin-top: 15px;
-		margin-left: 5px;
+		width: 24upx;
+		height: 40upx;
+		margin-top: 30upx;
+		margin-left: 10upx;
 	}
 
 	.shou {
 		display: flex;
-		margin-top: 30px;
+		margin-top: 60upx;
 		align-items: center;
 
 		.text {
-			line-height: 45px;
-			width: 45px;
+			line-height: 90upx;
+			width: 90upx;
 			border-radius: 50%;
 			text-align: center;
 			background: #ffd84d;
 			color: black;
 			display: block;
-			font-size: 20px;
-			height: 45px;
+			font-size: 36upx;
+			height: 90upx;
 		}
 	}
 
 	.zl {
 		display: flex;
-		margin-top: 30px;
+		margin-top: 60upx;
 	}
 
 	.zl1 {
-		width: 49%;
+		width: 50%;
 		display: flex;
 
 		// font-size: 26rpx;
 		.img {
-			width: 12px;
-			height: 20px;
+			width: 24upx;
+			height: 20upx;
 		}
 	}
 
@@ -516,11 +542,11 @@
 		display: flex;
 
 		.li {
-			margin-left: 10px;
+			margin-left: 20upx;
 		}
 
 		.kg {
-			margin: 0 8px;
+			margin: 0 16upx;
 		}
 
 		.zi {
@@ -536,44 +562,44 @@
 
 	.msgs {
 		border-bottom: 1px solid #ccc;
-		height: 25px;
+		height: 50upx;
 		color: #999;
 		// padding: 0 10px;
-		width: 84px;
+		width: 168upx;
 		text-align: center;
 		// margin:0 7px ;
 	}
 
 	.lx {
-		font-size: 16px;
-		line-height: 30px;
+		font-size: 30upx;
+		line-height: 60upx;
 	}
 
 	.ji1 {
-		margin-top: 30px;
+		margin-top: 60upx;
 	}
 
 	.ji1 .msg {
 		width: 70%;
-		line-height: 30px;
+		line-height: 60upx;
 		text-align: center;
 		padding-bottom: 0;
 	}
 
 	.ji1 .jiImg {
-		margin-top: 10px;
+		margin-top: 20upx;
 	}
 
 	.xiadan {
 		display: flex;
 		justify-content: space-between;
-		margin-top: 30px;
-		margin-right: 25px;
-		line-height: 35px;
+		margin-top: 60upx;
+		margin-right: 50upx;
+		line-height: 70upx;
 	}
 
 	.go {
-		width: 80px;
+		width: 160upx;
 		background: #b0b0b0;
 		border-radius: 5px;
 		text-align: center;
@@ -585,19 +611,35 @@
 
 	.msgj {
 		width: 75%;
-		margin-left: 10px;
+		margin-left: 20upx;
 		color: #666;
 		font-size: 28upx;
 
 		.top {
 			display: flex;
 			justify-content: space-between;
-			padding-right: 10px;
+			padding-right: 20upx;
 		}
 
 		.bottom {
 			border-bottom: 1px solid #ccc;
 			line-height: 70upx;
 		}
+		
+	}
+</style>
+<style lang="scss">
+	.goyou{
+		height: 50upx;
+		width: 212upx;
+		position: absolute;
+		bottom: 88upx;
+		left: 159upx;
+		background: transparent;
+		// background:#fff;
+	}
+	.hb{
+		width: 507upx;
+		height: 420upx;
 	}
 </style>

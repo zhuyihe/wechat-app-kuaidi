@@ -45,7 +45,7 @@
 					</template>
 					<template v-else>
 						<view @tap='showAdress'>
-							<image :src="item.img" mode="" style="width: 46upx;"></image>
+							<image :src="item.img" mode="" style="width: 56upx;"></image>
 							<view class="dfk">
 								{{item.text}}
 							</view>
@@ -179,7 +179,7 @@
 				],
 				list: [{
 						text: '收货地址',
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/dzhi.png?sign=cd99c765de20f9971667de3b8c8411d2&t=1568870638"
+						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/dzhi.png?sign=3ed3aeb9ca26eaf498a1e8dfaa529551&t=1568940353"
 					},
 					{
 						url: '../../pageStatic/discount/discount',
@@ -251,11 +251,10 @@
 					fail:e=>{
 						uni.getSetting({
 							success:set=>{
-								console.log()
 								if(!set.authSetting['scope.address']){
 									uni.showModal({
 										title:'警告',
-										content:'您点击了拒绝授权,将无法享受快递寄件功能。',
+										content:'系统无法访问您的地址,将无法享受快递寄件功能。',
 										showCancel:false,
 										success:res=>{
 											console.log(res)

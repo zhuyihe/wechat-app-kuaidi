@@ -149,6 +149,11 @@
 			"style": {
 				"navigationBarTitleText": "评论"
 			}
+		},{
+			"path": "bbs/detail/edit",
+			"style": {
+				"navigationBarTitleText": "发帖"
+			}
 		}]
 	}],
 	"globalStyle": {
