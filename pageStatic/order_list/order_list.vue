@@ -132,7 +132,7 @@
 			showLogistics(row) {
 
 			},
-			async getOrderList(tbIndex, pageNo = 1) {
+			async getOrderList(tbIndex, pageNo = 1,isReset=false) {
 				try {
 					let status = tbIndex - 1;
 					let parmas = {
@@ -140,13 +140,19 @@
 						pageNo: pageNo
 					}
 					let res = await getOrderList(parmas)
+					console.log(res)
 					if (res.code == 0) {
-						if (res.data.memberOrderList) {
-							this.orderList = this.orderList.concat(res.data.memberOrderList)
-						} else {
-							this.loadMoreText = "没有更多数据了!"
-							return;
+						if(!isReset){
+							if (res.data.memberOrderList) {
+								this.orderList = this.orderList.concat(res.data.memberOrderList)
+							} else {
+								this.loadMoreText = "没有更多数据了!"
+								return;
+							}
+						}else{
+							this.orderList=res.data.memberOrderList
 						}
+						
 					}
 				} catch (e) {
 					//TODO handle the exception
@@ -154,12 +160,13 @@
 
 			},
 			cancelOrder(row) {
+				console.log(this.tabbarIndex)
 				showModal('取消订单', '确定取消此订单？', '确定', true).then(re => {
 					delmemberOrder(row.payCode).then(res => {
 						console.log(res)
 						if (res.code == 0) {
+							this.getOrderList(this.tabbarIndex,1,true)
 							showToast('订单取消成功')
-							this.getOrderList(1)
 						} else {
 							showToast(res.msg)
 						}

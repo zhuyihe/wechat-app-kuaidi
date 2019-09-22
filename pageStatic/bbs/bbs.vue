@@ -17,7 +17,7 @@
 							<view class="left">
 								<image :src="item.headImg" mode=""></image>
 								<text>{{item.mname}}</text>
-								<text>{{item.createTime}}</text>
+								<text>{{dateFtt('yyyy-MM-dd',item.createTime)}}</text>
 							</view>
 							<view class="right">
 								<view class="see">
@@ -36,7 +36,7 @@
 						<view class="bianji"  @tap="discuss('edit',item.id)">
 							<uni-icon type="compose" color='#9a9a9a' size="20" ></uni-icon>编辑
 						</view>
-						<view class="delete">
+						<view class="delete" @tap="deletePage(item.id)">
 							<uni-icon type="trash" size="20" color='#9a9a9a'></uni-icon>删除
 						</view>
 					</view>
@@ -52,7 +52,8 @@
 </template>
 
 <script>
-	import {getForumList} from '@/api/api.js'
+	import {getForumList,delforum,getUserBbs} from '@/api/api.js'
+	import {dateFtt,showModal,showToast} from '@/assets/js/common.js'
 	export default {
 		data() {
 			return {
@@ -65,11 +66,12 @@
 		onLoad(option){
 			console.log(option.state)
 			this.state=option.state
-			this.getForumList(1)
+			// this.getForumList(1)
 			if(option.state){
 				//个人中心自己发布的贴子
 				this.reamrk=true
 				this.changeBar('我的贴子')
+				this.getUserBbs(1)
 			}else{
 				//查看全部的帖子
 				this.reamrk=false
@@ -81,8 +83,9 @@
 		onShow(){
 			if(this.state){
 				//个人中心进入
+				this.getUserBbs(1)
 			}
-			this.getForumList(1)
+			// this.getForumList(1)
 		},
 		methods:{
 			toDetial(id){
@@ -97,6 +100,13 @@
 					this.list=res.data.memberForumList
 				}
 			},
+			async getUserBbs(pageNo){
+				let res=await getUserBbs(pageNo)
+				console.log(res)
+				if(res.code==0){
+					this.list=res.data.memberForumList
+				}
+			},
 			discuss(state,id){
 				uni.navigateTo({
 					url:'detail/edit?state='+state+'&id='+id
@@ -106,6 +116,16 @@
 				uni.setNavigationBarTitle({
 					title:title
 				})
+			},
+			deletePage(id){
+				showModal('删除帖子','你确定删除帖子吗？','确定',true).then(res=>{
+					delforum(id).then(res=>{
+						if(res.code==0){
+							this.getForumList(1)
+							showToast('帖子删除成功')
+						}
+					})
+				}).catch(e=>console.log(e))
 			}
 		}
 	}
@@ -151,9 +171,10 @@ image{
 	align-items: center;
 	line-height: 40upx;
 	margin: 20upx 0;
-	font-size: 30upx;
+	font-size: 26upx;
 }
 .left{
+	
 	color:#999;
 	image,text{
 		margin-right: 20upx;

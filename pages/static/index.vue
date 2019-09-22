@@ -395,238 +395,236 @@
 <style scoped lang="scss">
 	@import '../../assets/css/uni.css';
 	.page {
-		background: #f5f5f5;
-		padding-bottom: 60upx;
-	}
-
-	.kf_button {
-		background-color: rgba(255, 255, 255, 0);
-		border: 0px;
-		height: 150rpx;
-		right: 0;
-		top: 200rpx;
-		position: fixed;
-	}
-
-	.kf_button::after {
-		border: 0px;
-	}
-
-	.kf_image {
-		z-index: 9999;
-		width: 120upx;
-		height: 120upx;
-	}
-
-	.location {
-		// line-height: 50rpx;
-		height: 40rpx;
-		font-size: 30rpx;
-		padding-left: 48rpx;
-		display: flex;
-		align-items: center;
-		margin-bottom: 40upx;
-		padding-top: 40upx;
-	}
-
-	.locationImg {
-		width: 36rpx;
-		height: 40rpx;
-	}
-
-	.xue {
-		margin-left: 10rpx;
-	}
-
-	.locationImgxia {
-		width: 20rpx;
-		height: 12rpx;
-		margin-top: 5rpx;
-		margin-left: 5rpx;
-	}
-
-	.jijian {
-		margin: 0 48upx;
-		margin-top: 60upx;
-		font-size: 30rpx;
-		padding-left: 30rpx;
-		background: white;
-		padding-top: 40upx;
-		box-shadow: 0 2px 4px 0 #C6CFD7;
-		border-radius: 10px;
-		padding-bottom: 40upx;
-	}
-
-	.text {
-		width: 100upx;
-		line-height: 60upx;
-		background: #e0e0e0;
-		text-align: center;
-		border-radius: 20px;
-	}
-
-	.kuaidi {
-		margin-top: 60upx;
-		margin-bottom: 60upx;
-	}
-
-	.ji {
-		align-items: center;
-		display: flex;
-
+			background: #f5f5f5;
+			margin-bottom: 30upx;
+		}
+	
+		.kf_button {
+			background-color: rgba(255, 255, 255, 0);
+			border: 0upx;
+			height: 150upx;
+			right: 0;
+			top: 200upx;
+			position: fixed;
+		}
+	
+		.kf_button::after {
+			border: 0upx;
+		}
+	
+		.kf_image {
+			z-index: 9999;
+			width: 120upx;
+			height: 120upx;
+		}
+	
+		.location {
+			// line-height: 50upx;
+			height: 40upx;
+			font-size: 30upx;
+			padding-left: 48upx;
+			display: flex;
+			align-items: center;
+			margin-bottom: 20upx;
+			padding-top: 20upx;
+		}
+	
+		.locationImg {
+			width: 36upx;
+			height: 40upx;
+		}
+	
+		.xue {
+			margin-left: 10upx;
+		}
+	
+		.locationImgxia {
+			width: 20upx;
+			height: 12upx;
+			margin-top: 5upx;
+			margin-left: 5upx;
+		}
+	
+		.jijian {
+			margin: 0 24upx;
+			margin-top: 30upx;
+			font-size: 30upx;
+			padding-left: 40upx;
+			background: white;
+			padding-top: 30upx;
+			box-shadow: 0 2upx 4upx 0 #C6CFD7;
+			border-radius: 10upx;
+			padding-bottom: 30upx;
+		}
+	
 		.text {
-			line-height: 90upx;
-			width: 90upx;
-			border-radius: 50%;
+			width: 95upx;
+			line-height: 50upx;
+			background: #e0e0e0;
 			text-align: center;
-			background: black;
-			color: white;
-			display: block;
-			font-size: 36upx;
-			height: 90upx;
+			border-radius: 20upx;
 		}
-
-	}
-
-	.msg {
-		border-bottom: 1px solid #ccc;
-		line-height: 70upx;
-		margin-left: 20upx;
-		color: #999;
-		width: 76%;
-		padding-bottom: 20upx;
-	}
-
-	.jiImg {
-		width: 24upx;
-		height: 40upx;
-		margin-top: 30upx;
-		margin-left: 10upx;
-	}
-
-	.shou {
-		display: flex;
-		margin-top: 60upx;
-		align-items: center;
-
-		.text {
-			line-height: 90upx;
-			width: 90upx;
-			border-radius: 50%;
-			text-align: center;
-			background: #ffd84d;
-			color: black;
-			display: block;
-			font-size: 36upx;
-			height: 90upx;
+	
+		.kuaidi {
+			margin-top: 60upx;
+			margin-bottom: 60upx;
 		}
-	}
-
-	.zl {
-		display: flex;
-		margin-top: 60upx;
-	}
-
-	.zl1 {
-		width: 50%;
-		display: flex;
-
-		// font-size: 26rpx;
-		.img {
-			width: 24upx;
-			height: 20upx;
+	
+		.ji {
+			align-items: center;
+			display: flex;
+	
+			.text {
+				line-height: 70upx;
+				width: 70upx;
+				border-radius: 50%;
+				text-align: center;
+				background: black;
+				color: white;
+				display: block;
+				font-size: 32upx;
+				height: 70upx;
+			}
+	
 		}
-	}
-
-	.jisuan {
-		display: flex;
-
-		.li {
+	
+		.msg {
+			border-bottom: 1px solid #ccc;
+			line-height: 60upx;
 			margin-left: 20upx;
+			color: #999;
+			width: 78%;
+			padding-bottom: 20upx;
 		}
-
-		.kg {
-			margin: 0 16upx;
+	
+		.jiImg {
+			width: 16upx;
+			height: 26upx;
+			margin-top: 30upx;
+			margin-left: 10upx;
 		}
-
-		.zi {
-			font-size: 24rpx;
-			color: #666;
+	
+		.shou {
+			display: flex;
+			margin-top: 60upx;
+			align-items: center;
+	
+			.text {
+				line-height: 70upx;
+				width: 70upx;
+				border-radius: 50%;
+				text-align: center;
+				background: #ffd84d;
+				color: black;
+				display: block;
+				font-size: 32upx;
+				height: 70upx;
+			}
 		}
-	}
-
-	.jisuan image {
-		width: 40rpx;
-		height: 40rpx;
-	}
-
-	.msgs {
-		border-bottom: 1px solid #ccc;
-		height: 50upx;
-		color: #999;
-		// padding: 0 10px;
-		width: 168upx;
-		text-align: center;
-		// margin:0 7px ;
-	}
-
-	.lx {
-		font-size: 30upx;
-		line-height: 60upx;
-	}
-
-	.ji1 {
-		margin-top: 60upx;
-	}
-
-	.ji1 .msg {
-		width: 70%;
-		line-height: 60upx;
-		text-align: center;
-		padding-bottom: 0;
-	}
-
-	.ji1 .jiImg {
-		margin-top: 20upx;
-	}
-
-	.xiadan {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 60upx;
-		margin-right: 50upx;
-		line-height: 70upx;
-	}
-
-	.go {
-		width: 160upx;
-		background: #b0b0b0;
-		border-radius: 5px;
-		text-align: center;
-	}
-
-	.mon {
-		color: #cf1111;
-	}
-
-	.msgj {
-		width: 75%;
-		margin-left: 20upx;
-		color: #666;
-		font-size: 28upx;
-
-		.top {
+	
+		.zl {
+			display: flex;
+			margin-top: 60upx;
+		}
+	
+		.zl1 {
+			width: 50%;
+			display: flex;
+	
+			// font-size: 26upx;
+			.img {
+				width: 16upx;
+				height: 26upx;
+				margin-top: 12upx;
+			}
+		}
+	
+		.jisuan {
+			display: flex;
+	
+			.li {
+				margin-left: 20upx;
+			}
+	
+			.kg {
+				margin: 0 16upx;
+			}
+	
+			.zi {
+				font-size: 24upx;
+				color: #666;
+			}
+		}
+	
+		.jisuan image {
+			width: 40upx;
+			height: 40upx;
+		}
+	
+		.msgs {
+			border-bottom: 1px solid #ccc;
+			height: 50upx;
+			color: #999;
+			padding: 0 28upx;
+			// margin:0 7upx ;
+		}
+	
+		.lx {
+			font-size: 32upx;
+			line-height: 60upx;
+		}
+	
+		.ji1 {
+			margin-top: 60upx;
+		}
+	
+		.ji1 .msg {
+			width: 70%;
+			line-height: 60upx;
+			text-align: center;
+			padding-bottom: 0;
+		}
+	
+		.ji1 .jiImg {
+			margin-top: 20upx;
+		}
+	
+		.xiadan {
 			display: flex;
 			justify-content: space-between;
-			padding-right: 20upx;
-		}
-
-		.bottom {
-			border-bottom: 1px solid #ccc;
+			margin-top: 60upx;
+			margin-right: 50upx;
 			line-height: 70upx;
 		}
-		
-	}
+	
+		.go {
+			width: 160upx;
+			background: #b0b0b0;
+			border-radius: 10upx;
+			text-align: center;
+		}
+	
+		.mon {
+			color: #cf1111;
+		}
+	
+		.msgj {
+			width: 75%;
+			margin-left: 20upx;
+			color: #666;
+			font-size: 28upx;
+	
+			.top {
+				display: flex;
+				justify-content: space-between;
+				padding-right: 20upx;
+			}
+	
+			.bottom {
+				border-bottom: 1upx solid #ccc;
+				line-height: 70upx;
+			}
+		}
 </style>
 <style lang="scss">
 	.goyou{

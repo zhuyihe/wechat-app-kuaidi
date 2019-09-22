@@ -135,8 +135,9 @@ export const uniGetuserinfo = () => {
 	})
 }
 // 时间处理
-export function dateFtt(fmt, dates) {
+export function dateFtt(fmt,dates) {
 	let date=new Date(dates)
+	
 	var o = {
 		"M+": date.getMonth() + 1, //月份 
 		"d+": date.getDate(), //日 

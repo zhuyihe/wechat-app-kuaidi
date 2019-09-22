@@ -2,7 +2,7 @@
 	<view>
 		<view class="list">
 			<!-- 优惠券列表 -->
-			<view class="sub-list valid" :class="subState">
+			<view class="sub-list " :class="subState">
 				<view class="tis" v-if="couponValidList.length==0">暂无优惠券~</view>
 				<view class="row" v-for="(row,index) in couponValidList" :key="index">
 					<!-- content -->
@@ -17,7 +17,7 @@
 							<view class="gap-top"></view>
 							<view class="gap-bottom"></view>
 						</view>
-						<view class="right">
+						<view class="right" :class="row.flag==1?'invalid':''">
 							<view class="ticket">
 								<view class="num">
 									{{row.amount}}
@@ -29,8 +29,11 @@
 							<view class="limitAmount">
 								满{{row.limitAmount}}使用
 							</view>
-							<view class="use" @tap="getCoupon(row.code)">
+							<view class="use" @tap="getCoupon(row.code)" v-if='row.flag==0'>
 								领取优惠券
+							</view>
+							<view class="use"  v-else>
+								已领取
 							</view>
 						</view>
 					</view>
@@ -187,7 +190,7 @@
 			position: absolute;
 			top: 0;
 			left: 100%;
-			display: none;
+			// display: none;
 		}
 
 		&.showvalid {

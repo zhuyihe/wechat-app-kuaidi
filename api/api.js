@@ -40,3 +40,16 @@ export const getForumList = (params) => request(BASE_URL + "applet/memberUser/fo
 export const getForumDetial = (params) => request(BASE_URL + "applet/memberUser/forum/forumDetail.do?id="+params);
 //论坛发帖
 export const saveForum=(params) => request(BASE_URL + "applet/memberUser/forum/saveForum.do",params,'POST');
+//查看帖子评论
+export const getForumMessage=(params) => request(BASE_URL + "applet/memberUser/forum/forumMessage.do?id="+params.id+'&pageNo='+params.pageNo);
+//回复帖子
+export const saveForumMessage=(params) => request(BASE_URL + "applet/memberUser/forum/saveForumMessage.do",params,'POST');
+//查看更多评论
+export const forumMessageAll=(params) => request(BASE_URL + "applet/memberUser/forum/forumMessageAll.do?id="+params.id+'&pid='+params.pid+'&pageNo='+params.pageNo);
+//编辑帖子
+export const updateForum=(params) => request(BASE_URL + "applet/memberUser/forum/updateForum.do",params,'POST');
+//删除帖子
+export const delforum = (params) => request(BASE_URL + "applet/memberUser/forum/delforum.do?id="+params);
+//查看个人中心的帖子
+export const getUserBbs = (params) => request(BASE_URL + "applet/memberUser/forum/memberList.do?pageNo="+params);
+

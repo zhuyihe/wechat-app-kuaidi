@@ -4,7 +4,6 @@ import App from './App'
 import store from './store/store'
 Vue.prototype.$store = store
 Vue.config.productionTip = false
-
 App.mpType = 'app'
 import {dateFtt} from '@/assets/js/common'
 import uniIcon from './components/uni-icon/uni-icon.vue'

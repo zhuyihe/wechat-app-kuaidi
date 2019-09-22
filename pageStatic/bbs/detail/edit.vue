@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="uni-input inputs">
-			<input type="text"  v-model="title" placeholder="请输入标题" />
+			<input type="text" v-model="title" placeholder="请输入标题" />
 		</view>
 		<view class="uni-textarea">
 			<textarea placeholder="请输入文字,最多150" blur="bindTextAreaBlur" maxlength="1000" class="text" v-model="message" />
@@ -19,9 +19,11 @@
 	import ssUploadImage from '@/components/ss-upload-image/ss-upload-image.vue'
 	import {UPLOAD_URL,IMG_URL} from '../../../assets/js/const.js'
 	import {
-		showToast
+		showToast,
+		showLoading,
+		hideLoading
 	} from '@/assets/js/common'
-	import {getForumDetial,saveForum} from '@/api/api'
+	import {getForumDetial,saveForum,updateForum} from '@/api/api'
 	export default {
 		components:{
 			ssUploadImage
@@ -56,17 +58,21 @@
 				 console.log(res)
 			  if (res.code === 0) {
 			    this.fileList.push(IMG_URL+res.data)
+				hideLoading()
 				this.messageImgArgs.push(res.data)
 			  }
 			 
 			},
 			// 上传进程
 			onProcess(res) {
+				showLoading('图片已上传'+res.progress+'%')
 			  console.log(res)
 			},
 			// 上传失败
 			onError(err) {
 			  console.log(err)
+			  hideLoading()
+			  showToast('图片上传失败')
 			},
 			// 移除
 			onRemove(index) {
@@ -85,15 +91,28 @@
 					title:this.title,
 					message:this.message
 				}
-				let res=await saveForum(parms)
-				console.log(res)
-				if(res.code==0){
-					showToast('发布成功')
-					setTimeout(()=>{
-						uni.navigateBack({
-							delta:1
-						})
-					},500)
+				if(this.state=='edit'){
+					parms.id=Number(this.id)
+					let ress=await updateForum(parms)
+					if(ress.code==0){
+						showToast('更新成功')
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta:1
+							})
+						},500)
+					}
+				}else{
+					let res=await saveForum(parms)
+					console.log(res)
+					if(res.code==0){
+						showToast('发布成功')
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta:1
+							})
+						},500)
+					}
 				}
 				
 			},

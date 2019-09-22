@@ -83,7 +83,7 @@
 								满{{row.limitAmount}}使用
 							</view>
 							<view class="use">
-								去查看
+								已失效
 							</view>
 						</view>
 					</view>
