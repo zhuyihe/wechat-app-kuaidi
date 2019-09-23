@@ -5,7 +5,10 @@
 				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/bbs.png?sign=9316f53bdfc0ef61d7049ecfc425f685&t=1567401140" mode=""></image>
 			</view>
 			<view class="li">
-				<view class="item" v-for="(item,index) of list" :key='index'>
+				<view class="onorder" v-if="list.length==0||!list">
+					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/noorder.png?sign=053b745ab238f7558c57ddc8ef71f5e4&t=1568446821"></image>
+				</view>
+				<view class="item" v-for="(item,index) of list" :key='index' v-else>
 					<view @tap="toDetial(item.id)">
 						<view class="headers">
 							{{item.title}}
@@ -43,7 +46,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="add" v-if="reamrk">
+		<view class="add" v-if="state">
 			<view class="btn" @tap="discuss('add','')">
 				发布帖子
 			</view>
@@ -58,7 +61,6 @@
 		data() {
 			return {
 				list:[],
-				reamrk:false,
 				pageNo:1,
 				state:'',
 			};
@@ -69,12 +71,10 @@
 			// this.getForumList(1)
 			if(option.state){
 				//个人中心自己发布的贴子
-				this.reamrk=true
 				this.changeBar('我的贴子')
 				this.getUserBbs(1)
 			}else{
 				//查看全部的帖子
-				this.reamrk=false
 				this.getForumList(1)
 				this.changeBar('论坛')
 			}
@@ -221,5 +221,14 @@ image{
 	}
 	.bianji{
 		border-right:1px solid #e0e0e0 ;
+	}
+	.onorder {
+		text-align: center;
+		margin-top: 160upx;
+	
+		image {
+			width: 282upx;
+			height: 462upx;
+		}
 	}
 </style>

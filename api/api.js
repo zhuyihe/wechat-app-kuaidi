@@ -52,4 +52,19 @@ export const updateForum=(params) => request(BASE_URL + "applet/memberUser/forum
 export const delforum = (params) => request(BASE_URL + "applet/memberUser/forum/delforum.do?id="+params);
 //查看个人中心的帖子
 export const getUserBbs = (params) => request(BASE_URL + "applet/memberUser/forum/memberList.do?pageNo="+params);
-
+//获取二手交易列表
+export const getGoods = (params) => request(BASE_URL + "applet/memberUser/goods/list.do?pageNo="+params);
+//获取个人中心二手交易列表
+export const getUserGoods = (params) => request(BASE_URL + "applet/memberUser/goods/memberList.do?pageNo="+params);
+//查看交易详情
+export const goodsDetail = (params) => request(BASE_URL + "applet/memberUser/goods/goodsDetail.do?id="+params);
+//查看交易评论
+export const goodsMessage = (params) => request(BASE_URL + "applet/memberUser/goods/goodsMessage.do?id="+params.id+'&pageNo='+params.pageNo);
+//查看所有交易评论
+export const goodsMessageAll=(params) => request(BASE_URL + "applet/memberUser/goods/goodsMessageAll.do?id="+params.id+'&pid='+params.pid+'&pageNo='+params.pageNo);
+//回复二手评论
+export const saveGoodsMessage=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoodsMessage.do",params,'POST');
+//编辑二手交易
+export const updateGoods=(params) => request(BASE_URL + "applet/memberUser/goods/updateGoods.do",params,'POST');
+//发布二手交易 
+export const saveGoods=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoods.do",params,'POST');

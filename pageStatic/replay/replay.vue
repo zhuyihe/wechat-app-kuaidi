@@ -67,9 +67,11 @@
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import {
 		forumMessageAll,
-		saveForumMessage
+		saveForumMessage,
+		goodsMessageAll,
+		saveGoodsMessage
 	} from '@/api/api.js'
-	import {dateFtt} from '@/assets/js/common.js'
+	import {dateFtt,showToast} from '@/assets/js/common.js'
 	export default {
 		components: {
 			uniPopup
@@ -85,15 +87,23 @@
 				id:null,//帖子id
 				pid:null,//楼主id
 				tomid: 0,//消息的mid
+				path:'bbs'
 			}
 		},
 		onLoad(option) {
+			this.path=option.path 
 			if (option.path == 'bbs') {
 				this.items=JSON.parse(option.item)
 				console.log(this.items)
 				this.id=this.items.forum_id
 				this.pid=this.items.id
 				this.forumMessageAll(1)
+			}else{
+				this.items=JSON.parse(option.item)
+				console.log(this.items)
+				this.id=this.items.goods_id
+				this.pid=this.items.id
+				this.goodsMessageAll(1)
 			}
 		},
 		methods: {
@@ -121,27 +131,54 @@
 					this.replayList=res.data.memberForumMessageList
 				}
 			},
+			async goodsMessageAll(pageNo){
+				let parmas={
+					id:this.items.goods_id,
+					pid:this.items.id,
+					pageNo:pageNo
+				}
+				let res=await goodsMessageAll(parmas)
+				console.log(res)
+				if(res.code==0){
+					this.replayList=res.data.memberGoodsMessageList
+					console.log(this.replayList)
+				}
+			},
 			async saveForumMessage(){
 				if (this.message) {
 					let parmas = {
-						forum_id: this.id,
 						message: this.message,
 						pid: this.pid,
 						tomid: this.tomid
 					}
 					console.log(parmas)
-					console.log(parmas)
-					saveForumMessage(parmas).then(res => {
-						if (res.code == 0) {
-							console.log(res)
-							this.forumMessageAll(1)
-							this.message = ''
-							this.$refs.popup.close()
-							showToast('回复成功')
-						}
-					}).catch(e => {
-						console.log(e)
-					})
+					if(this.path=='bbs'){
+						parmas.forum_id=this.id,
+						saveForumMessage(parmas).then(res => {
+							if (res.code == 0) {
+								console.log(res)
+								this.forumMessageAll(1)
+								this.message = ''
+								this.$refs.popup.close()
+								showToast('回复成功')
+							}
+						}).catch(e => {
+							console.log(e)
+						})
+					}else{
+						parmas.goods_id=this.id,
+						saveGoodsMessage(parmas).then(res => {
+							if (res.code == 0) {
+								console.log(res)
+								this.goodsMessageAll(1)
+								this.message = ''
+								this.$refs.popup.close()
+								showToast('回复成功')
+							}
+						}).catch(e => {
+							console.log(e)
+						})
+					}
 				} else {
 					this.$refs.popup.close()
 				}

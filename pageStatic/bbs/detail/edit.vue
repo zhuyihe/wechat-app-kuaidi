@@ -4,13 +4,13 @@
 			<input type="text" v-model="title" placeholder="请输入标题" />
 		</view>
 		<view class="uni-textarea">
-			<textarea placeholder="请输入文字,最多150" blur="bindTextAreaBlur" maxlength="1000" class="text" v-model="message" />
+			<textarea placeholder="请输入文字,最多1000" blur="bindTextAreaBlur" maxlength="1000" class="text" v-model="message" />
 			</view>
 			<ss-upload-image :url="url" :file-list="fileList" :limit='3' :name="name" @on-success="onSuccess" @on-error="" @on-remove="onRemove" @on-process="onProcess" />
 		
-		<view class="adds">
+		<view class="adds"> 
 			<view class="btn" @tap="edit">
-				发布
+				发布 
 			</view>
 		</view>
 	</view>

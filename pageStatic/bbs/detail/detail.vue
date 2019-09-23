@@ -50,7 +50,7 @@
 						</view>
 						<view class="content content1">
 							<text>{{item.message}}</text>
-							<uni-icon type="chat" size="16" color='#8d8d8d' @tap='remark(2,item)'></uni-icon>
+							<uni-icon type="chat" size="20" color='#8d8d8d' @tap='remark(2,item)'></uni-icon>
 						</view>
 						<view class="replay" v-if='item.sname'>
 							<view class="replayList">
@@ -133,6 +133,9 @@
 		onLoad(option) {
 			this.id = option.id;
 			this.getForumDetial(this.id)
+			this.getForumMessage(this.id, 1)
+		},
+		onShow(){
 			this.getForumMessage(this.id, 1)
 		},
 		methods: {
