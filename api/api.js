@@ -68,3 +68,5 @@ export const saveGoodsMessage=(params) => request(BASE_URL + "applet/memberUser/
 export const updateGoods=(params) => request(BASE_URL + "applet/memberUser/goods/updateGoods.do",params,'POST');
 //发布二手交易 
 export const saveGoods=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoods.do",params,'POST');
+//删除帖子
+export const delGoods = (params) => request(BASE_URL + "applet/memberUser/goods/delGoods.do?id="+params);
