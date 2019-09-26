@@ -53,14 +53,19 @@
 									<view class="default" @tap="cancelOrder(row)">取消订单</view>
 									<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去付款</view>
 								</block>
-								<block v-if="row.orderStatus+1==2||row.orderStatus+1==5">
+								<block v-if="row.orderStatus+1==2">
 									<view class="pay" @tap="toPayment(row,'see')" >查看详情</view>
 								</block>
-								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4">
-									<view class="sf">
-										快递编号:{{code}}
+								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4||row.orderStatus+1==5">
+									<view  v-if='row.orderStatus+1!=5'>
+										<view class="sf">
+											快递编号:{{code}}
+										</view>
+										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;background: #ffd84d;">查看详情</view>
 									</view>
-									<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;background: #ffd84d;">查看详情</view>
+									<view v-else>
+										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;">查看详情</view>
+									</view>
 								</block>
 							</view>
 						</view>
@@ -200,7 +205,7 @@
 				setTimeout(() => {
 					uni.hideLoading()
 					uni.navigateTo({
-						url: '../order/payment?paycode='+row.payCode
+						url: '../order/payment?paycode='+row.payCode+'&state='+state
 					})
 				}, 500)
 			}

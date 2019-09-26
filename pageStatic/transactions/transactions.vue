@@ -52,7 +52,8 @@
 <script>
 	import {
 		getUserGoods,
-		getGoods
+		getGoods,
+		delGoods
 	} from '@/api/api.js'
 	import {
 		dateFtt,
@@ -124,11 +125,11 @@
 				})
 			},
 			deletePage(id) {
-				showModal('删除帖子', '你确定删除帖子吗？', '确定', true).then(res => {
-					delforum(id).then(res => {
+				showModal('删除', '你确定删除帖子吗？', '确定', true).then(res => {
+					delGoods(id).then(res => {
 						if (res.code == 0) {
-							this.getForumList(1)
-							showToast('帖子删除成功')
+							this.getUserGoods(1)
+							showToast('删除成功')
 						}
 					})
 				}).catch(e => console.log(e))

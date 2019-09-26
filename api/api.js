@@ -70,3 +70,5 @@ export const updateGoods=(params) => request(BASE_URL + "applet/memberUser/goods
 export const saveGoods=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoods.do",params,'POST');
 //获取外卖列表
 export const getFoodsList = (params) => request(BASE_URL + "applet/memberUser/foods/list.do?pageNo="+params);
+//删除帖子
+export const delGoods = (params) => request(BASE_URL + "applet/memberUser/goods/delGoods.do?id="+params);

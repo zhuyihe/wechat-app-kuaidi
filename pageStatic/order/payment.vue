@@ -98,7 +98,7 @@
 					<uni-icon type="arrowright" size="=20"></uni-icon>
 				</view>
 			</view>
-			<view class="bh">
+			<view class="bh" v-if="state!='seeCode'"> 
 				<view >
 					剩余支付时间
 				</view>
@@ -110,7 +110,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="order">
+		<view class="order" v-if="state!='seeCode'">
 			<view style="width: 50%;text-align: center;background: white;"  @tap='canclOrder(paycode)'>
 				取消订单
 			</view>
@@ -145,7 +145,7 @@
 			console.log(option)
 			this.paycode=option.paycode
 			this.memberOrderDetail(this.paycode)
-			// this.state=option.
+			this.state=option.state
 		},
 		methods:{
 			// goOrder(){
@@ -159,8 +159,10 @@
 					if(res.code==0){
 						this.orderDetail=res.data
 						console.log(res.data.payTime)
+						if(this.state!='seeCode'){
 							this.minute=Number(res.data.payTime.split(':')[0])
 							this.second=Number(res.data.payTime.split(':')[1])
+						}
 					}
 				})
 			},
