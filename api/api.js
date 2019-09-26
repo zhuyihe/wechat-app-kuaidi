@@ -68,3 +68,5 @@ export const saveGoodsMessage=(params) => request(BASE_URL + "applet/memberUser/
 export const updateGoods=(params) => request(BASE_URL + "applet/memberUser/goods/updateGoods.do",params,'POST');
 //发布二手交易 
 export const saveGoods=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoods.do",params,'POST');
+//获取外卖列表
+export const getFoodsList = (params) => request(BASE_URL + "applet/memberUser/foods/list.do?pageNo="+params);

@@ -17,11 +17,8 @@
 </template>
 
 <script>
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	 import {getFoodsList} from "@/api/api.js"
 	export default {
-		components:{
-			uniIcon
-		},
 		data() {
 			return {
 				list:[{
@@ -39,14 +36,25 @@
 				},{
 					id:1,
 					content:'烤肉饭',
-				}]
+				}],
+				pageNo:1
 			};
+		},
+		onLoad(){
+			this.getFoodsList(1)
 		},
 		methods:{
 			toDetial(){
 				uni.navigateTo({
 					url:'detail/detail'
 				})
+			},
+			async getFoodsList(pageNo){
+				let res=await getFoodsList(pageNo)
+				console.log(res)
+				if(res.code==0){
+					this.list=res.data.schoolFoodList
+				}
 			}
 		}
 	}
