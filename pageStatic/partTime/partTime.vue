@@ -4,49 +4,72 @@
 			<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/jz.png?sign=e1db5f3e4f92324f98e378c7e9f24789&t=1567401576" mode=""></image>
 		</view>
 		<view class="li">
-			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
+			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial(item.id)">
 				<view class="content">
-					{{item.content}}
+					{{item.title}}
 				</view>
 				<view class="time">
-					{{item.time}}
+					{{dateFtt('yyyy-MM-dd',item.createTime)}}
 				</view>
 			</view>
+			<view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {partList} from "@/api/api.js"
+	import {dateFtt} from '@/assets/js/common.js'
 	export default {
 		data() {
 			return {
-				list:[{
-					id:1,
-					content:'3月7日，130元/天包餐下班现结,晚班盘龙城,有意者联系。',
-					time:'2019.08.17'
-				},{
-					id:1,
-					content:'3月7日，130元/天包餐下班现结,晚班盘龙城,有意者联系。',
-					time:'2019.08.17'
-				},{
-					id:1,
-					content:'3月7日，130元/天包餐下班现结,晚班盘龙城,有意者联系。',
-					time:'2019.08.17'
-				},{
-					id:1,
-					content:'3月7日，130元/天包餐下班现结,晚班盘龙城,有意者联系。',
-					time:'2019.08.17'
-				},{
-					id:1,
-					content:'3月7日，130元/天包餐下班现结,晚班盘龙城,有意者联系。',
-					time:'2019.08.17'
-				}]
+				list:[],
+				pageNo:1,
+				loadMoreText: "加载中...",
+				showLoadMore: false,
 			};
 		},
+		onLoad(){
+			this.initData()
+		},
+		onUnload() {
+			this.max = 0,
+				this.list = [],
+				this.loadMoreText = "加载更多",
+				this.showLoadMore = false;
+		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.pageNo++
+			this.showLoadMore = true;
+			setTimeout(() => {
+				this.partList(this.pageNo, res => {
+					console.log(res)
+					if (res.data.schoolPartList) {
+						this.list = this.data.concat(res.data.schoolPartList)
+					} else {
+						this.loadMoreText = "没有更多数据了!"
+						return;
+					}
+				})
+			}, 300)
+		},
 		methods:{
-			toDetial(){
+			initData() {
+				setTimeout(() => {
+					this.partList(this.pageNo, res => {
+						this.list = res.data.schoolPartList
+					})
+				}, 300);
+			},
+			toDetial(id){
 				uni.navigateTo({
-					url:'detail/detail'
+					url:'detail/detail?id='+id
+				})
+			},
+			partList(pageNo, callback){
+				partList(pageNo).then(res => {
+					callback(res)
 				})
 			}
 		}
@@ -54,6 +77,7 @@
 </script>
 
 <style lang="scss">
+	@import '../../assets/css/uni.css';
 .row{
 	padding:0 25upx; 
 }

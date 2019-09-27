@@ -3,31 +3,11 @@
 		<view class="li">
 			<view class="item">
 				<view class="content">
-					烤肉饭
+					{{foodDetials.storeName}}
 				</view>
 			</view>
 			<view class="detail">
-				<view >
-					蒸肉饭:<text>15元</text>
-				</view>
-				<view >
-					鸡腿饭:<text>14元</text>
-				</view>
-				<view >
-					豆角茄子:<text>16元</text>
-				</view>
-				<view >
-					鱼香肉丝:<text>22元</text>
-				</view>
-				<view >
-					辣椒炒肉:<text>22元</text>
-				</view>
-				<view >
-					干锅花菜:<text>20元</text>
-				</view>
-				<view >
-					水煮肉片:<text>22元</text>
-				</view>
+				<u-parse :content="foodDetials.content"></u-parse>
 			</view>
 			<view class="bottoms">
 				<view class="detai" @tap="goDetail">
@@ -37,28 +17,48 @@
 					拨号订餐
 				</view>
 			</view>
-			
 		</view>
 	</view>
 </template>
 
 <script>
+import uParse from '@/components/gaoyia-parse/parse.vue'
+	import {foodDetail} from '@/api/api.js'
 	export default {
 		data() {
 			return {
-				
+					id:null,
+					foodDetials:{}
 			}
+		},
+		components:{
+			uParse
+		},
+		mounted(){
+			this.foodDetail()
+		},
+		onLoad(option){
+			this.id=option.id
+			
 		},
 		methods: {
 			call(){
 				uni.makePhoneCall({
-				    phoneNumber: '114' //仅为示例
+				    phoneNumber: this.foodDetial.storeTel
 				});
 			},
 			goDetail(){
+				console.log(foodDetail)
 				uni.navigateTo({
-					url:'../../detial/detial?state=detail'
+					url:'../../detial/detial?state=food&img='+this.foodDetials.foodImg
 				})
+			},
+			async foodDetail(){
+				let res= await foodDetail(this.id)
+				if(res.code==0){
+					this.foodDetials=res.data
+					console.log(res)
+				}
 			}
 		}
 	}

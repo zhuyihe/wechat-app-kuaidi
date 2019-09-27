@@ -1,25 +1,27 @@
 <template>
 	<view >
 		<view class="img">
-			<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/detail.png?sign=c5187670bc326c6f315e334be1b9514f&t=1567401203" mode="widthFix"></image>
+			<image :src="image" mode="widthFix"></image>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {IMG_URL} from '../../assets/js/const.js'
 	export default {
 		data() {
 			return {
-
+				image:""
 			};
 		},
 		onLoad(option) {
 			console.log(option)
 			switch (option.state) {
-				case 'detail':
+				case 'food':
 					uni.setNavigationBarTitle({
-						title: '详情'
+						title: '商家详情'
 					})
+					this.image=IMG_URL+option.img
 					break;
 				case 'enter':
 					uni.setNavigationBarTitle({

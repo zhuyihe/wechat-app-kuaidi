@@ -49,7 +49,7 @@
 </script>
 
 <style>
-	
+	@import url("./components/gaoyia-parse/parse.css");
 	page {
 		background: #f5f5f5;
 	}

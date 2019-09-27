@@ -72,3 +72,9 @@ export const saveGoods=(params) => request(BASE_URL + "applet/memberUser/goods/s
 export const getFoodsList = (params) => request(BASE_URL + "applet/memberUser/foods/list.do?pageNo="+params);
 //删除帖子
 export const delGoods = (params) => request(BASE_URL + "applet/memberUser/goods/delGoods.do?id="+params);
+//获取外卖详情
+export const foodDetail = (params) => request(BASE_URL + "applet/memberUser/foods/detail.do?id="+params);
+//兼职列表
+export const partList = (params) => request(BASE_URL + "applet/memberUser/part/list.do?pageNo="+params);
+//兼职详情
+export const partDetail = (params) => request(BASE_URL + "applet/memberUser/part/detail.do?id="+params);

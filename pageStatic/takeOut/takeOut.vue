@@ -4,9 +4,9 @@
 			<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/wm.png?sign=9e79d4896d4c57ba857753a71c39b24a&t=1567401825" mode=""></image>
 		</view>
 		<view class="li">
-			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial">
+			<view class="item" v-for="(item,index) of list" :key='index' @tap="toDetial(item)">
 				<view class="content">
-					{{item.content}}
+					{{item.storeName}}
 				</view>
 				<view class="go">
 					<uni-icon type="arrowright" size="25" color='#ccc'></uni-icon>
@@ -21,22 +21,7 @@
 	export default {
 		data() {
 			return {
-				list:[{
-					id:1,
-					content:'烤肉饭',
-				},{
-					id:1,
-					content:'烤肉饭',
-				},{
-					id:1,
-					content:'烤肉饭',
-				},{
-					id:1,
-					content:'烤肉饭',
-				},{
-					id:1,
-					content:'烤肉饭',
-				}],
+				list:[],
 				pageNo:1
 			};
 		},
@@ -44,9 +29,9 @@
 			this.getFoodsList(1)
 		},
 		methods:{
-			toDetial(){
+			toDetial(item){
 				uni.navigateTo({
-					url:'detail/detail'
+					url:'detail/detail?id='+item.id
 				})
 			},
 			async getFoodsList(pageNo){
