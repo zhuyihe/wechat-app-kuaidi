@@ -1,9 +1,9 @@
 <template>
 	<view class="quest">
 		<uni-collapse :accordion="true" class="uni-collapse">
-			<uni-collapse-item v-for="item in accordion" :key="item.id" :title="item.title" :show-animation="item.animation"
+			<uni-collapse-item v-for="item in accordion" :key="item.id" :title="item.questionStr" :show-animation="true"
 			 class="items">
-				<view class="content">{{ item.content }}</view>
+				<view class="content">{{ item.answerStr }}</view>
 			</uni-collapse-item>
 		</uni-collapse>
 	</view>
@@ -12,6 +12,9 @@
 <script>
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+	import {
+		questionList
+	} from '@/api/api'
 	export default {
 		components: {
 			uniCollapse,
@@ -19,32 +22,43 @@
 		},
 		data() {
 			return {
-				accordion: [{
-						id: 0,
-						title: '标题文字',
-						content: '手风琴效果',
-						animation: true
-					},
-					{
-						id: 1,
-						title: '标题文字',
-						content: '手风琴效果',
-						animation: true
-					},
-					{
-						id: 2,
-						title: '标题文字',
-						content: '手风琴效果',
-						animation: true
-					}
-				],
+				accordion: [],
+				type:1
 			};
+		},
+		onLoad(option){
+			if(option.type==1){
+				this.type=1
+				uni.setNavigationBarTitle({
+					title:'常见问题'
+				})
+			}else{
+				this.type=2
+				uni.setNavigationBarTitle({
+					title:'奖励金攻略'
+				})
+			}
+			this.questionList(this.type,1)
+		},
+		methods:{
+			async questionList(type,pageNo){
+				let parmas={
+					type,
+					pageNo
+				}
+				let res=await questionList(parmas)
+				if(res.code==0){
+					this.accordion=res.data.memberQuestionList
+					console.log(res)
+				}
+			}
 		}
 	}
 </script>
 <style lang="scss" scoped>
 	.content {
 		line-height: 80upx;
+		padding-right: 50upx;
 	}
 
 	.items {

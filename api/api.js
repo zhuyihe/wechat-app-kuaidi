@@ -78,3 +78,5 @@ export const foodDetail = (params) => request(BASE_URL + "applet/memberUser/food
 export const partList = (params) => request(BASE_URL + "applet/memberUser/part/list.do?pageNo="+params);
 //兼职详情
 export const partDetail = (params) => request(BASE_URL + "applet/memberUser/part/detail.do?id="+params);
+//问题列表
+export const questionList = (params) => request(BASE_URL + "applet/memberUser/question/list.do?type="+params.type+'&pageNo='+params.pageNo);

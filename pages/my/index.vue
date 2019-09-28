@@ -44,7 +44,7 @@
 						</navigator>
 					</template>
 					<template v-else>
-						<view @tap='showAdress'>
+						<view @tap='doSomething(item.text)'>
 							<image :src="item.img" mode="" style="width: 56upx;"></image>
 							<view class="dfk">
 								{{item.text}}
@@ -152,6 +152,10 @@
 				</view>
 			</view>
 		</view>
+		<hchPoster ref="hchPoster" :canvasFlag.sync="canvasFlag" @cancel="canvasCancel" :posterObj.sync="posterData"/>
+		<view :hidden="canvasFlag"><!-- 海报 要放外面放组件里面 会找不到 canvas-->
+			<canvas class="canvas"  canvas-id="myCanvas" ></canvas><!-- 海报 -->
+		</view>
 	</view>
 </template>
 
@@ -160,7 +164,11 @@
 		showToast,
 		showModal
 	} from '@/assets/js/common'
+	import hchPoster from '@/components/hch-poster/hch-poster.vue'
 	export default {
+		components:{
+		hchPoster
+		},
 		data() {
 			return {
 				// 订单类型
@@ -197,21 +205,24 @@
 						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xy.png?sign=cbce07233b739b4ff59a1a0fefa475e7&t=1567395384"
 					},
 					{
-						url: '../../pageStatic/share/share',
+						// url: '../../pageStatic/share/share',
 						text: '分享',
 						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/fx.png?sign=b09897ebaffa309a82a50d65c336b4fe&t=1567395421"
 					},
 					{
-						url: '../../pageStatic/question/question',
+						url: '../../pageStatic/question/question?type=1',
 						text: '常见问题',
 						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/cj.png?sign=27f62b2b9bfa03a084897fea160db145&t=1567400289"
 					},
 					{
-						url: '../../pageStatic/question/question',
+						url: '../../pageStatic/question/question?type=2',
 						text: '奖励金攻略',
 						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gl.png?sign=aff994d6f96384edafe7b00bf2ee935c&t=1567400304"
 					}
-				]
+				],
+				deliveryFlag: false,
+				canvasFlag: true,
+				posterData:{}
 			};
 		},
 		methods: {
@@ -242,42 +253,139 @@
 					url: '../../pageStatic/detial/detial?state=' + state
 				})
 			},
-			showAdress(){
-				uni.chooseAddress({
-					success:res=>{
-						// this.sendItem=res
-						// this.isAddJi=true
-					},
-					fail:e=>{
-						uni.getSetting({
-							success:set=>{
-								if(!set.authSetting['scope.address']){
-									uni.showModal({
-										title:'警告',
-										content:'系统无法访问您的地址,将无法享受快递寄件功能。',
-										showCancel:false,
-										success:res=>{
-											console.log(res)
-											if(res.confirm){
-												uni.openSetting({
-														success:re=> {
-															console.log(re)
-														},
-														fail:e=>{
-															console.log(e)
-														}
-													})
+			doSomething(text){
+				if(text!=='分享'){
+					uni.chooseAddress({
+						success:res=>{
+						},
+						fail:e=>{
+							uni.getSetting({
+								success:set=>{
+									if(!set.authSetting['scope.address']){
+										uni.showModal({
+											title:'警告',
+											content:'系统无法访问您的地址,将无法享受快递寄件功能。',
+											showCancel:false,
+											success:res=>{
+												console.log(res)
+												if(res.confirm){
+													uni.openSetting({
+															success:re=> {
+																console.log(re)
+															},
+															fail:e=>{
+																console.log(e)
+															}
+														})
+												}
 											}
-										}
-									})
+										})
+									}
+								},
+								fail:e=>{
+									
 								}
-							},
-							fail:e=>{
-								
+							})
+						}
+					})
+				}else{
+					// 这个是固定写死的小程序码
+					Object.assign(this.posterData,
+					{
+						url:'https://img0.zuipin.cn/mp_zuipin/poster/hch-pro.jpg',//商品主图
+						icon:'https://img0.zuipin.cn/mp_zuipin/poster/hch-hyj.png',//醉品价图标
+						title:"诗酒茶系列 武夷大红袍 2018年 花香型中火 一级 体验装 16g",//标题
+						discountPrice:"250.00",//折后价格
+						orignPrice:"300.00",//原价
+						code:'https://img0.zuipin.cn/mp_zuipin/poster/hch-code.png',//小程序码
+					})
+					this.$forceUpdate();//强制渲染数据
+					setTimeout(()=>{
+						this.canvasFlag=false;//显示canvas海报
+						this.deliveryFlag = false;//关闭分享弹窗
+						this.$refs.hchPoster.createCanvasImage();//调用子组件的方法
+					},500)
+					// 这个是固定写死的小程序码 end
+					// 以下是根据后端接口动态生成小程序码
+					// let code="https://img0.zuipin.cn/mp_zuipin/poster/hch-code.png";
+					// this.codeImg().then((res)=>{
+					// 	code = res;
+					// 	Object.assign(this.posterData,
+					// 	{
+					// 		url:'https://img0.zuipin.cn/mp_zuipin/poster/hch-pro.jpg',//商品主图
+					// 		icon:'https://img0.zuipin.cn/mp_zuipin/poster/hch-hyj.png',//醉品价图标
+					// 		title:"诗酒茶系列 武夷大红袍 2018年 花香型中火 一级 体验装 16g",//标题
+					// 		discountPrice:"250.00",//折后价格
+					// 		orignPrice:"300.00",//原价
+					// 		code:code,//小程序码
+					// 	})
+					// 	this.$forceUpdate();//强制渲染数据
+					// 	setTimeout(()=>{
+					// 		this.canvasFlag=false;//显示canvas海报
+					// 		this.deliveryFlag = false;//关闭分享弹窗
+					// 		this.$refs.hchPoster.createCanvasImage();//调用子组件的方法
+					// 	},500)
+					// })
+					// 以下是根据后端接口动态生成小程序码 end
+				}
+				
+			},
+			// 获取海报的小程序码
+			codeImg(){
+				return new Promise((resolve,reject)=>{
+					wx.request({
+						method: 'get',
+						url:'http://javaXXXXX',//自己java接口
+						header: { 'Content-Type': 'application/x-www-form-urlencoded'},
+						data: {
+							scene:`sku=${this.sku}`,//自己的参数
+							page:"pages/product/detail",//想要生成小程序码的页面地址
+							width:"128px",//小程序码大小
+						},
+						success: res => {
+						  if(res.data.code==0){
+							if (res.data.code==0) {
+								const fsm = wx.getFileSystemManager();
+								const FILE_BASE_NAME = 'tmp_img_src';
+								let filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.jpg`;//图片临时地址
+								fsm.writeFile({
+									filePath,
+									data: res.data.data,
+									encoding: 'binary',
+									success() {
+										resolve(filePath)
+									},
+									fail() {
+										this.canvasFlag=true;
+										uni.showToast({title:'海报生成失败',duration:2000,icon:'none'});
+									},
+								});
+							} else {
+								uni.showToast({title: res.data.message, icon: 'none',duration: 2000,icon:'none'})
 							}
-						})
-					}
+						  }else{
+							this.canvasFlag=true;
+							uni.showToast({title:'海报生成失败',duration:2000,icon:'none'});
+						  }
+						},
+						fail:res=>{
+						  this.canvasFlag=true;
+						  uni.showToast({title:'海报生成失败',duration:2000,icon:'none'});
+						}
+				  })
 				})
+			},
+			// 分享弹窗
+			shareEvn() {
+				this.deliveryFlag = true;
+			},
+			// 关闭分享弹窗
+			closeShareEvn() {
+				this.deliveryFlag = false;
+			},
+			// 取消海报
+			canvasCancel(val){
+				this.canvasFlag=val;
 			}
 		},
 	}
@@ -489,5 +597,14 @@
 				height: 48upx;
 			}
 		}
+	}
+	.canvas{
+	    position: fixed !important;
+	    top: 0 !important;
+	    left: 0 !important;
+	    display: block !important;
+	    width: 100% !important;
+	    height: 100% !important;
+	    z-index: 10;
 	}
 </style>

@@ -8,7 +8,12 @@
 	} from '@/api/api'
 	import store from '@/store/store'
 	export default {
-		onLaunch: function() {
+		onLaunch: function(query) {
+			//判断是否是通过扫码进入
+			let scene=''
+			if(query.query.scene){
+				scene=query.query.scene
+			}
 			let that = this
 			// 小程序启动判断用户是否授权，根据是否授权来请求不同的业务数据
 			uniLogin().then(res => {
@@ -27,7 +32,7 @@
 						})
 					} else if (re.code == 403) {
 						uni.redirectTo({
-							url: '/pages/login/login'
+							url: '/pages/login/login?pid='+scene
 						})
 					}
 				}).catch(e => {

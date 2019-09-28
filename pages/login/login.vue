@@ -29,11 +29,18 @@
 	} from '@/api/api'
 	export default {
 		data() {
-			return {hasAuth: false};
+			return {
+				hasAuth: false,
+				pid:0
+				};
 		},
 		onLoad(option) {
+			console.log(option,option)
 			if(option.hasAuth){
 				this.hasAuth = Boolean(option.hasAuth)
+			}
+			if(option.pid){
+				this.pid=option.pid
 			}
 		},
 		methods: {
@@ -69,7 +76,8 @@
 								let parmas = {
 									openid: res.data.openid,
 									iv: re.iv,
-									encryptedData: re.encryptedData
+									encryptedData: re.encryptedData,
+									pid:this.pid
 								}
 								userLogin(parmas).then(user => {
 									if (user.code == 0) {
