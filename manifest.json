@@ -57,10 +57,14 @@
         /* 小程序特有相关 */
         "appid" : "wx2602adbd78c6d099",
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "es6" : true,
-            "postcss" : true
+            "postcss" : true,
+            "minified" : true
         },
+		"uniStatistics": {  
+		        "enable": false //微信平台关闭统计  
+		    },
         "usingComponents" : true
     }
 }

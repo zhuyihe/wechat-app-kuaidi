@@ -80,3 +80,11 @@ export const partList = (params) => request(BASE_URL + "applet/memberUser/part/l
 export const partDetail = (params) => request(BASE_URL + "applet/memberUser/part/detail.do?id="+params);
 //问题列表
 export const questionList = (params) => request(BASE_URL + "applet/memberUser/question/list.do?type="+params.type+'&pageNo='+params.pageNo);
+//会员推广码
+export const sharCode = () => request(BASE_URL + "memberUser/sharCode.do");
+//获取用户信息
+export const memberInfo = () => request(BASE_URL + "memberUser/memberInfo.do");
+//粉丝列表
+export const fanList = () => request(BASE_URL + "memberUser/sonList.do");
+//会员浏览
+export const memberLookNum = (params) => request(BASE_URL + "memberUser/lookNum.do?pid="+params);

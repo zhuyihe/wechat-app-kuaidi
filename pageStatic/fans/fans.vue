@@ -4,11 +4,11 @@
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in list" :key="key">
 				<view class="uni-media-list">
 					<view class="uni-media-list-logo">
-						<image :src="value.img"></image>
+						<image :src="value.headImgUrl"></image>
 					</view>
 					<view class="uni-media-list-body">
-						<view class="uni-media-list-text-top">{{value.name}}</view>
-						<view class="uni-media-list-text-bottom uni-ellipsis">绑定时间:{{value.time}}</view>
+						<view class="uni-media-list-text-top">{{value.managerNickName}}</view>
+						<view class="uni-media-list-text-bottom uni-ellipsis">绑定时间:{{dateFtt('yyyy-MM-dd',value.createTime)}}</view>
 					</view>
 				</view>
 			</view>
@@ -16,31 +16,25 @@
 	</view>
 </template>
 <script>
+	import {fanList} from '@/api/api.js'
+	import {dateFtt} from '@/assets/js/common.js'
 	export default {
 		data() {
 			return {
-				list: [{
-						name: "一枚实景",
-						time: "2019.09.10",
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164"
-					},
-					{
-						name: "一枚实景",
-						time: "2019.09.10",
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164"
-					},
-					{
-						name: "一枚实景",
-						time: "2019.09.10",
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164"
-					}
-				]
+				list: []
 			}
 		},
 		onLoad() {
-			setTimeout(() => {
-				this.showImg = true;
-			}, 400)
+			this.fanList()
+		},
+		methods:{
+			async fanList(){
+				let res=await fanList()
+				if(res.code==0){
+					this.list=res.data
+					console.log(res)
+				}
+			}
 		}
 	}
 </script>

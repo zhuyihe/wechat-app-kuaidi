@@ -29,7 +29,7 @@
 							<view class="limitAmount">
 								满{{row.limitAmount}}使用
 							</view>
-							<view class="use" @tap="getCoupon(row.code)" v-if='row.flag==0'>
+							<view class="use" @tap="getCoupon(row.code)"  v-if='row.flag==0'>
 								领取优惠券
 							</view>
 							<view class="use"  v-else>
@@ -91,6 +91,7 @@
 				if(res.code==0){
 					console.log(res)
 					showToast('优惠券领取成功')
+					this.getCouponList()
 				}else{
 					showToast(res.msg)
 				}

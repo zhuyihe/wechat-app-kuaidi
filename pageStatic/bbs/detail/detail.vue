@@ -13,7 +13,7 @@
 					<view class="header">
 						{{detail.title}}
 					</view>
-					<view class="com">
+					<view class="com"> 
 						{{detail.message}}
 					</view>
 				</view>
@@ -124,7 +124,7 @@
 				replayList: [],
 				replayholder: '回复',
 				message: '',
-				pid: 1, //
+				pid: 0, //
 				tomid: 0,
 				setFocus: false,
 				replayIndex: 1
@@ -163,7 +163,7 @@
 					//评论帖子
 					this.replayIndex = 1
 					this.replayholder = '评论'
-					this.pid = 1
+					this.pid = 0
 				}
 				this.tomid = 0;
 			},

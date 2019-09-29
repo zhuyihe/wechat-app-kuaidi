@@ -4,7 +4,8 @@
 		uniLogin
 	} from '@/assets/js/common'
 	import {
-		getOpenid
+		getOpenid,
+		memberLookNum
 	} from '@/api/api'
 	import store from '@/store/store'
 	export default {
@@ -13,6 +14,7 @@
 			let scene=''
 			if(query.query.scene){
 				scene=query.query.scene
+				this.memberLookNum(scene)
 			}
 			let that = this
 			// 小程序启动判断用户是否授权，根据是否授权来请求不同的业务数据
@@ -48,7 +50,9 @@
 			console.log('App Hide')
 		},
 		methods: {
-
+			async memberLookNum(pid){
+				await memberLookNum(pid)
+			}
 		}
 	}
 </script>
