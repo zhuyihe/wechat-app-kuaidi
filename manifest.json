@@ -55,16 +55,16 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-        "appid" : "wx2602adbd78c6d099",
+        "appid" : "wx319d14e92ab5c2fa",
         "setting" : {
-            "urlCheck" : true,
+            "urlCheck" : false,
             "es6" : true,
             "postcss" : true,
-            "minified" : true
+            "minified" : false
         },
-		"uniStatistics": {  
-		        "enable": false //微信平台关闭统计  
-		    },
+        "uniStatistics" : {
+            "enable" : false //微信平台关闭统计  
+        },
         "usingComponents" : true
     }
 }
