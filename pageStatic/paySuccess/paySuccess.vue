@@ -7,7 +7,7 @@
 			支付成功
 		</view>
 		<view class="pay-amount">
-			￥<text class="mon">88.00</text>
+			￥<text class="mon">{{amount}}</text>
 		</view>
 		<view class="back">
 			<view class="btn" @tap="toUser">查看订单</view>
@@ -23,13 +23,13 @@
 			};
 		},
 		onLoad(e) {
-			this.amount = parseFloat(e.amount).toFixed(2);
+			this.amount = parseFloat(e.price).toFixed(2);
 		},
 		methods: {
 			toUser() {
 				uni.switchTab({
-					url: '/pages/tabBar/user'
-				});
+					url:'../../pages/my/index'
+				})
 			}
 		},
 	}

@@ -76,16 +76,24 @@
 					优惠券
 				</view>
 				<view class="red">
-					<view>
-						请选择优惠券
-					</view>
-					<uni-icon type="arrowright" size="=20"></uni-icon>
+					<template  v-if='!hasCoupon'>
+						<view @tap='getUseCoupon(orderDetail.price)'>
+							请选择优惠券
+						</view>
+						<uni-icon type="arrowright" size="20" @tap='getUseCoupon(orderDetail.price)'></uni-icon>
+					</template>
+					<template  v-else>
+						<view @tap='selsetCoupons'>
+							{{selectPrice}}
+						</view>
+						<uni-icon type="arrowright" size="20"></uni-icon>
+					</template>
 				</view>
 			</view>
 		</view>
 		<view class="order">
 			<view class="shifu">
-				实付金额:<text class="red">{{orderDetail.price}}</text>
+				实付金额:<text class="red">{{payPrice}}</text>
 			</view>
 			<view class="goOrder" @tap='goOrder'>
 				去支付
@@ -95,26 +103,59 @@
 </template>
 
 <script>
-	import {saveMemberOrder} from '@/api/api'
+	import {saveMemberOrder,getUseCoupon} from '@/api/api'
 	import {
 		showToast
 	} from '@/assets/js/common'
 	export default {
 		data() {
 			return {
-				orderDetail:{},
+				orderDetail:{}, 
 				// couponsId:0
+				selectCoupon:{},
+				selectPrice:"请选择优惠券",
+				hasCoupon:false,
+				couponList:[],
+				payPrice:''
 			};
 		},
 		onLoad(option){
 			this.orderDetail=JSON.parse(option.orderDetail)
+			this.payPrice=this.orderDetail.price
+			// //防止页面刷新时候还保存
+			// if(uni.getStorageSync('selectCoupon')){
+			// 	uni.removeStorageSync('selectCoupon')
+			// }
+		},
+		onShow(){
+			if(uni.getStorageSync('selectCoupon')){
+				this.selectCoupon=uni.getStorageSync('selectCoupon')
+				// this.selectPrice=this.selectCoupon.amount+'元'
+				// this.orderDetail.price=this.orderDetail.price-this.selectCoupon.amount
+			}
+		},
+		watch:{
+			'selectCoupon.id'(n){
+				console.log(n)
+				this.selectPrice=this.selectCoupon.amount+'元'
+				this.payPrice=this.orderDetail.price-this.selectCoupon.amount
+			}
+		},
+		onUnload() {
+			uni.removeStorageSync('selectCoupon')
+			this.hasCoupon=false
 		},
 		methods:{
 			goOrder(){
 				let orderDetail=this.orderDetail;
-				orderDetail.couponsId=0
+				if(this.selectCoupon){
+					orderDetail.couponsId=this.selectCoupon.id
+				}else{
+					orderDetail.couponsId=0
+				}
 				saveMemberOrder(orderDetail).then(res=>{
 					if(res.code==0){
+						uni.setStorageSync('orderDetail',orderDetail)
 						uni.navigateTo({
 							url:'../order/payment?paycode='+res.data
 						})
@@ -123,6 +164,26 @@
 					}
 				}).catch(e=>{console.log(e)})
 				
+			},
+			async getUseCoupon(totalAmout){
+				let res=await getUseCoupon(totalAmout)
+				console.log(res)
+				if(res.code==0){
+					if(res.data.length>0){
+						uni.navigateTo({
+							url:'../coupon/coupon?select='+JSON.stringify(res.data)
+						})
+						this.couponList=res.data
+						this.hasCoupon=true
+					}else{
+						showToast('暂无可用优惠券')
+					}
+				}
+			},
+			selsetCoupons(){
+				uni.navigateTo({
+					url:'../coupon/coupon?select='+JSON.stringify(this.couponList)
+				})
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 export const BASE_URL='https://school.forexinterface.com/'
-// export const BASE_URL=' http://feed.forexinterface.com/'
+// export const BASE_URL='http://636.forexinterface.com/'
 export const IMG_URL='https://school-express.oss-cn-hangzhou.aliyuncs.com/'
 //上传图片接口
 export const UPLOAD_URL='http://school.forexinterface.com/upload/saveImg.do'

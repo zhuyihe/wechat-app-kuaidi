@@ -51,10 +51,10 @@
 							<view class="btns">
 								<block v-if="row.orderStatus+1==1">
 									<view class="default" @tap="cancelOrder(row)">取消订单</view>
-									<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去付款</view>
+									<view class="pay" @tap="toPayment(row,'zhi')" style="border: 0;background: #ffd84d;">去付款</view>
 								</block>
 								<block v-if="row.orderStatus+1==2">
-									<view class="pay" @tap="toPayment(row,'see')" >查看详情</view>
+									<view class="pay" @tap="toPayment(row,'seeCode')" >查看详情</view>
 								</block>
 								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4||row.orderStatus+1==5">
 									<view  v-if='row.orderStatus+1!=5'>

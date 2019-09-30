@@ -9,10 +9,13 @@
 					<view class="carrier" :class="[typeClass=='valid'?theIndex==index?'open':oldIndex==index?'close':'':'']">
 						<view class="left">
 							<view class="title">
-								{{row.name}}<text class="reds">(剩余<text class="red">{{row.totalNum-row.makeNum}}</text>张)</text>
+								{{row.name}}<text class="reds" v-if='!toUse'>(剩余<text class="red">{{row.totalNum-row.makeNum}}</text>张)</text>
 							</view>
-							<view class="term">
-								{{dateFtt("yyyy.MM.dd",row.createTime)}} - {{dateFtt("yyyy.MM.dd",row.endTime)}}
+							<view class="term" v-if='!toUse'>
+								{{dateFtt("yyyy-MM-dd",row.createTime)}} - {{dateFtt("yyyy-MM-dd",row.endTime)}}
+							</view>
+							<view class="term" v-else>
+								{{row.createTime}} - {{row.endTime}}
 							</view>
 							<view class="gap-top"></view>
 							<view class="gap-bottom"></view>
@@ -29,12 +32,19 @@
 							<view class="limitAmount">
 								满{{row.limitAmount}}使用
 							</view>
-							<view class="use" @tap="getCoupon(row.code)"  v-if='row.flag==0'>
-								领取优惠券
-							</view>
-							<view class="use"  v-else>
-								已领取
-							</view>
+							<template v-if='toUse'>
+								<view class="use" @tap="toUseCoupon(row)" >
+									去使用
+								</view>
+							</template>
+							<template v-else>
+								<view class="use" @tap="getCoupon(row.code)"  v-if='row.flag==0'>
+									领取优惠券
+								</view>
+								<view class="use"  v-else>
+									已领取
+								</view>
+							</template>
 						</view>
 					</view>
 				</view>
@@ -62,7 +72,8 @@
 				subState: '',
 				theIndex: null,
 				oldIndex: null,
-				isStop: false
+				isStop: false,
+				toUse:false
 			}
 		},
 		onPageScroll(e) {
@@ -74,8 +85,19 @@
 		// 		uni.stopPullDownRefresh();
 		// 	}, 1000);
 		// },
-		onLoad() {
-			this.getCouponList()
+		onLoad(option) {
+			if(option.select){
+				console.log(option.select)
+				this.couponValidList=JSON.parse(option.select)
+				this.toUse=true
+				console.log(this.couponValidList)
+				uni.setNavigationBarTitle({
+					title:'使用优惠券'
+				})
+			}else{
+				this.getCouponList()
+			}
+			
 		},
 		methods: {
 			async getCouponList(){
@@ -95,6 +117,12 @@
 				}else{
 					showToast(res.msg)
 				}
+			},
+			toUseCoupon(item){
+				uni.setStorageSync('selectCoupon', item);
+				uni.navigateBack({
+					delta:1
+				})
 			}
 		}
 	}

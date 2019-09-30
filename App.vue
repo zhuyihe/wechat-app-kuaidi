@@ -17,6 +17,7 @@
 				this.memberLookNum(scene)
 			}
 			let that = this
+			uni.clearStorageSync();  
 			// 小程序启动判断用户是否授权，根据是否授权来请求不同的业务数据
 			uniLogin().then(res => {
 				console.log(res)

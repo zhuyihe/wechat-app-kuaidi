@@ -40,78 +40,79 @@
 		</view>
 		<view class="list">
 			<view class="bh">
-				<view >
+				<view>
 					编号
 				</view>
-				<view >
+				<view>
 					{{orderDetail.orderCode}}
 				</view>
 			</view>
 			<view class="bh">
-				<view >
+				<view>
 					规格
 				</view>
-				<view >
+				<view>
 					{{orderDetail.weight}}kg
 				</view>
 			</view>
 			<view class="bh">
-				<view >
+				<view>
 					物品类型
 				</view>
-				<view >
+				<view>
 					{{orderDetail.goodTypeName}}
 				</view>
 			</view>
 			<view class="bh">
-				<view >
+				<view>
 					寄件类型
 				</view>
-				<view >
+				<view>
 					{{orderDetail.sendersType==1?'上门取件':'放置快递点'}}
 				</view>
 			</view>
 			<view class="bh" v-if='orderDetail.sendersType==1'>
-				<view >
+				<view>
 					快递放置点
 				</view>
 				<view class="red">
 					{{orderDetail.expressAddress}}
 				</view>
 			</view>
-			<view class="bh">
-				<view >
-					价格
-				</view>
-				<view class="red">
-					{{orderDetail.payPrice}}
-				</view>
-			</view>
 			<view class="bh" v-if='orderDetail.couponsId!=0'>
-				<view >
+				<view>
 					优惠券
 				</view>
 				<view class="red">
 					<view>
-						
+						{{orderDetail.couponsPrice}}.00
 					</view>
-					<uni-icon type="arrowright" size="=20"></uni-icon>
+					<!-- <uni-icon type="arrowright" size="=20"></uni-icon> -->
 				</view>
 			</view>
-			<view class="bh" v-if="state!='seeCode'"> 
-				<view >
+			<view class="bh">
+				<view>
+					实付价格
+				</view>
+				<view class="red">
+					{{orderDetail.payPrice}}.00
+				</view>
+			</view>
+			
+			<view class="bh" v-if="state!='seeCode'">
+				<view>
 					剩余支付时间
 				</view>
 				<view class="red">
 					<view>
-						<uni-count-down :show-day="false" :show-hour="false"  :minute="minute" :second="second" color="#cf1111" />
+						<uni-count-down :show-day="false" :show-hour="false" :minute="minute" :second="second" color="#cf1111" />
 						<!-- 15:00 -->
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="order" v-if="state!='seeCode'">
-			<view style="width: 50%;text-align: center;background: white;"  @tap='canclOrder(paycode)'>
+			<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(paycode)'>
 				取消订单
 			</view>
 			<view class="goOrder" @tap='goOrder' style="width: 50%;">
@@ -123,7 +124,12 @@
 
 <script>
 	import uniCountDown from '@/components/uni-countdown/uni-countdown.vue'
-	import {memberOrderDetail,delmemberOrder} from '@/api/api'
+	import {
+		memberOrderDetail,
+		delmemberOrder,
+		createPay,
+		saveMemberOrder
+	} from '@/api/api'
 	import {
 		showModal,
 		showToast
@@ -131,68 +137,121 @@
 	export default {
 		data() {
 			return {
-				orderDetail:{},
-				minute:0,
-				second:0,
-				paycode:'',
-				state:'',//进入页面的路径
+				orderDetail: {},
+				minute: 0,
+				second: 0,
+				paycode: '',
+				state: '', //进入页面的路径
+				payObj: {},
+				orderDetail: {}
 			};
 		},
-		components:{
+		components: {
 			uniCountDown
 		},
-		onLoad(option){
+		onLoad(option) {
 			console.log(option)
-			this.paycode=option.paycode
-			this.memberOrderDetail(this.paycode)
-			this.state=option.state
+			if (uni.getStorageSync('orderDetail')) {
+				this.orderDetail = uni.getStorageSync('orderDetail')
+			}
+			if(option.state=='zhi'){
+				this.saveMemberOrder(this.orderDetail)
+			}else if(option.state=='seeCode'){
+				this.state = option.state
+				this.paycode = option.paycode
+				this.memberOrderDetail(this.paycode)
+			}else{
+				this.state = option.state
+				this.paycode = option.paycode
+				this.memberOrderDetail(this.paycode)
+				this.createPay(this.paycode)
+			}
 		},
-		methods:{
-			// goOrder(){
-			// 	uni.navigateTo({
-			// 		url:'../paySuccess/paySuccess'
-			// 	})
-			// }
-			memberOrderDetail(paycode){
-				memberOrderDetail(paycode).then(res=>{
-					console.log(res)
-					if(res.code==0){
-						this.orderDetail=res.data
+		methods: {
+			goOrder() {
+				console.log(this.payObj)
+				uni.requestPayment({
+					timeStamp: this.payObj.timeStamp,
+					nonceStr: this.payObj.nonceStr,
+					package: this.payObj.packageValue,
+					signType:this.payObj.signType,
+					paySign: this.payObj.paySign,
+					success: (res) => {
+						console.log(res)
+						if(res.errMsg=='requestPayment:ok'){
+							uni.reLaunch({
+								url:'../paySuccess/paySuccess?price='+orderDetail.payPrice
+							})
+						}
+					},
+					fail: e => {
+						console.log(e)
+						//支付失败，重新生成paycode
+						this.saveMemberOrder(this.orderDetail)
+					}
+				})
+			},
+			memberOrderDetail(paycode) {
+				memberOrderDetail(paycode).then(res => {
+					// console.log(res)
+					if (res.code == 0) {
+						this.orderDetail = res.data
 						console.log(res.data.payTime)
-						if(this.state!='seeCode'){
-							this.minute=Number(res.data.payTime.split(':')[0])
-							this.second=Number(res.data.payTime.split(':')[1])
+						console.log(this.state)
+						if (this.state != 'seeCode') {
+							this.minute = Number(res.data.payTime.split(':')[0])
+							this.second = Number(res.data.payTime.split(':')[1])
 						}
 					}
 				})
 			},
-			canclOrder(paycode){
-				showModal('取消订单','您确认要取消订单吗？','确认',true).then(res=>{
-					delmemberOrder(paycode).then(res=>{
+			canclOrder(paycode) {
+				showModal('取消订单', '您确认要取消订单吗？', '确认', true).then(res => {
+					delmemberOrder(paycode).then(res => {
 						console.log(res)
-						if(res.code==0){
+						if (res.code == 0) {
 							showToast('订单取消成功')
-							setTimeout(()=>{
+							setTimeout(() => {
 								uni.navigateBack({
-									delta:2
+									delta: 2
 								})
-							},1000)
+							}, 1000)
 						}
-					}).catch(e=>{
+					}).catch(e => {
 						console.log(e)
 					})
-				}).catch(e=>{console.log(e)})
+				}).catch(e => {
+					console.log(e)
+				})
+			},
+			async createPay(paycode) {
+				let res = await createPay(paycode)
+				console.log(res)
+				if (res.code == 0) {
+					this.payObj = res.data
+				}
+			},
+			async saveMemberOrder(obj) {
+				let res = await saveMemberOrder(obj)
+				if (res.code == 0) {
+					this.paycode = res.data
+					this.memberOrderDetail(this.paycode)
+					this.createPay(this.paycode)
+				} else {
+					showToast(res.msg)
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-		
-	.detao{
+	.detao {
 		padding-bottom: 55px;
 	}
-	.message,.list{
+
+	.message,
+	.list {
 		width: 90%;
 		background: #FFFFFF;
 		margin: 30upx auto;
@@ -200,7 +259,8 @@
 		font-size: 28upx;
 		box-shadow: 0 2px 4px 0 #C6CFD7;
 	}
-	.zi{
+
+	.zi {
 		line-height: 70rpx;
 		width: 70rpx;
 		border-radius: 50%;
@@ -210,36 +270,43 @@
 		display: block;
 		// font-size: 20px;
 		height: 70rpx;
-		margin:  0 25upx;
+		margin: 0 25upx;
 		font-size: 32upx;
 	}
-	.jmsg{
+
+	.jmsg {
 		width: 80%;
 		line-height: 50upx;
 		color: #666;
 	}
-	.ji,.shou{
+
+	.ji,
+	.shou {
 		display: flex;
 		align-items: center;
 		// margin:  0 30upx;
 		padding: 30upx 0;
-		width:100%; 
-		.top{
+		width: 100%;
+
+		.top {
 			display: flex;
 			// align-items: center;
 			justify-content: space-between;
-			width:100%;
+			width: 100%;
 		}
 	}
+
 	.shou {
 		border-top: 1px solid #ccc;
-		.zi{
+
+		.zi {
 			background: #ffd84d;
 			color: black;
 		}
-		
+
 	}
-	.bh{
+
+	.bh {
 		display: flex;
 		// align-items: center;
 		justify-content: space-between;
@@ -248,16 +315,19 @@
 		border-top: 1px solid #ccc;
 		font-size: 30upx;
 		color: #666;
-		.red{
+
+		.red {
 			color: #cf1111;
 			display: flex;
 			align-items: center;
 		}
-		&:nth-child(1){
+
+		&:nth-child(1) {
 			border-top: 0;
 		}
 	}
-	.order{
+
+	.order {
 		height: 100upx;
 		line-height: 100upx;
 		width: 100%;
@@ -265,16 +335,19 @@
 		left: 0;
 		bottom: 0;
 		display: flex;
-		.shifu{
+
+		.shifu {
 			width: 100%;
 			background: #fff;
 			padding-right: 20upx;
 			text-align: right;
-			.red{
-				color:#cf1111 ;
+
+			.red {
+				color: #cf1111;
 			}
 		}
-		.goOrder{
+
+		.goOrder {
 			background: #ffd84d;
 			color: #000;
 			width: 40%;
