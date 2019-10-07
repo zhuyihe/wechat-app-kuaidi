@@ -81,14 +81,18 @@ export const partDetail = (params) => request(BASE_URL + "applet/memberUser/part
 //问题列表
 export const questionList = (params) => request(BASE_URL + "applet/memberUser/question/list.do?type="+params.type+'&pageNo='+params.pageNo);
 //会员推广码
-export const sharCode = () => request(BASE_URL + "memberUser/sharCode.do");
+export const sharCode = () => request(BASE_URL + "applet/memberUser/sharCode.do");
 //获取用户信息
-export const memberInfo = () => request(BASE_URL + "memberUser/memberInfo.do");
+export const memberInfo = () => request(BASE_URL + "applet/memberUser/memberInfo.do");
 //粉丝列表
-export const fanList = () => request(BASE_URL + "memberUser/sonList.do");
+export const fanList = () => request(BASE_URL + "applet/memberUser/sonList.do");
 //会员浏览
 export const memberLookNum = (params) => request(BASE_URL + "memberUser/lookNum.do?pid="+params);
 //创建支付
 export const createPay = (params) => request(BASE_URL + "applet/memberUser/pay/createPay.do?payCode="+params);
 //查询用户是否有可用优惠券 
 export const getUseCoupon = (params) => request(BASE_URL + "applet/memberUser/coupon/queryCoupon.do?totalAmout="+params);
+//我的收入 
+export const memberMoney = () => request(BASE_URL + "applet/memberUser/memberMoney.do");
+//校园中心 
+export const getSchoolCard = () => request(BASE_URL + "home/getSchoolCard.do");

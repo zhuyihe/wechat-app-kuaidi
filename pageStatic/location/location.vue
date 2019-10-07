@@ -37,6 +37,7 @@
 		onLoad(option) {
 			console.log(option)
 			this.schoolName = option.schoolName
+			this.showLoadMore=true
 			this.initData();
 		},
 		onUnload() {
@@ -47,19 +48,22 @@
 		},
 		onReachBottom() {
 			console.log("onReachBottom");
-			this.pageNo++
-			this.showLoadMore = true;
-			setTimeout(() => {
-				this.getSchoolList(this.pageNo, res => {
-					console.log(res)
-					if (res.data.schoolList) {
-						this.data = this.data.concat(res.data.schoolList)
-					} else {
-						this.loadMoreText = "没有更多数据了!"
-						return;
-					}
-				})
-			}, 300)
+			if(this.showLoadMore){
+				this.pageNo++
+				this.showLoadMore = true;
+				setTimeout(() => {
+					this.getSchoolList(this.pageNo, res => {
+						console.log(res)
+						if (res.data.schoolList) {
+							this.data = this.data.concat(res.data.schoolList)
+						} else {
+							this.loadMoreText = "没有更多数据了!"
+							this.showLoadMore=false
+							return;
+						}
+					})
+				}, 300)
+			}
 		},
 		methods: {
 			initData() {

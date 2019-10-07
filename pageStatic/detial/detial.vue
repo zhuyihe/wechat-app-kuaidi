@@ -21,7 +21,6 @@
 					uni.setNavigationBarTitle({
 						title: '商家详情'
 					})
-					this.image=IMG_URL+option.img
 					break;
 				case 'enter':
 					uni.setNavigationBarTitle({
@@ -34,6 +33,7 @@
 					})
 					break;
 			}
+			this.image=IMG_URL+option.img
 		}
 	}
 </script>
@@ -41,7 +41,7 @@
 <style lang="scss" scoped>
 	.img {
 		width: 100%;
-		height: 100%;
+		height: 100vh;
 		position: absolute;
 		z-index: -99999;
 		image {

@@ -136,14 +136,14 @@
 		</view>
 		<view class="orderList rz">
 			<view class="status">
-				<view class="sItems" @tap="gogong('enter')">
+				<view class="sItems" @tap="gogong('enter',memberinfo.supplierImg)">
 					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gys.png?sign=7329a4585f019bf5815fc8f9414e0902&t=1567395079"
 					 mode=""></image>
 					<view class="dfk">
 						供应商入驻
 					</view>
 				</view>
-				<view class="sItems" @tap="gogong('hehuo')">
+				<view class="sItems" @tap="gogong('hehuo',memberinfo.sharImg)">
 					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/hehuo.png?sign=796ae9a52fb7f619923a66d5004e9b10&t=1567395095"
 					 mode=""></image>
 					<view class="dfk">
@@ -256,9 +256,9 @@
 					url: '../../pageStatic/incomes/incomes'
 				})
 			},
-			gogong(state) {
+			gogong(state,url) {
 				uni.navigateTo({
-					url: '../../pageStatic/detial/detial?state=' + state
+					url: '../../pageStatic/detial/detial?state=' + state+'&img='+url
 				})
 			},
 			doSomething(text){

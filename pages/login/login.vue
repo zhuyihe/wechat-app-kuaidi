@@ -85,6 +85,7 @@
 											schoolName: '请选择学校'
 										})
 										this.$store.commit('IS_NEW',true)
+										this.$store.commit('HAS_COUPON',user.data)
 										uni.switchTab({
 											url: '../static/index'
 										})

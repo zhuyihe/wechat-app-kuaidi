@@ -6,18 +6,18 @@
 				<view class='tou'>
 					<view class="left">
 						<view class="imgs">
-							<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=f63098ba721c6a4a2be573ab01fcf83b&t=1567401164" mode=""></image>
+							<image :src="member.headImgUrl" mode=""></image>
 						</view>
 						<view class="times">
 							<view class="">
-								<text>李木子</text><br>
-								<text class="timme">绑定时间:2019.09.08</text>
+								<text>{{member.managerNickName}}</text><br>
+								<text class="timme">绑定时间:{{dateFtt('yyyy-MM-dd',member.createTime)}}</text>
 							</view>
 						</view>
 					</view>
 					<view class="right">
 						<view class="count red">
-							188.00
+							{{member.blanceMoney}}.00
 						</view>
 						<view class="fs">
 							可提现余额
@@ -31,7 +31,7 @@
 			<view class="mains">
 				<view class="main">
 					<view class="count">
-						188.00
+						{{member.todayMoney}}.00
 					</view>
 					<view class="fs">
 						今日(元)
@@ -39,7 +39,7 @@
 				</view>
 				<view class="main">
 					<view class="count">
-						288.00
+						{{member.monthMoney}}.00
 					</view>
 					<view class="fs">
 						本月(元)
@@ -47,7 +47,7 @@
 				</view>
 				<view class="main">
 					<view class="count">
-						288.00
+						{{member.totalMoney}}.00
 					</view>
 					<view class="fs">
 						累计(元)
@@ -55,50 +55,57 @@
 				</view>
 			</view>
 			<view class="myfan">
-				我的粉丝(3)
+				我的粉丝({{list.length}})
 			</view>
-			<view class="uni-list">
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in list" :key="key">
-					<view class="uni-media-list">
-						<view class="uni-media-list-logo">
-							<image :src="value.img"></image>
-						</view>
-						<view class="uni-media-list-body">
-							<view class="uni-media-list-text-top">{{value.name}}</view>
-							<view class="uni-media-list-text-bottom uni-ellipsis">绑定时间:{{value.time}}</view>
-						</view>
-						<view class="uni-media-list-body list-logo">
-							<view class="uni-media-list-text-top">288.00</view>
-							<view class="uni-media-list-text-bottom">累计消费</view>
+			<block v-if='list.length==0'>
+				<view class="none">
+					暂无粉丝，快去邀请把~~
+				</view>
+			</block>
+			<block v-else>
+				<view class="uni-list">
+					<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in list" :key="key">
+						<view class="uni-media-list">
+							<view class="uni-media-list-logo">
+								<image :src="value.headImgUrl"></image>
+							</view>
+							<view class="uni-media-list-body">
+								<view class="uni-media-list-text-top">{{value.wxNickName}}</view>
+								<view class="uni-media-list-text-bottom uni-ellipsis">绑定时间:{{dateFtt('yyyy-MM-dd',value.createTime)}}</view>
+							</view>
+							<view class="uni-media-list-body list-logo">
+								<view class="uni-media-list-text-top">{{value.totalMoney}}.00</view>
+								<view class="uni-media-list-text-bottom">累计消费</view>
+							</view>
 						</view>
 					</view>
 				</view>
-			</view>
+			</block>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {memberMoney} from '@/api/api.js'
+	import {IMG_URL} from '../../assets/js/const.js'
 	export default {
 		data() {
 			return {
-				list: [{
-						name: "一枚实景",
-						time: "2019.09.10",
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=3a51c6d5519cd48ec2281c50769aad04&t=1567401322"
-					},
-					{
-						name: "一枚实景",
-						time: "2019.09.10",
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=3a51c6d5519cd48ec2281c50769aad04&t=1567401322"
-					},
-					{
-						name: "一枚实景",
-						time: "2019.09.10",
-						img: "https://6465-dev-iey4o-1257667322.tcb.qcloud.la/tou.png?sign=3a51c6d5519cd48ec2281c50769aad04&t=1567401322"
-					}
-				]
+				list: [],
+				member:{}
 			};
+		},
+		onLoad(){
+			this.memberMoney()
+		},
+		methods:{
+			async memberMoney(){
+				let res= await memberMoney()
+				if(res.code==0){
+					this.member=res.data.memberVo
+					this.list=res.data.sonVOList
+				}
+			}
 		}
 	}
 </script>
@@ -156,6 +163,7 @@
 					width: 100upx;
 					height: 100upx;
 					margin: 0 25upx;
+					border-radius:50% ;
 				}
 			}
 
@@ -163,6 +171,11 @@
 				font-size: 28upx;
 			}
 		}
+	}
+	.none{
+		width: 100%;
+		text-align: center;
+		line-height: 100upx;
 	}
 	.mains {
 		// margin-top: 225upx;

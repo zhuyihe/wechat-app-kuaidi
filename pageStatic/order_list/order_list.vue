@@ -45,27 +45,40 @@
 							</view>
 						</view>
 						<view class="bottom">
-							<view class="sf">
+							<view class="sf" v-if='!row.otherPrice'>
 								实付:￥{{row.payPrice.toFixed(2)}}
+							</view>
+							<view class="sf chaji" v-else>
+								补差价:￥{{row.payPrice.toFixed(2)}}
 							</view>
 							<view class="btns">
 								<block v-if="row.orderStatus+1==1">
-									<view class="default" @tap="cancelOrder(row)">取消订单</view>
-									<view class="pay" @tap="toPayment(row,'zhi')" style="border: 0;background: #ffd84d;">去付款</view>
+									<block  v-if='!row.otherPrice'>
+										<view class="pay default" @tap="cancelOrder(row)">取消订单</view>
+										<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去付款</view>
+									</block>
+									<block  v-else>
+										<!-- <view class="default" @tap="cancelOrder(row)">取消订单</view> -->
+										<view class="sf expressCode">
+											{{row.expressName}}:{{row.expressCode}}
+										</view>
+										<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去补差价</view>
+									</block>
+									
 								</block>
 								<block v-if="row.orderStatus+1==2">
 									<view class="pay" @tap="toPayment(row,'seeCode')" >查看详情</view>
 								</block>
 								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4||row.orderStatus+1==5">
-									<view  v-if='row.orderStatus+1!=5'>
-										<view class="sf">
-											快递编号:{{code}}
+									<block  v-if='row.orderStatus+1!=5'>
+										<view class="sf expressCode">
+											{{row.expressName}}:{{row.expressCode}}
 										</view>
 										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;background: #ffd84d;">查看详情</view>
-									</view>
-									<view v-else>
+									</block>
+									<block v-else>
 										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;">查看详情</view>
-									</view>
+									</block>
 								</block>
 							</view>
 						</view>
@@ -110,7 +123,7 @@
 			let tbIndex = parseInt(option.tbIndex) + 1;
 			this.tabbarIndex = tbIndex;
 			this.loadMoreText = "加载更多",
-				this.showLoadMore = false;
+			this.showLoadMore = true;
 			this.getOrderList(this.tabbarIndex)
 		},
 		onPageScroll(e) {
@@ -120,11 +133,12 @@
 		},
 		onReachBottom() {
 			console.log("onReachBottom");
-			this.pageNo++
-			this.showLoadMore = true;
-			setTimeout(() => {
-				this.getOrderList(this.tabbarIndex, this.pageNo)
-			}, 300)
+			if(this.showLoadMore){
+				this.pageNo++
+				setTimeout(() => {
+					this.getOrderList(this.tabbarIndex, this.pageNo)
+				}, 300)
+			}
 		},
 		methods: {
 			showType(tbIndex) {
@@ -132,6 +146,7 @@
 				this.orderList=[]
 				this.loadMoreText = "加载更多",
 				this.pageNo=1
+				this.showLoadMore = true;
 				this.getOrderList(this.tabbarIndex)
 			},
 			showLogistics(row) {
@@ -152,6 +167,7 @@
 								this.orderList = this.orderList.concat(res.data.memberOrderList)
 							} else {
 								this.loadMoreText = "没有更多数据了!"
+								this.showLoadMore=false
 								return;
 							}
 						}else{
@@ -248,7 +264,12 @@
 
 		}
 	}
-
+	.chaji{
+		color: #cc0000;
+	}
+	.expressCode{
+		margin-right: 10upx;
+	}
 	.row {
 		width: 700upx;
 		background: #fff;
@@ -332,7 +353,7 @@
 				align-items: center;
 				justify-content: flex-end;
 
-				view {
+				.pay {
 					height: 56upx;
 					width: 140upx;
 					text-align: center;

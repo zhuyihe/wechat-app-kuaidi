@@ -1,7 +1,10 @@
 <template>
 	<view>
 		<view class="enter">
-			<view class="li jianzhi" @tap="partTime">
+			<view class="li" v-for="(item,index) in list" :key='index' @tap="enter(item.title)">
+				<image :src="item.img" mode=""></image>
+			</view>
+			<!-- <view class="li jianzhi" @tap="partTime">
 				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/1.png?sign=d4b1fb9cdc01df887a6ceabde9df5380&t=1567394861" mode=""></image>
 			</view>
 			<view class="li waimai" @tap="takeOut">
@@ -12,7 +15,7 @@
 			</view>
 			<view class="li luntan" @tap="bbs">
 				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/4.png?sign=57ae11f141c0d9a89e1d62d139baed4a&t=1567394937" mode=""></image>
-			</view>
+			</view> -->
 		</view>
 		<button class="kf_button" open-type="contact" session-from="weapp">
 			<image class="kf_image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/ke.png?sign=045632a510a31e7c5d5cdca367c3cfcd&t=1567394962"></image>
@@ -22,31 +25,52 @@
 </template>
 
 <script>
+	import {
+		getSchoolCard
+	} from '@/api/api.js'
+	import {
+		IMG_URL
+	} from '../../assets/js/const.js'
 	export default {
 		data() {
 			return {
+				list: []
 			};
 		},
-		methods:{
-			partTime(){
+		onLoad() {
+			this.getSchoolCard()
+		},
+		methods: {
+			enter(index){
+				let url = ''
+				switch (index) {
+					case '校园兼职':
+						url = '../../pageStatic/partTime/partTime'
+						break;
+					case '校园外卖':
+						url = '../../pageStatic/takeOut/takeOut'
+						break;
+					case '二手交易':
+						url = '../../pageStatic/transactions/transactions'
+						break;
+					case '校园论坛':
+						url = '../../pageStatic/bbs/bbs'
+						break;
+				}
 				uni.navigateTo({
-					url:'../../pageStatic/partTime/partTime'
+					url: url
 				})
 			},
-			takeOut(){
-				uni.navigateTo({
-					url:'../../pageStatic/takeOut/takeOut'
-				})
-			},
-			secondHand(){
-				uni.navigateTo({
-					url:'../../pageStatic/transactions/transactions'
-				})
-			},
-			bbs(){
-				uni.navigateTo({
-					url:'../../pageStatic/bbs/bbs'
-				})
+			async getSchoolCard() {
+				let res = await getSchoolCard()
+				if (res.code == 0) {
+					let list = res.data.map(item=>{
+						item.img= IMG_URL+item.img
+						return item
+					})
+					this.list=list
+					console.log(list)
+				}
 			}
 		}
 	}

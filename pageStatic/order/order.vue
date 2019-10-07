@@ -63,11 +63,12 @@
 					{{orderDetail.sendersType==1?'上门取件':'放置快递点'}}
 				</view>
 			</view>
+			
 			<view class="bh">
 				<view >
 					价格
 				</view>
-				<view >
+				<view class="red">
 					{{parseInt(orderDetail.price)}}
 				</view>
 			</view>
@@ -148,10 +149,9 @@
 		methods:{
 			goOrder(){
 				let orderDetail=this.orderDetail;
-				if(this.selectCoupon){
+				orderDetail.couponsId=0
+				if(JSON.stringify(this.selectCoupon)!=='{}'){
 					orderDetail.couponsId=this.selectCoupon.id
-				}else{
-					orderDetail.couponsId=0
 				}
 				saveMemberOrder(orderDetail).then(res=>{
 					if(res.code==0){

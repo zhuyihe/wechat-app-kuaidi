@@ -71,6 +71,14 @@
 					{{orderDetail.sendersType==1?'上门取件':'放置快递点'}}
 				</view>
 			</view>
+			<view class="bh" v-if="orderDetail.sendersType==2">
+				<view >
+					快递放置点
+				</view>
+				<view class="red">
+					{{orderDetail.expressAddress}}
+				</view>
+			</view>
 			<view class="bh" v-if='orderDetail.sendersType==1'>
 				<view>
 					快递放置点
@@ -127,8 +135,7 @@
 	import {
 		memberOrderDetail,
 		delmemberOrder,
-		createPay,
-		saveMemberOrder
+		createPay
 	} from '@/api/api'
 	import {
 		showModal,
@@ -154,9 +161,7 @@
 			if (uni.getStorageSync('orderDetail')) {
 				this.orderDetail = uni.getStorageSync('orderDetail')
 			}
-			if(option.state=='zhi'){
-				this.saveMemberOrder(this.orderDetail)
-			}else if(option.state=='seeCode'){
+			if(option.state=='seeCode'){
 				this.state = option.state
 				this.paycode = option.paycode
 				this.memberOrderDetail(this.paycode)
@@ -180,14 +185,15 @@
 						console.log(res)
 						if(res.errMsg=='requestPayment:ok'){
 							uni.reLaunch({
-								url:'../paySuccess/paySuccess?price='+orderDetail.payPrice
+								url:'../paySuccess/paySuccess?price='+this.orderDetail.payPrice
 							})
 						}
 					},
 					fail: e => {
 						console.log(e)
 						//支付失败，重新生成paycode
-						this.saveMemberOrder(this.orderDetail)
+						showToast('支付失败，请重新支付。')
+						// this.saveMemberOrder(this.orderDetail)
 					}
 				})
 			},
@@ -196,8 +202,8 @@
 					// console.log(res)
 					if (res.code == 0) {
 						this.orderDetail = res.data
-						console.log(res.data.payTime)
-						console.log(this.state)
+						// console.log(res.data.payTime)
+						// console.log(this.state)
 						if (this.state != 'seeCode') {
 							this.minute = Number(res.data.payTime.split(':')[0])
 							this.second = Number(res.data.payTime.split(':')[1])
@@ -229,16 +235,6 @@
 				console.log(res)
 				if (res.code == 0) {
 					this.payObj = res.data
-				}
-			},
-			async saveMemberOrder(obj) {
-				let res = await saveMemberOrder(obj)
-				if (res.code == 0) {
-					this.paycode = res.data
-					this.memberOrderDetail(this.paycode)
-					this.createPay(this.paycode)
-				} else {
-					showToast(res.msg)
 				}
 			}
 		}

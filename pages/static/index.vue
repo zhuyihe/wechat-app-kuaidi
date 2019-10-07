@@ -156,10 +156,13 @@
 				goodTypeList:[],
 				sendItem:{},//寄件
 				getItem:{},//收件
-				price:0
+				price:0,
+				hasCoupon:true
 			};
 		},
 		onLoad() {
+			this.hasCoupon=this.$store.state.hasCoupon
+			console.log(this.hasCoupon,'hasCoupon')
 			this.schoolMsg=this.$store.state.schoolMsg
 			if(this.schoolMsg.schoolName=='请选择学校'){
 				this.goToselectarea()
@@ -173,9 +176,11 @@
 			if(this.schoolMsg.schoolName!=='请选择学校'){
 				//第一次进入选学校 弹出优惠券以后不再弹
 				if(this.$store.state.isNew){
-					// showToast('新人专享优惠券送给你！')
-					this.togglePopup('image')
-					this.$store.commit('IS_NEW',false)
+					if(this.hasCoupon){
+						// showToast('新人专享优惠券送给你！')
+						this.togglePopup('image')
+						this.$store.commit('IS_NEW',false)
+					}
 				}
 			}
 		},

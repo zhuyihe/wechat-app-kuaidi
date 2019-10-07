@@ -18,6 +18,10 @@ export const mutations={
 		state.isNew=isNew
 		setStorageSync('state',state)
 	},
+	HAS_COUPON(state,bool){
+		state.hasCoupon=bool
+		setStorageSync('state',state)
+	}
 	// USER_INFO(state,userInfo){
 	// 	state.userInfo=userInfo
 	// 	console.log(state)
