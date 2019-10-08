@@ -119,19 +119,21 @@
 				</view>
 			</view>
 		</view>
-		<view class="order" v-if="!state">
-			<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(paycode)'>
-				取消订单
+		<block>	
+			<view class="order" v-if="!state||state=='undefined'">
+				<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(paycode)'>
+					取消订单
+				</view>
+				<view class="goOrder" @tap='goOrder' style="width: 50%;">
+					立即支付
+				</view>
 			</view>
-			<view class="goOrder" @tap='goOrder' style="width: 50%;">
-				立即支付
+			<view class="order" v-if="state=='repay'">
+				<view class="goOrder" @tap='goOrder' style="width: 100%;">
+					立即支付
+				</view>
 			</view>
-		</view>
-		<view class="order" v-if-esle="state=='repay'">
-			<view class="goOrder" @tap='goOrder' style="width: 100%;">
-				立即支付
-			</view>
-		</view>
+		</block>
 	</view>
 </template>
 
