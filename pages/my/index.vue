@@ -128,7 +128,7 @@
 					<view class="fs">
 						可提现余额
 					</view>
-					<view class="txs">
+					<view class="txs" @tap="tixian">
 						提现
 					</view>
 				</view>
@@ -233,6 +233,12 @@
 			this.codeImg()
 			this.memberInfo()
 		},
+		onShow(){
+			if(uni.getStorageSync('getMoney')){
+				this.memberInfo()
+				uni.setStorageSync('getMoney',false)
+			}
+		},
 		methods: {
 			toOrderList(index) {
 				console.log(index)
@@ -259,6 +265,11 @@
 			gogong(state,url) {
 				uni.navigateTo({
 					url: '../../pageStatic/detial/detial?state=' + state+'&img='+url
+				})
+			},
+			tixian(){
+				uni.navigateTo({
+					url: '../../pageStatic/deposit/deposit'
 				})
 			},
 			doSomething(text){

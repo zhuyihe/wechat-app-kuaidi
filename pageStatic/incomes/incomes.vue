@@ -17,12 +17,12 @@
 					</view>
 					<view class="right">
 						<view class="count red">
-							{{member.blanceMoney}}.00
+							{{member.blanceMoney}}
 						</view>
 						<view class="fs">
 							可提现余额
 						</view>
-						<view class="txs">
+						<view class="txs" @tap="tixian">
 							提现
 						</view>
 					</view>
@@ -31,7 +31,7 @@
 			<view class="mains">
 				<view class="main">
 					<view class="count">
-						{{member.todayMoney}}.00
+						{{member.todayMoney}}
 					</view>
 					<view class="fs">
 						今日(元)
@@ -39,7 +39,7 @@
 				</view>
 				<view class="main">
 					<view class="count">
-						{{member.monthMoney}}.00
+						{{member.monthMoney}}
 					</view>
 					<view class="fs">
 						本月(元)
@@ -47,7 +47,7 @@
 				</view>
 				<view class="main">
 					<view class="count">
-						{{member.totalMoney}}.00
+						{{member.totalMoney}}
 					</view>
 					<view class="fs">
 						累计(元)
@@ -98,6 +98,13 @@
 		onLoad(){
 			this.memberMoney()
 		},
+		onShow(){
+			if(uni.getStorageSync('getMoney')){
+				this.memberMoney()
+				uni.setStorageSync('getMoney',false)
+			}
+			
+		},
 		methods:{
 			async memberMoney(){
 				let res= await memberMoney()
@@ -105,6 +112,11 @@
 					this.member=res.data.memberVo
 					this.list=res.data.sonVOList
 				}
+			},
+			tixian(){
+				uni.navigateTo({
+					url: '../deposit/deposit'
+				})
 			}
 		}
 	}

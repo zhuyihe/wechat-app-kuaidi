@@ -96,3 +96,5 @@ export const getUseCoupon = (params) => request(BASE_URL + "applet/memberUser/co
 export const memberMoney = () => request(BASE_URL + "applet/memberUser/memberMoney.do");
 //校园中心 
 export const getSchoolCard = () => request(BASE_URL + "home/getSchoolCard.do");
+//提现
+export const saveWithdraw=(params) => request(BASE_URL + "applet/memberUser/saveWithdraw.do",params,'POST');

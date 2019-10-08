@@ -4,18 +4,6 @@
 			<view class="li" v-for="(item,index) in list" :key='index' @tap="enter(item.title)">
 				<image :src="item.img" mode=""></image>
 			</view>
-			<!-- <view class="li jianzhi" @tap="partTime">
-				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/1.png?sign=d4b1fb9cdc01df887a6ceabde9df5380&t=1567394861" mode=""></image>
-			</view>
-			<view class="li waimai" @tap="takeOut">
-				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/2.png?sign=8d77dfb9730ff35ca8468b6b63cab647&t=1567394914" mode=""></image>
-			</view>
-			<view class="li ershou" @tap="secondHand">
-				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/3.png?sign=e4d02a2fe372b79275bcb6a1601b56f4&t=1567394926" mode=""></image>
-			</view>
-			<view class="li luntan" @tap="bbs">
-				<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/4.png?sign=57ae11f141c0d9a89e1d62d139baed4a&t=1567394937" mode=""></image>
-			</view> -->
 		</view>
 		<button class="kf_button" open-type="contact" session-from="weapp">
 			<image class="kf_image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/ke.png?sign=045632a510a31e7c5d5cdca367c3cfcd&t=1567394962"></image>

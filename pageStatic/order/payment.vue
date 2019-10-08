@@ -107,7 +107,7 @@
 				</view>
 			</view>
 			
-			<view class="bh" v-if="state!='seeCode'">
+			<view class="bh" v-if="!state">
 				<view>
 					剩余支付时间
 				</view>
@@ -119,11 +119,16 @@
 				</view>
 			</view>
 		</view>
-		<view class="order" v-if="state!='seeCode'">
+		<view class="order" v-if="!state">
 			<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(paycode)'>
 				取消订单
 			</view>
 			<view class="goOrder" @tap='goOrder' style="width: 50%;">
+				立即支付
+			</view>
+		</view>
+		<view class="order" v-if-esle="state=='repay'">
+			<view class="goOrder" @tap='goOrder' style="width: 100%;">
 				立即支付
 			</view>
 		</view>
@@ -161,16 +166,13 @@
 			if (uni.getStorageSync('orderDetail')) {
 				this.orderDetail = uni.getStorageSync('orderDetail')
 			}
-			if(option.state=='seeCode'){
-				this.state = option.state
-				this.paycode = option.paycode
-				this.memberOrderDetail(this.paycode)
-			}else{
-				this.state = option.state
-				this.paycode = option.paycode
-				this.memberOrderDetail(this.paycode)
+			this.state = option.state
+			this.paycode = option.paycode
+			this.memberOrderDetail(this.paycode)
+			if(option.state!='seeCode'){
 				this.createPay(this.paycode)
 			}
+			
 		},
 		methods: {
 			goOrder() {
@@ -204,7 +206,7 @@
 						this.orderDetail = res.data
 						// console.log(res.data.payTime)
 						// console.log(this.state)
-						if (this.state != 'seeCode') {
+						if (this.state != 'seeCode'||this.state != 'repay') {
 							this.minute = Number(res.data.payTime.split(':')[0])
 							this.second = Number(res.data.payTime.split(':')[1])
 						}

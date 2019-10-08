@@ -62,7 +62,7 @@
 										<view class="sf expressCode">
 											{{row.expressName}}:{{row.expressCode}}
 										</view>
-										<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去补差价</view>
+										<view class="pay" @tap="toPayment(row,'repay')" style="border: 0;background: #ffd84d;">去补差价</view>
 									</block>
 									
 								</block>
@@ -77,7 +77,7 @@
 										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;background: #ffd84d;">查看详情</view>
 									</block>
 									<block v-else>
-										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;">查看详情</view>
+										<view class="pay" @tap="toPayment(row,'seeCode')" >查看详情</view>
 									</block>
 								</block>
 							</view>
@@ -122,7 +122,7 @@
 			console.log("option: " + JSON.stringify(option));
 			let tbIndex = parseInt(option.tbIndex) + 1;
 			this.tabbarIndex = tbIndex;
-			this.loadMoreText = "加载更多",
+			this.loadMoreText = "",
 			this.showLoadMore = true;
 			this.getOrderList(this.tabbarIndex)
 		},
@@ -144,7 +144,7 @@
 			showType(tbIndex) {
 				this.tabbarIndex = tbIndex;
 				this.orderList=[]
-				this.loadMoreText = "加载更多",
+				this.loadMoreText = "",
 				this.pageNo=1
 				this.showLoadMore = true;
 				this.getOrderList(this.tabbarIndex)
@@ -164,8 +164,16 @@
 					if (res.code == 0) {
 						if(!isReset){
 							if (res.data.memberOrderList) {
+								if(res.data.memberOrderList.length<10){
+									this.loadMoreText='没有更多数据了'
+									this.showLoadMore=false
+								}else{
+									this.loadMoreText='正在加载中...'
+									this.showLoadMore=true
+								}
 								this.orderList = this.orderList.concat(res.data.memberOrderList)
 							} else {
+								console.log(2)
 								this.loadMoreText = "没有更多数据了!"
 								this.showLoadMore=false
 								return;

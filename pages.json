@@ -154,6 +154,11 @@
 			"style": {
 				"navigationBarTitleText": "发帖"
 			}
+		},{
+			"path": "deposit/deposit",
+			"style": {
+				"navigationBarTitleText": "提现"
+			}
 		}]
 	}],
 	"globalStyle": {

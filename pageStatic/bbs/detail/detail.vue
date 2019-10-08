@@ -17,7 +17,7 @@
 						{{detail.message}}
 					</view>
 				</view>
-				<view class="imgs">
+				<view class="imgs" v-if='detail.messageImg'>
 					<template>
 						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index'></image>
 					</template>
@@ -177,7 +177,7 @@
 				let res = await getForumDetial(id)
 				if (res.code == 0) {
 					this.detail = res.data.memberForum
-					this.detail.messageImg = res.data.memberForum.messageImg.split(',')
+					if(res.data.memberForum.messageImg) this.detail.messageImg = res.data.memberForum.messageImg.split(',')
 					console.log(this.detail)
 				}
 			},

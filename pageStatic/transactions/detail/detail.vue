@@ -12,7 +12,7 @@
 				<view class="content">
 					{{detail.message}}
 				</view>
-				<view class="imgs">
+				<view class="imgs" v-if='detail.messageImg'>
 					<template>
 						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index'></image>
 					</template>
@@ -149,7 +149,8 @@
 				let res = await goodsDetail(id)
 				if (res.code == 0) {
 					this.detail = res.data.memberGoods
-					this.detail.messageImg = res.data.memberGoods.messageImg.split(',')
+					if(res.data.memberGoods.messageImg) this.detail.messageImg = res.data.memberGoods.messageImg.split(',')
+					
 					console.log(this.detail)
 				}
 			},
