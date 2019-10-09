@@ -156,7 +156,7 @@
 				saveMemberOrder(orderDetail).then(res=>{
 					if(res.code==0){
 						uni.setStorageSync('orderDetail',orderDetail)
-						uni.navigateTo({
+						uni.redirectTo({
 							url:'../order/payment?paycode='+res.data
 						})
 					}else{

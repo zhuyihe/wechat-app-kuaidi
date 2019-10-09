@@ -107,7 +107,7 @@
 				</view>
 			</view>
 			
-			<view class="bh" v-if="!state">
+			<view class="bh" v-if="!state||state=='undefined'">
 				<view>
 					剩余支付时间
 				</view>
