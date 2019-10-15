@@ -52,7 +52,7 @@
 			async getSchoolCard() {
 				let res = await getSchoolCard()
 				if (res.code == 0) {
-					let list = res.data.map(item=>{
+					let list = res.data.bannerList.map(item=>{
 						item.img= IMG_URL+item.img
 						return item
 					})

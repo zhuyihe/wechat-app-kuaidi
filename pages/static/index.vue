@@ -171,6 +171,7 @@
 		},
 		onShow(){
 			console.log('show')
+			this.getHomeIndex()
 		},
 		updated(){
 			if(this.schoolMsg.schoolName!=='请选择学校'){

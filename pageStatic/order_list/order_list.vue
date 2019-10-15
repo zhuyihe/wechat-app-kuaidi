@@ -126,6 +126,12 @@
 			this.showLoadMore = true;
 			this.getOrderList(this.tabbarIndex)
 		},
+		onPullDownRefresh() {
+			this.getOrderList(this.tabbarIndex)
+			setTimeout(function () {
+			            uni.stopPullDownRefresh();
+			        }, 1000);
+		},
 		onPageScroll(e) {
 			return;
 			//兼容iOS端下拉时顶部漂移
@@ -243,7 +249,7 @@
 		width: 100%;
 		position: fixed;
 		top: 0;
-		z-index: 10;
+		z-index: 0;
 		background-color: #f8f8f8;
 		height: 80upx;
 		display: flex;

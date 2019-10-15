@@ -16,12 +16,7 @@
 						<view class="content">
 							{{item.simpleMessage}}
 						</view>
-						<view class="footer">
-							<view class="left">
-								<image :src="item.headImg" mode=""></image>
-								<text>{{item.mname}}</text>
-								<text>{{dateFtt('yyyy-MM-dd',item.createTime)}}</text>
-							</view>
+						<view class="footer" style="text-align: right;">
 							<view class="right">
 								<view class="see">
 									<text>{{item.lookNum}}</text>
@@ -31,6 +26,16 @@
 									<text>{{item.discussNum}}</text>
 									<uni-icon type="chat" size="16" color='#8d8d8d'></uni-icon>
 								</view>
+							</view>
+						</view>
+						<view class="footer">
+							<view class="left">
+								<image :src="item.headImg" mode=""></image>
+								<text>{{item.mname}}</text>
+								<text>{{dateFtt('yyyy-MM-dd',item.createTime)}}</text>
+							</view>
+							<view class="rights">
+								<text>{{item.school_name}}</text>
 							</view>
 						</view>
 					</view>
@@ -166,13 +171,20 @@ image{
 	width: 50upx;
 	height: 50upx;
 }
-.left,.right{
+.left,.rights{
 	display: flex;
 	align-items: center;
 	line-height: 40upx;
 	margin: 20upx 0;
 	font-size: 26upx;
 }
+.right{
+		width: 100%;
+		font-size: 24upx;
+		display: flex;
+		line-height: 40upx;
+		flex-direction: row-reverse;
+	}
 .left{
 	
 	color:#999;

@@ -41,10 +41,6 @@
 		},
 		mounted(){
 			this.checkItem=this.sort[0]
-			this.$nextTick(function(){
-				this.sort[1].homeFlag=this.$store.state.homeFlag
-				console.log(this.sort)
-			})
 		},
 		methods:{
 			close(){
@@ -58,6 +54,16 @@
 			},
 			comfirmJi(){
 				this.$emit('comfirmJi',this.checkItem)
+			}
+		},
+		computed:{
+			homeFlag(){
+				return this.$store.state.homeFlag
+			}
+		},
+		watch:{
+			homeFlag(n){
+				this.sort[1].homeFlag=n
 			}
 		}
 	}

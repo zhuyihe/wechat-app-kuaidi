@@ -5,7 +5,7 @@
 			<swiper class="imageContainer" @change="handleChange" previous-margin="50rpx" next-margin="50rpx" circular  autoplay>
 				<block v-for="(item,index) in swiperList" :key="index">
 					<swiper-item class="swiperitem">
-						<navigator url="/pageStatic/coupon/coupon"><image class="itemImg" :class="currentIndex == index ? 'swiperactive': ''" :src="item.img" lazy-load mode="scaleToFill"></image></navigator>
+						<navigator :url="item.imgUrl"><image class="itemImg" :class="currentIndex == index ? 'swiperactive': ''" :src="item.img" lazy-load mode="scaleToFill"></image></navigator>
 					</swiper-item>
 				</block>
 			</swiper>

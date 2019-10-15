@@ -35,6 +35,8 @@
 			</view>
 			<view class="status">
 				<view class="sItem" v-for='(item,index) in list' :key='index'>
+					<uni-badge :text="forumMsgNum" type="error" class="badge" v-if='index==3&&forumMsgNum>0' />
+					<uni-badge :text="goodMsgNum" type="error" class="badge" v-if='index==2&&goodMsgNum>0' />
 					<template v-if='item.url'>
 						<navigator :url="item.url">
 							<image :src="item.img" mode="" style="width: 46upx;"></image>
@@ -167,9 +169,11 @@
 	import {sharCode,memberInfo} from '@/api/api.js'
 	import {IMG_URL} from '../../assets/js/const.js'
 	import hchPoster from '@/components/hch-poster/hch-poster.vue'
+	import uniBadge from '@/components/uni-badge/uni-badge.vue'
 	export default {
 		components:{
-		hchPoster
+		hchPoster,
+		uniBadge
 		},
 		data() {
 			return {
@@ -226,7 +230,9 @@
 				canvasFlag: true,
 				posterData:{},
 				codeImgs:'',
-				memberinfo:{}
+				memberinfo:{},
+				forumMsgNum:0,
+				goodMsgNum:0
 			};
 		},
 		onLoad(){
@@ -238,6 +244,12 @@
 				this.memberInfo()
 				uni.setStorageSync('getMoney',false)
 			}
+		},
+		onPullDownRefresh() {
+			this.memberInfo()
+			setTimeout(function () {
+			            uni.stopPullDownRefresh();
+			        }, 1000);
 		},
 		methods: {
 			toOrderList(index) {
@@ -414,7 +426,9 @@
 			async memberInfo(){
 				let res= await memberInfo()
 				if(res.code==0){
-					this.memberinfo=res.data
+					this.memberinfo=res.data.memberVo
+					this.forumMsgNum=res.forumMsgNum
+					this.goodMsgNum=res.goodMsgNum
 					console.log(res)
 				}
 			}
@@ -499,10 +513,15 @@
 			color: #333;
 			line-height: 40upx;
 			width: 25%;
-
+			position: relative;
 			image {
 				width: 56upx;
 				height: 50upx;
+			}
+			.badge{
+				position: absolute;
+				right: 20upx;
+				top: -30upx;
 			}
 		}
 

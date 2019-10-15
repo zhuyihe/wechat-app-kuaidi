@@ -16,7 +16,8 @@
 		{
 			"path": "pages/my/index",
 			"style": {
-				"navigationBarTitleText": "奇校园"
+				"navigationBarTitleText": "奇校园",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -102,7 +103,8 @@
 		}, {
 			"path": "order_list/order_list",
 			"style": {
-				"navigationBarTitleText": "我的订单"
+				"navigationBarTitleText": "我的订单",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "discount/discount",
