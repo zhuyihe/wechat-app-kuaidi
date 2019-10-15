@@ -1,4 +1,4 @@
-import {showToast,showLoading,hideLoading} from '@/assets/js/common'
+import {showToast,showLoading,hideLoading,showModal} from '@/assets/js/common'
 import store from '@/store/store'
 const request = (url, data, method = 'GET') => {
 	showLoading('加载中', true)
@@ -24,7 +24,18 @@ const request = (url, data, method = 'GET') => {
 						})
 					}else{
 						console.log('获取openid')
-						resovle(res.data)
+						console.log(res.data)
+						if(res.ret){
+							resovle(res.data)
+						}else{
+							showModal('系统提示','您暂未登陆无法进行操作，是否登陆？','确定',true).then(res=>{
+								uni.switchTab({
+									url: '../my/index'
+								})
+							}).catch(()=>{})
+							showToast('请先登录！')
+						}
+						
 					}
 				}else if(res.statusCode==500){
 					showToast('服务器异常，请联系管理员')

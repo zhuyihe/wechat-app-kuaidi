@@ -35,49 +35,49 @@ export const getCouponList = () => request(BASE_URL + "applet/memberUser/coupon/
 //领取优惠券
 export const getCoupon = (params) => request(BASE_URL + "applet/memberUser/coupon/getCoupon.do?code="+params);
 //获取论坛列表
-export const getForumList = (params) => request(BASE_URL + "applet/memberUser/forum/list.do?pageNo="+params);
+export const getForumList = (params) => request(BASE_URL + "school/memberUser/forum/list.do?pageNo="+params);
 //获取论坛详情
-export const getForumDetial = (params) => request(BASE_URL + "applet/memberUser/forum/forumDetail.do?id="+params);
+export const getForumDetial = (params) => request(BASE_URL + "school/memberUser/forum/forumDetail.do?id="+params);
 //论坛发帖
-export const saveForum=(params) => request(BASE_URL + "applet/memberUser/forum/saveForum.do",params,'POST');
+export const saveForum=(params) => request(BASE_URL + "school/memberUser/forum/saveForum.do",params,'POST');
 //查看帖子评论
-export const getForumMessage=(params) => request(BASE_URL + "applet/memberUser/forum/forumMessage.do?id="+params.id+'&pageNo='+params.pageNo);
+export const getForumMessage=(params) => request(BASE_URL + "school/memberUser/forum/forumMessage.do?id="+params.id+'&pageNo='+params.pageNo);
 //回复帖子
-export const saveForumMessage=(params) => request(BASE_URL + "applet/memberUser/forum/saveForumMessage.do",params,'POST');
+export const saveForumMessage=(params) => request(BASE_URL + "school/memberUser/forum/saveForumMessage.do",params,'POST');
 //查看更多评论
-export const forumMessageAll=(params) => request(BASE_URL + "applet/memberUser/forum/forumMessageAll.do?id="+params.id+'&pid='+params.pid+'&pageNo='+params.pageNo);
+export const forumMessageAll=(params) => request(BASE_URL + "school/memberUser/forum/forumMessageAll.do?id="+params.id+'&pid='+params.pid+'&pageNo='+params.pageNo);
 //编辑帖子
-export const updateForum=(params) => request(BASE_URL + "applet/memberUser/forum/updateForum.do",params,'POST');
+export const updateForum=(params) => request(BASE_URL + "school/memberUser/forum/updateForum.do",params,'POST');
 //删除帖子
-export const delforum = (params) => request(BASE_URL + "applet/memberUser/forum/delforum.do?id="+params);
+export const delforum = (params) => request(BASE_URL + "school/memberUser/forum/delforum.do?id="+params);
 //查看个人中心的帖子
-export const getUserBbs = (params) => request(BASE_URL + "applet/memberUser/forum/memberList.do?pageNo="+params);
+export const getUserBbs = (params) => request(BASE_URL + "school/memberUser/forum/memberList.do?pageNo="+params);
 //获取二手交易列表
-export const getGoods = (params) => request(BASE_URL + "applet/memberUser/goods/list.do?pageNo="+params);
+export const getGoods = (params) => request(BASE_URL + "school/memberUser/goods/list.do?pageNo="+params);
 //获取个人中心二手交易列表
-export const getUserGoods = (params) => request(BASE_URL + "applet/memberUser/goods/memberList.do?pageNo="+params);
+export const getUserGoods = (params) => request(BASE_URL + "school/memberUser/goods/memberList.do?pageNo="+params);
 //查看交易详情
-export const goodsDetail = (params) => request(BASE_URL + "applet/memberUser/goods/goodsDetail.do?id="+params);
+export const goodsDetail = (params) => request(BASE_URL + "school/memberUser/goods/goodsDetail.do?id="+params);
 //查看交易评论
-export const goodsMessage = (params) => request(BASE_URL + "applet/memberUser/goods/goodsMessage.do?id="+params.id+'&pageNo='+params.pageNo);
+export const goodsMessage = (params) => request(BASE_URL + "school/memberUser/goods/goodsMessage.do?id="+params.id+'&pageNo='+params.pageNo);
 //查看所有交易评论
-export const goodsMessageAll=(params) => request(BASE_URL + "applet/memberUser/goods/goodsMessageAll.do?id="+params.id+'&pid='+params.pid+'&pageNo='+params.pageNo);
+export const goodsMessageAll=(params) => request(BASE_URL + "school/memberUser/goods/goodsMessageAll.do?id="+params.id+'&pid='+params.pid+'&pageNo='+params.pageNo);
 //回复二手评论
-export const saveGoodsMessage=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoodsMessage.do",params,'POST');
+export const saveGoodsMessage=(params) => request(BASE_URL + "school/memberUser/goods/saveGoodsMessage.do",params,'POST');
 //编辑二手交易
-export const updateGoods=(params) => request(BASE_URL + "applet/memberUser/goods/updateGoods.do",params,'POST');
+export const updateGoods=(params) => request(BASE_URL + "school/memberUser/goods/updateGoods.do",params,'POST');
 //发布二手交易 
-export const saveGoods=(params) => request(BASE_URL + "applet/memberUser/goods/saveGoods.do",params,'POST');
+export const saveGoods=(params) => request(BASE_URL + "school/memberUser/goods/saveGoods.do",params,'POST');
 //获取外卖列表
-export const getFoodsList = (params) => request(BASE_URL + "applet/memberUser/foods/list.do?pageNo="+params);
+export const getFoodsList = (params) => request(BASE_URL + "school/memberUser/foods/list.do?pageNo="+params);
 //删除帖子
-export const delGoods = (params) => request(BASE_URL + "applet/memberUser/goods/delGoods.do?id="+params);
+export const delGoods = (params) => request(BASE_URL + "school/memberUser/goods/delGoods.do?id="+params);
 //获取外卖详情
-export const foodDetail = (params) => request(BASE_URL + "applet/memberUser/foods/detail.do?id="+params);
+export const foodDetail = (params) => request(BASE_URL + "school/memberUser/foods/detail.do?id="+params);
 //兼职列表
-export const partList = (params) => request(BASE_URL + "applet/memberUser/part/list.do?pageNo="+params);
+export const partList = (params) => request(BASE_URL + "school/memberUser/part/list.do?pageNo="+params);
 //兼职详情
-export const partDetail = (params) => request(BASE_URL + "applet/memberUser/part/detail.do?id="+params);
+export const partDetail = (params) => request(BASE_URL + "school/memberUser/part/detail.do?id="+params);
 //问题列表
 export const questionList = (params) => request(BASE_URL + "applet/memberUser/question/list.do?type="+params.type+'&pageNo='+params.pageNo);
 //会员推广码
