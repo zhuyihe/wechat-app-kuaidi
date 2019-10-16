@@ -1,13 +1,13 @@
 <script>
 	import {
 		getStorageSync,
-		uniLogin
+		uniLogin,
+		setStorageSync
 	} from '@/assets/js/common'
 	import {
 		getOpenid,
 		memberLookNum
 	} from '@/api/api'
-	import store from '@/store/store'
 	export default {
 		onLaunch: function(query) {
 			//判断是否是通过扫码进入
@@ -17,34 +17,34 @@
 				this.memberLookNum(scene)
 			}
 			let that = this
-			uni.clearStorageSync();  
+			setStorageSync('pid',scene)
+			uni.switchTab({
+				url: '/pages/static/index'
+			})
 			// 小程序启动判断用户是否授权，根据是否授权来请求不同的业务数据
-			uniLogin().then(res => {
-				console.log(res)
-				uni.switchTab({
-					url: '/pages/static/index'
-				})
-				// getOpenid({
-				// 	code: res.code
-				// }).then(re => {
-				// 	console.log(re)
-				// 	if (re.code == 0) {
-				// 		this.$store.commit('LOGIN_SESSIONKEY', re.data.wxMaJscode2SessionResult.sessionKey)
-				// 		this.$store.commit('SCHOOLMSG',{schoolName:re.data.member.schoolName,school_id:re.data.member.school_id})
-				// 		this.$store.commit('SET_HOMEFLAG',re.data.member.homeFlag)
-				// 		this.$store.commit('IS_NEW',false)
-				// 		uni.switchTab({
-				// 			url: '/pages/static/index'
-				// 		})
-				// 	} else if (re.code == 403) {
-				// 		uni.redirectTo({
-				// 			url: '/pages/login/login?pid='+scene
-				// 		})
-				// 	}
-				// }).catch(e => {
+			// uniLogin().then(res => {
+			// 	console.log(res)
+			// 	getOpenid({
+			// 		code: res.code
+			// 	}).then(re => {
+			// 		console.log(re)
+			// 		if (re.code == 0) {
+			// 			this.$store.commit('LOGIN_SESSIONKEY', re.data.wxMaJscode2SessionResult.sessionKey)
+			// 			this.$store.commit('SCHOOLMSG',{schoolName:re.data.member.schoolName,school_id:re.data.member.school_id})
+			// 			this.$store.commit('SET_HOMEFLAG',re.data.member.homeFlag)
+			// 			this.$store.commit('IS_NEW',false)
+			// 			uni.switchTab({
+			// 				url: '/pages/static/index'
+			// 			})
+			// 		} else if (re.code == 403) {
+			// 			uni.redirectTo({
+			// 				url: '/pages/login/login?pid='+scene
+			// 			})
+			// 		}
+			// 	}).catch(e => {
 
-				// })
-			}).catch(e => {})
+			// 	})
+			// }).catch(e => {})
 		},
 		onShow: function(options) {
 			let option = JSON.stringify(options);

@@ -20,10 +20,14 @@
 
 <script>
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import {
+		getStorageSync,
+	} from '@/assets/js/common'
 	export default {
 		components:{
 			uniIcon
 		},
+		props:['homeFlag'],
 		data() {
 			return {
 				sort:[{
@@ -54,11 +58,6 @@
 			},
 			comfirmJi(){
 				this.$emit('comfirmJi',this.checkItem)
-			}
-		},
-		computed:{
-			homeFlag(){
-				return this.$store.state.homeFlag
 			}
 		},
 		watch:{

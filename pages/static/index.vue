@@ -95,6 +95,9 @@
 				<view class="yf">
 					价格：<text class="mon">{{price}}</text>
 				</view>
+				<view class="talkUser" @click="talkUser">
+					《下单须知》
+				</view>
 				<view class="go" @tap="order">
 					立即下单
 				</view>
@@ -104,7 +107,7 @@
 			<select-sort @closePo='selectSort' @comfirmSort='comfirmSort' :goodTypeList='goodTypeList'></select-sort>
 		</uni-popup>
 		<uni-popup ref="popup1" type="bottom">
-			<select-sort1 @close='selects' @comfirmJi='comfirmJi'></select-sort1>
+			<select-sort1 @close='selects' @comfirmJi='comfirmJi' :homeFlag='homeFlag'></select-sort1>
 		</uni-popup>
 		<!-- 插屏弹窗 -->
 		<uni-popup ref="image" type="center" :custom="true" :mask-click="false" >
@@ -121,7 +124,8 @@
 
 <script>
 	import {
-		getStorageSync
+		getStorageSync,
+		setStorageSync
 	} from '@/assets/js/common';
 	import {
 		showToast,
@@ -152,48 +156,59 @@
 				},
 				isAddJi: false, //是否添加寄件人信息
 				isAddShou: false, //是否添加收件人信息
-				schoolMsg:{},
 				goodTypeList:[],
 				sendItem:{},//寄件
 				getItem:{},//收件
 				price:0,
-				hasCoupon:true
+				hasCoupon:true,
+				schoolMsg:{
+					schoolName:'选择学校',
+				},
+				homeFlag:1,
+				talkContent:''
 			};
 		},
 		onLoad() {
-			this.hasCoupon=this.$store.state.hasCoupon
-			console.log(this.hasCoupon,'hasCoupon')
-			this.schoolMsg=this.$store.state.schoolMsg
-			if(this.schoolMsg.schoolName=='请选择学校'){
-				this.goToselectarea()
-			}
 			this.getHomeIndex()
 		},
 		onShow(){
-			console.log('show')
-			this.getHomeIndex()
+			if(getStorageSync('hasCoupon')){
+				this.hasCoupon=getStorageSync('hasCoupon')
+				console.log(this.hasCoupon,'hasCoupon')
+			}
+			if(getStorageSync('schoolMsg')){
+				this.schoolMsg=getStorageSync('schoolMsg')
+				if(this.schoolMsg.schoolName=='请选择学校'){
+					this.goToselectarea()
+				}
+			}
 		},
 		updated(){
 			if(this.schoolMsg.schoolName!=='请选择学校'){
 				//第一次进入选学校 弹出优惠券以后不再弹
-				if(this.$store.state.isNew){
+				if(getStorageSync('isNew')){
 					if(this.hasCoupon){
 						// showToast('新人专享优惠券送给你！')
 						this.togglePopup('image')
-						this.$store.commit('IS_NEW',false)
+						setStorageSync('isNew',false)
 					}
 				}
 			}
 		},
 		watch:{
-			'$store.state.schoolMsg'(n){
-				this.schoolMsg=n
+			'schoolMsg.schoolName'(n){
+				this.getHomeIndex()
 			}
 		},
 		methods: {
 			toLocation() {
 				uni.navigateTo({
 					url: '../../pageStatic/location/location?schoolName='+this.schoolMsg.schoolName
+				})
+			},
+			talkUser(){
+				uni.navigateTo({
+					url: '../../pageStatic/detial/detial?state=talk'
 				})
 			},
 			//选择物品类型
@@ -377,6 +392,10 @@
 						}
 						this.swiperList=res.data.bannerList
 						this.goodTypeList=res.data.goodTypeList
+						this.homeFlag=res.data.schoolHomeFlag
+						this.talkContent=res.data.schoolStep
+						setStorageSync('talkContent',res.data.schoolStep)
+						setStorageSync('homeFlag',res.data.schoolHomeFlag)
 					}
 				})
 			},
@@ -423,7 +442,11 @@
 			width: 120upx;
 			height: 120upx;
 		}
-	
+		.talkUser{
+			font-size: 26upx;
+			color: #0081FF;
+			margin-left: 10upx;
+		}
 		.location {
 			// line-height: 50upx;
 			height: 40upx;

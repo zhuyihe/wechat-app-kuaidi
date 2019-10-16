@@ -1,5 +1,4 @@
-import {showToast,showLoading,hideLoading,showModal} from '@/assets/js/common'
-import store from '@/store/store'
+import {showToast,showLoading,hideLoading,showModal,getStorageSync} from '@/assets/js/common'
 const request = (url, data, method = 'GET') => {
 	showLoading('加载中', true)
 	return new Promise((resovle, reject) => {
@@ -8,7 +7,7 @@ const request = (url, data, method = 'GET') => {
 			data,
 			method,
 			header: {
-				"token":store.state.token,
+				"token":getStorageSync('token'),
 				"content-type":"application/json;charset=UTF-8"
 			},
 			dataType: 'json',
@@ -17,22 +16,25 @@ const request = (url, data, method = 'GET') => {
 				if(res.statusCode==200){
 					resovle(res.data)
 				}else if(res.statusCode==403){
-					if(store.state.token){
-						console.log(store.state.token)
+					if(getStorageSync('token')){
+						console.log(getStorageSync('token'))
 						uni.redirectTo({
 							url:"/pages/login/login?hasAuth="+true
 						})
 					}else{
-						console.log('获取openid')
 						console.log(res.data)
-						if(res.ret){
+						if(res.ret || url.indexOf('getOpenidByCode.do')>-1){
 							resovle(res.data)
 						}else{
 							showModal('系统提示','您暂未登陆无法进行操作，是否登陆？','确定',true).then(res=>{
 								uni.switchTab({
-									url: '../my/index'
+									url: '/pages/my/index'
 								})
-							}).catch(()=>{})
+							}).catch(()=>{
+								uni.switchTab({
+									url: '/pages/static/index'
+								})
+							})
 							showToast('请先登录！')
 						}
 						

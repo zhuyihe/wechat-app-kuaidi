@@ -90,7 +90,7 @@
 					selectSchool(parmas).then(re => {
 						console.log(re)
 						if (re.code == 0) {
-							this.$store.commit('SCHOOLMSG',{schoolName:parmas.storeName,school_id:parmas.id})
+							setStorageSync('schoolMsg',{schoolName:parmas.storeName,school_id:parmas.id})
 							uni.switchTab({
 								url:'../../pages/static/index'
 							})

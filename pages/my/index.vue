@@ -1,11 +1,16 @@
 <template>
 	<view class="global">
-		<view class="tou">
+		<view class="tou" v-if='isLogin'>
 			<view class="names">
 				<image :src="memberinfo.headImgUrl"></image><text>{{memberinfo.managerNickName}}</text>
 			</view>
 			<view class="school">
 				——{{memberinfo.schoolName}}的小伙伴
+			</view>
+		</view>
+		<view class="tou" v-else>
+			<view class="names" @tap='goLogin'>
+				<image src="../../static/logo.png"></image><text>请登录</text>
 			</view>
 		</view>
 		<view class="orderList">
@@ -14,12 +19,12 @@
 					我的订单
 				</view>
 				<view class="allOrder">
-					<text @tap="toOrderList(-1)">全部订单</text>
+					<text @tap="isLogin?toOrderList(-1):''">全部订单</text>
 					<uni-icon type="arrowright" size="20" color="#7a7a7a"></uni-icon>
 				</view>
 			</view>
 			<view class="status">
-				<view class="sItem sItem1" v-for="(row,index) in orderList" :key="index" @tap="toOrderList(index)">
+				<view class="sItem sItem1" v-for="(row,index) in orderList" :key="index" @tap="isLogin?toOrderList(index):''">
 					<image :src="row.img" mode=""></image>
 					<view class="dfk">
 						{{row.text}}
@@ -38,7 +43,7 @@
 					<uni-badge :text="forumMsgNum" type="error" class="badge" v-if='index==3&&forumMsgNum>0' />
 					<uni-badge :text="goodMsgNum" type="error" class="badge" v-if='index==2&&goodMsgNum>0' />
 					<template v-if='item.url'>
-						<navigator :url="item.url">
+						<navigator :url="isLogin?item.url:null">
 							<image :src="item.img" mode="" style="width: 46upx;"></image>
 							<view class="dfk">
 								{{item.text}}
@@ -46,7 +51,7 @@
 						</navigator>
 					</template>
 					<template v-else>
-						<view @tap='doSomething(item.text)'>
+						<view @tap="doSomething(item.text)">
 							<image :src="item.img" mode="" style="width: 56upx;"></image>
 							<view class="dfk">
 								{{item.text}}
@@ -58,7 +63,7 @@
 			</view>
 		</view>
 		<view class="orderList fensi">
-			<view class="myorder" @tap="toFans">
+			<view class="myorder" @tap="isLogin?toFans():null">
 				<view class="order">
 					我的粉丝
 				</view>
@@ -86,7 +91,7 @@
 			</view>
 		</view>
 		<view class="orderList shouru">
-			<view class="myorder" @tap="income">
+			<view class="myorder" @tap="isLogin?income():null">
 				<view class="order">
 					我的收入(元)
 				</view>
@@ -130,7 +135,7 @@
 					<view class="fs">
 						可提现余额
 					</view>
-					<view class="txs" @tap="tixian">
+					<view class="txs" @tap="isLogin?tixian():null">
 						提现
 					</view>
 				</view>
@@ -138,14 +143,14 @@
 		</view>
 		<view class="orderList rz">
 			<view class="status">
-				<view class="sItems" @tap="gogong('enter',memberinfo.supplierImg)">
+				<view class="sItems" @tap="isLogin?gogong('enter',memberinfo.supplierImg):null">
 					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/gys.png?sign=7329a4585f019bf5815fc8f9414e0902&t=1567395079"
 					 mode=""></image>
 					<view class="dfk">
 						供应商入驻
 					</view>
 				</view>
-				<view class="sItems" @tap="gogong('hehuo',memberinfo.sharImg)">
+				<view class="sItems" @tap="isLogin?gogong('hehuo',memberinfo.sharImg):null">
 					<image src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/hehuo.png?sign=796ae9a52fb7f619923a66d5004e9b10&t=1567395095"
 					 mode=""></image>
 					<view class="dfk">
@@ -154,9 +159,10 @@
 				</view>
 			</view>
 		</view>
-		<hchPoster ref="hchPoster" :canvasFlag.sync="canvasFlag" @cancel="canvasCancel" :posterObj.sync="posterData"/>
-		<view :hidden="canvasFlag"><!-- 海报 要放外面放组件里面 会找不到 canvas-->
-			<canvas class="canvas"  canvas-id="myCanvas" ></canvas><!-- 海报 -->
+		<hchPoster ref="hchPoster" :canvasFlag.sync="canvasFlag" @cancel="canvasCancel" :posterObj.sync="posterData" />
+		<view :hidden="canvasFlag">
+			<!-- 海报 要放外面放组件里面 会找不到 canvas-->
+			<canvas class="canvas" canvas-id="myCanvas"></canvas><!-- 海报 -->
 		</view>
 	</view>
 </template>
@@ -164,16 +170,22 @@
 <script>
 	import {
 		showToast,
-		showModal
+		showModal,
+		getStorageSync
 	} from '@/assets/js/common'
-	import {sharCode,memberInfo} from '@/api/api.js'
-	import {IMG_URL} from '../../assets/js/const.js'
+	import {
+		sharCode,
+		memberInfo
+	} from '@/api/api.js'
+	import {
+		IMG_URL
+	} from '../../assets/js/const.js'
 	import hchPoster from '@/components/hch-poster/hch-poster.vue'
 	import uniBadge from '@/components/uni-badge/uni-badge.vue'
 	export default {
-		components:{
-		hchPoster,
-		uniBadge
+		components: {
+			hchPoster,
+			uniBadge
 		},
 		data() {
 			return {
@@ -228,30 +240,68 @@
 				],
 				deliveryFlag: false,
 				canvasFlag: true,
-				posterData:{},
-				codeImgs:'',
-				memberinfo:{},
-				forumMsgNum:0,
-				goodMsgNum:0
+				posterData: {},
+				codeImgs: '',
+				memberinfo: {
+					blanceMoney: 0,
+					totalMoney: 0,
+					monthMoney: 0,
+					followersNum: 0,
+					lookNum: 0,
+					monthMoney: 0,
+					todayMoney: 0
+				},
+				forumMsgNum: 0,
+				goodMsgNum: 0,
+				isLogin: false,
+				schoolMsg: {}
 			};
 		},
-		onLoad(){
-			this.codeImg()
-			this.memberInfo()
-		},
-		onShow(){
-			if(uni.getStorageSync('getMoney')){
+		onLoad() {
+			if (getStorageSync('token')) {
+				this.codeImg()
 				this.memberInfo()
-				uni.setStorageSync('getMoney',false)
+				this.isLogin = true
+			} else {
+				this.isLogin = false
 			}
+			this.schoolMsg = getStorageSync('schoolMsg')
+		},
+		onShow() {
+			if (uni.getStorageSync('getMoney')) {
+				uni.setStorageSync('getMoney', false)
+				this.memberInfo()
+			}
+			this.schoolMsg = getStorageSync('schoolMsg')
 		},
 		onPullDownRefresh() {
-			this.memberInfo()
-			setTimeout(function () {
-			            uni.stopPullDownRefresh();
-			        }, 1000);
+			if (getStorageSync('token')) {
+				this.memberInfo()
+				this.isLogin = true
+			} else {
+				this.isLogin = false
+			}
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		watch: {
+			'schoolMsg.schoolName'(n) {
+				if (getStorageSync('token')) {
+					this.isLogin = true
+					this.memberInfo()
+				} else {
+					this.isLogin = false
+				}
+				// console.log(n)
+			}
 		},
 		methods: {
+			goLogin() {
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+			},
 			toOrderList(index) {
 				console.log(index)
 				if (index == 1) {
@@ -274,68 +324,67 @@
 					url: '../../pageStatic/incomes/incomes'
 				})
 			},
-			gogong(state,url) {
+			gogong(state, url) {
 				uni.navigateTo({
-					url: '../../pageStatic/detial/detial?state=' + state+'&img='+url
+					url: '../../pageStatic/detial/detial?state=' + state + '&img=' + url
 				})
 			},
-			tixian(){
+			tixian() {
 				uni.navigateTo({
 					url: '../../pageStatic/deposit/deposit'
 				})
 			},
-			doSomething(text){
-				if(text!=='分享'){
+			doSomething(text) {
+				console.log(text)
+				if (text !== '分享') {
 					uni.chooseAddress({
-						success:res=>{
-						},
-						fail:e=>{
+						success: res => {},
+						fail: e => {
 							uni.getSetting({
-								success:set=>{
-									if(!set.authSetting['scope.address']){
+								success: set => {
+									if (!set.authSetting['scope.address']) {
 										uni.showModal({
-											title:'警告',
-											content:'系统无法访问您的地址,将无法享受快递寄件功能。',
-											showCancel:false,
-											success:res=>{
+											title: '警告',
+											content: '系统无法访问您的地址,将无法享受快递寄件功能。',
+											showCancel: false,
+											success: res => {
 												console.log(res)
-												if(res.confirm){
+												if (res.confirm) {
 													uni.openSetting({
-															success:re=> {
-																console.log(re)
-															},
-															fail:e=>{
-																console.log(e)
-															}
-														})
+														success: re => {
+															console.log(re)
+														},
+														fail: e => {
+															console.log(e)
+														}
+													})
 												}
 											}
 										})
 									}
 								},
-								fail:e=>{
-									
+								fail: e => {
+
 								}
 							})
 						}
 					})
-				}else{
+				} else {
 					// 这个是固定写死的小程序码
-					Object.assign(this.posterData,
-					{
-						url:'https://school-express.oss-cn-hangzhou.aliyuncs.com/upload/2019/9/5/1567653228422.jpg',//商品主图
-						title:"奇校园小程序，一款可以赚钱的校园寄件小程序哟！",//标题
-						discountPrice:"250.00",//折后价格
-						orignPrice:"300.00",//原价
-						code:IMG_URL+this.codeImgs
+					Object.assign(this.posterData, {
+						url: 'https://school-express.oss-cn-hangzhou.aliyuncs.com/upload/2019/9/5/1567653228422.jpg', //商品主图
+						title: "奇校园小程序，一款可以赚钱的校园寄件小程序哟！", //标题
+						discountPrice: "250.00", //折后价格
+						orignPrice: "300.00", //原价
+						code: IMG_URL + this.codeImgs
 						// code:'https://school-express.oss-cn-hangzhou.aliyuncs.com/upload/2019/9/5/1567653228422.jpg',//小程序码
 					})
-					this.$forceUpdate();//强制渲染数据
-					setTimeout(()=>{
-						this.canvasFlag=false;//显示canvas海报
-						this.deliveryFlag = false;//关闭分享弹窗
-						this.$refs.hchPoster.createCanvasImage();//调用子组件的方法
-					},500)
+					this.$forceUpdate(); //强制渲染数据
+					setTimeout(() => {
+						this.canvasFlag = false; //显示canvas海报
+						this.deliveryFlag = false; //关闭分享弹窗
+						this.$refs.hchPoster.createCanvasImage(); //调用子组件的方法
+					}, 500)
 					// 这个是固定写死的小程序码 end
 					// 以下是根据后端接口动态生成小程序码
 					// let code="https://img0.zuipin.cn/mp_zuipin/poster/hch-code.png";
@@ -359,13 +408,13 @@
 					// })
 					// 以下是根据后端接口动态生成小程序码 end
 				}
-				
+
 			},
 			// 获取海报的小程序码
-			async codeImg(){
-				let res=await sharCode()
-				if(res.code==0){
-					this.codeImgs=res.data
+			async codeImg() {
+				let res = await sharCode()
+				if (res.code == 0) {
+					this.codeImgs = res.data
 				}
 				console.log(res)
 				// return new Promise((resolve,reject)=>{
@@ -420,15 +469,15 @@
 				this.deliveryFlag = false;
 			},
 			// 取消海报
-			canvasCancel(val){
-				this.canvasFlag=val;
+			canvasCancel(val) {
+				this.canvasFlag = val;
 			},
-			async memberInfo(){
-				let res= await memberInfo()
-				if(res.code==0){
-					this.memberinfo=res.data.memberVo
-					this.forumMsgNum=res.forumMsgNum
-					this.goodMsgNum=res.goodMsgNum
+			async memberInfo() {
+				let res = await memberInfo()
+				if (res.code == 0) {
+					this.memberinfo = res.data.memberVo
+					this.forumMsgNum = res.forumMsgNum
+					this.goodMsgNum = res.goodMsgNum
 					console.log(res)
 				}
 			}
@@ -514,11 +563,13 @@
 			line-height: 40upx;
 			width: 25%;
 			position: relative;
+
 			image {
 				width: 56upx;
 				height: 50upx;
 			}
-			.badge{
+
+			.badge {
 				position: absolute;
 				right: 20upx;
 				top: -30upx;
@@ -649,13 +700,14 @@
 			}
 		}
 	}
-	.canvas{
-	    position: fixed !important;
-	    top: 0 !important;
-	    left: 0 !important;
-	    display: block !important;
-	    width: 100% !important;
-	    height: 100% !important;
-	    z-index: 10;
+
+	.canvas {
+		position: fixed !important;
+		top: 0 !important;
+		left: 0 !important;
+		display: block !important;
+		width: 100% !important;
+		height: 100% !important;
+		z-index: 10;
 	}
 </style>

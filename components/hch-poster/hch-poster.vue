@@ -349,7 +349,7 @@
 				ctx.setFontSize(14)
 				ctx.setFillStyle('#ff5f33') //文字颜色：默认黑色
 				ctx.font = 'normal 14px sans-serif';
-				ctx.fillText('长按/扫描进入小程序', (_this.phoneW - 140) / 2, 550 * scaleH, 140);
+				ctx.fillText('扫描进入小程序', (_this.phoneW - 140) / 2, 550 * scaleH, 140);
 				// 长按/扫描识别查看商品end
 				//绘制保存按钮
 				ctx.save();

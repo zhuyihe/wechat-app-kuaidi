@@ -21,7 +21,9 @@
 	import {
 		showToast,
 		uniLogin,
-		uniGetuserinfo
+		uniGetuserinfo,
+		getStorageSync,
+		setStorageSync
 	} from '@/assets/js/common'
 	import {
 		userLogin,
@@ -31,7 +33,7 @@
 		data() {
 			return {
 				hasAuth: false,
-				pid:0
+				pid:''
 				};
 		},
 		onLoad(option) {
@@ -39,8 +41,9 @@
 			if(option.hasAuth){
 				this.hasAuth = Boolean(option.hasAuth)
 			}
-			if(option.pid){
-				this.pid=option.pid
+			if(getStorageSync('pid')){
+				console.log()
+				this.pid=getStorageSync('pid')
 			}
 		},
 		methods: {
@@ -54,23 +57,26 @@
 				// });
 			},
 			login() {
-				uniLogin().then(res => {
-					console.log(res)
+				uniLogin().then(ress => {
+					console.log(ress)
 					getOpenid({
-						code: res.code
+						code: ress.code
 					}).then(res => {
+						// console.log(res)
 						//判断是否授权
 						//授权了,token过期
 						if (this.hasAuth) {
-							this.$store.commit('LOGIN_SESSIONKEY', res.data.wxMaJscode2SessionResult.sessionKey)
-							this.$store.commit('SCHOOLMSG',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
-							this.$store.commit('SET_HOMEFLAG',res.data.member.homeFlag)
-							this.$store.commit('IS_NEW',false)
+							console.log(res)
+							setStorageSync('token',res.data.wxMaJscode2SessionResult.sessionKey)
+							setStorageSync('schoolMsg',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
+							setStorageSync('homeFlag',res.data.member.homeFlag)
+							setStorageSync('isNew',false)
 							uni.switchTab({
 								url: '../static/index'
 							})
 						} else {
-							this.$store.commit('LOGIN_SESSIONKEY', res.data.sessionKey)
+							setStorageSync('token',res.data.sessionKey)
+							console.log(res.data.openid)
 							//否则注册
 							uniGetuserinfo().then(re => {
 								let parmas = {
@@ -81,11 +87,11 @@
 								}
 								userLogin(parmas).then(user => {
 									if (user.code == 0) {
-										this.$store.commit('SCHOOLMSG', {
+										setStorageSync('hasCoupon',user.data)
+										setStorageSync('isNew',true)
+										setStorageSync('schoolMsg',{
 											schoolName: '请选择学校'
 										})
-										this.$store.commit('IS_NEW',true)
-										this.$store.commit('HAS_COUPON',user.data)
 										uni.switchTab({
 											url: '../static/index'
 										})
@@ -110,13 +116,13 @@
 		width: 650rpx;
 		height: 300rpx;
 		line-height: 450rpx;
-		background: #ffd84d;
-		color: black;
+		
 	}
 
 	.header image {
 		width: 200rpx;
 		height: 200rpx;
+		border-radius: 50%;
 	}
 
 	.content {
@@ -134,5 +140,7 @@
 		border-radius: 80rpx;
 		margin: 70rpx 50rpx;
 		font-size: 35rpx;
+		background: #ffd84d;
+		color: black;
 	}
 </style>
