@@ -22,10 +22,14 @@ export const getMemberOrderPrice = (params) => request(BASE_URL + "applet/member
 export const saveMemberOrder=(params) => request(BASE_URL + "applet/memberOrder/saveMemberOrder.do",params,'POST');
 //获取订单 
 export const memberOrderDetail = (params) => request(BASE_URL + "applet/memberOrder/memberOrderDetail.do?payCode="+params);
+//获取订单id 
+export const memberOrderDetailById = (params) => request(BASE_URL + "applet/memberOrder/memberOrderDetailById.do?id="+params);
 //获取订单列表
 export const getOrderList = (params) => request(BASE_URL + "applet/memberOrder/list.do?pageNo="+params.pageNo+'&status='+params.status);
 // 删除订单
 export const delmemberOrder = (params) => request(BASE_URL + "applet/memberOrder/delmemberOrder.do?payCode="+params);
+// 删除订单id
+export const delmemberOrderById = (params) => request(BASE_URL + "applet/memberOrder/delmemberOrderById.do?id="+params);
 //会员优惠券列表
 export const couponMemberlist = (params) => request(BASE_URL + "applet/memberUser/coupon/memberlist.do?state="+params);
 //删除优惠券

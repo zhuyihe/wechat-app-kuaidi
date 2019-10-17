@@ -157,7 +157,7 @@
 					if(res.code==0){
 						uni.setStorageSync('orderDetail',orderDetail)
 						uni.redirectTo({
-							url:'../order/payment?paycode='+res.data
+							url:'../order/payment?id='+res.data.id
 						})
 					}else{
 						showToast(res.msg)

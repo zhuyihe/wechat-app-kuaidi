@@ -82,7 +82,7 @@
 					}
 					this.countDown()
 				}, 1000)
-			}, 500)
+			}, 1000)
 		},
 		beforeDestroy() {
 			clearInterval(this.timer)

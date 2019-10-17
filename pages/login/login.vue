@@ -65,7 +65,7 @@
 						// console.log(res)
 						//判断是否授权
 						//授权了,token过期
-						if (this.hasAuth) {
+						if (this.hasAuth||res.data.member) {
 							console.log(res)
 							setStorageSync('token',res.data.wxMaJscode2SessionResult.sessionKey)
 							setStorageSync('schoolMsg',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
@@ -76,7 +76,7 @@
 							})
 						} else {
 							setStorageSync('token',res.data.sessionKey)
-							console.log(res.data.openid)
+							console.log(res)
 							//否则注册
 							uniGetuserinfo().then(re => {
 								let parmas = {

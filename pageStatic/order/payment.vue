@@ -121,7 +121,7 @@
 		</view>
 		<block>	
 			<view class="order" v-if="!state||state=='undefined'">
-				<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(paycode)'>
+				<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(id)'>
 					取消订单
 				</view>
 				<view class="goOrder" @tap='goOrder' style="width: 50%;">
@@ -140,8 +140,8 @@
 <script>
 	import uniCountDown from '@/components/uni-countdown/uni-countdown.vue'
 	import {
-		memberOrderDetail,
-		delmemberOrder,
+		memberOrderDetailById,
+		delmemberOrderById,
 		createPay
 	} from '@/api/api'
 	import {
@@ -154,10 +154,9 @@
 				orderDetail: {},
 				minute: 0,
 				second: 0,
-				paycode: '',
 				state: '', //进入页面的路径
 				payObj: {},
-				orderDetail: {}
+				id:''
 			};
 		},
 		components: {
@@ -169,11 +168,8 @@
 				this.orderDetail = uni.getStorageSync('orderDetail')
 			}
 			this.state = option.state
-			this.paycode = option.paycode
-			this.memberOrderDetail(this.paycode)
-			if(option.state!='seeCode'){
-				this.createPay(this.paycode)
-			}
+			this.id = option.id
+			this.memberOrderDetailById(this.id)
 			
 		},
 		methods: {
@@ -201,23 +197,28 @@
 					}
 				})
 			},
-			memberOrderDetail(paycode) {
-				memberOrderDetail(paycode).then(res => {
+			memberOrderDetailById(id) {
+				memberOrderDetailById(id).then(res => {
 					// console.log(res)
 					if (res.code == 0) {
 						this.orderDetail = res.data
 						// console.log(res.data.payTime)
 						// console.log(this.state)
-						if (this.state != 'seeCode'||this.state != 'repay') {
+						if (this.state != 'seeCode'&&this.state != 'repay') {
 							this.minute = Number(res.data.payTime.split(':')[0])
 							this.second = Number(res.data.payTime.split(':')[1])
+							console.log(this.minute,this.second)
 						}
+						if(this.state!='seeCode'){
+							this.createPay(this.orderDetail.payCode)
+						}
+						
 					}
 				})
 			},
-			canclOrder(paycode) {
+			canclOrder(id) {
 				showModal('取消订单', '您确认要取消订单吗？', '确认', true).then(res => {
-					delmemberOrder(paycode).then(res => {
+					delmemberOrderById(id).then(res => {
 						console.log(res)
 						if (res.code == 0) {
 							showToast('订单取消成功')

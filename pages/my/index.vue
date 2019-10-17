@@ -40,8 +40,13 @@
 			</view>
 			<view class="status">
 				<view class="sItem" v-for='(item,index) in list' :key='index'>
-					<uni-badge :text="forumMsgNum" type="error" class="badge" v-if='index==3&&forumMsgNum>0' />
-					<uni-badge :text="goodMsgNum" type="error" class="badge" v-if='index==2&&goodMsgNum>0' />
+					<!-- <template v-if='index==3'> -->
+						<uni-badge :text="forumMsgNum" type="error" class="badge" v-if='index==3&&forumMsgNum>0' />
+					<!-- </template> -->
+					<!-- <template v-if='index==2'> -->
+						<uni-badge :text="goodMsgNum" type="error" class="badge" v-if='index==2&&goodMsgNum>0' />
+					<!-- </template> -->
+					
 					<template v-if='item.url'>
 						<navigator :url="isLogin?item.url:null">
 							<image :src="item.img" mode="" style="width: 46upx;"></image>
@@ -476,9 +481,9 @@
 				let res = await memberInfo()
 				if (res.code == 0) {
 					this.memberinfo = res.data.memberVo
-					this.forumMsgNum = res.forumMsgNum
-					this.goodMsgNum = res.goodMsgNum
-					console.log(res)
+					this.forumMsgNum = res.data.forumMsgNum
+					this.goodMsgNum = res.data.goodMsgNum
+					console.log(this.forumMsgNum,this.goodMsgNum)
 				}
 			}
 		},
@@ -571,8 +576,8 @@
 
 			.badge {
 				position: absolute;
-				right: 20upx;
-				top: -30upx;
+				right: 45upx;
+				top: -22upx;
 			}
 		}
 

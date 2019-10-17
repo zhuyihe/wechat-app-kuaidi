@@ -92,7 +92,7 @@
 <script>
 	import {
 		getOrderList,
-		delmemberOrder
+		delmemberOrderById
 	} from '@/api/api'
 	import {
 		showModal,
@@ -131,6 +131,15 @@
 			setTimeout(function () {
 			            uni.stopPullDownRefresh();
 			        }, 1000);
+		},
+		onShow(){
+			uni.startPullDownRefresh({
+				success() {
+					setTimeout(function () {
+					            uni.stopPullDownRefresh();
+					        }, 1000);
+				}
+			})
 		},
 		onPageScroll(e) {
 			return;
@@ -197,7 +206,7 @@
 			cancelOrder(row) {
 				console.log(this.tabbarIndex)
 				showModal('取消订单', '确定取消此订单？', '确定', true).then(re => {
-					delmemberOrder(row.payCode).then(res => {
+					delmemberOrderById(row.id).then(res => {
 						console.log(res)
 						if (res.code == 0) {
 							this.getOrderList(this.tabbarIndex,1,true)
@@ -231,11 +240,11 @@
 				uni.showLoading({
 					title: '正在获取订单...'
 				})
-				
+				console.log(row.id)
 				setTimeout(() => {
 					uni.hideLoading()
 					uni.navigateTo({
-						url: '../order/payment?paycode='+row.payCode+'&state='+state
+						url: '../order/payment?id='+row.id+'&state='+state
 					})
 				}, 500)
 			}
