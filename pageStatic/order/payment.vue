@@ -71,6 +71,22 @@
 					{{orderDetail.sendersType==1?'上门取件':'放置快递点'}}
 				</view>
 			</view>
+			<view class="bh" v-if='orderDetail.expressName'>
+				<view >
+					快递类型
+				</view>
+				<view >
+					{{orderDetail.expressName}}
+				</view>
+			</view>
+			<view class="bh" v-if='orderDetail.expressCode'>
+				<view >
+					快递单号
+				</view>
+				<view >
+					{{orderDetail.expressCode}}
+				</view>
+			</view>
 			<view class="bh" v-if="orderDetail.sendersType==2">
 				<view >
 					快递放置点

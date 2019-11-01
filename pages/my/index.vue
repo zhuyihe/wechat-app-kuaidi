@@ -24,7 +24,7 @@
 				</view>
 			</view>
 			<view class="status">
-				<view class="sItem sItem1" v-for="(row,index) in orderList" :key="index" @tap="isLogin?toOrderList(index):''">
+				<view class="sItem sItem1" v-for="(row,index) in orderList" :key="index" @tap="toOrderList(index)">
 					<image :src="row.img" mode=""></image>
 					<view class="dfk">
 						{{row.text}}
@@ -308,16 +308,19 @@
 				})
 			},
 			toOrderList(index) {
-				console.log(index)
-				if (index == 1) {
-					index = 2
-				} else if (index == 2) {
-					index = 3
+				if(this.isLogin){
+					console.log(index)
+					if (index == 1) {
+						index = 2
+					} else if (index == 2) {
+						index = 3
+					}
+					uni.setStorageSync('tbIndex', index);
+					uni.navigateTo({
+						url: '../../pageStatic/order_list/order_list?tbIndex=' + index
+					})
 				}
-				uni.setStorageSync('tbIndex', index);
-				uni.navigateTo({
-					url: '../../pageStatic/order_list/order_list?tbIndex=' + index
-				})
+				
 			},
 			toFans() {
 				uni.navigateTo({

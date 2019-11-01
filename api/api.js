@@ -78,6 +78,8 @@ export const getFoodsList = (params) => request(BASE_URL + "school/memberUser/fo
 export const delGoods = (params) => request(BASE_URL + "school/memberUser/goods/delGoods.do?id="+params);
 //获取外卖详情
 export const foodDetail = (params) => request(BASE_URL + "school/memberUser/foods/detail.do?id="+params);
+//外卖一键拨号
+export const callPhone = (params) => request(BASE_URL + "school/memberUser/foods/callPhone.do?id="+params);
 //兼职列表
 export const partList = (params) => request(BASE_URL + "school/memberUser/part/list.do?pageNo="+params);
 //兼职详情

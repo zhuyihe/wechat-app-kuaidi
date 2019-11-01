@@ -63,7 +63,6 @@
 					{{orderDetail.sendersType==1?'上门取件':'放置快递点'}}
 				</view>
 			</view>
-			
 			<view class="bh">
 				<view >
 					价格

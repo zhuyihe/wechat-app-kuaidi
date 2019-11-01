@@ -67,6 +67,9 @@
 									
 								</block>
 								<block v-if="row.orderStatus+1==2">
+									<view class="sf expressCode" v-if='row.expressCode'>
+										{{row.expressName}}:{{row.expressCode}}
+									</view>
 									<view class="pay" @tap="toPayment(row,'seeCode')" >查看详情</view>
 								</block>
 								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4||row.orderStatus+1==5">
@@ -131,15 +134,6 @@
 			setTimeout(function () {
 			            uni.stopPullDownRefresh();
 			        }, 1000);
-		},
-		onShow(){
-			uni.startPullDownRefresh({
-				success() {
-					setTimeout(function () {
-					            uni.stopPullDownRefresh();
-					        }, 1000);
-				}
-			})
 		},
 		onPageScroll(e) {
 			return;
