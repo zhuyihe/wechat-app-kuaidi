@@ -45,7 +45,6 @@
 			call() {
 				callPhone(this.id).then(res => {
 					if (res.code == 0) {
-
 						uni.makePhoneCall({
 							phoneNumber: this.foodDetials.storeTel
 						});
@@ -122,11 +121,12 @@
 		border-radius: 6upx;
 		background: #fff;
 		padding: 20upx;
+		padding-bottom: 90upx;
 	}
 
 	.bottoms {
 		display: flex;
-		position: absolute;
+		position: fixed;
 		bottom: 0;
 		left: 0;
 		z-index: 1;

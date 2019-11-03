@@ -30,7 +30,9 @@ export default {
 			}
 		}
 	},
-	
+	mounted() {
+		console.log(this.node)
+	},
 	methods: {
 		wxParseImgTap(e) {
 			if (!this.preview) return;

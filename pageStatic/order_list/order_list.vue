@@ -129,12 +129,12 @@
 			this.showLoadMore = true;
 			this.getOrderList(this.tabbarIndex)
 		},
-		onPullDownRefresh() {
-			this.getOrderList(this.tabbarIndex)
-			setTimeout(function () {
-			            uni.stopPullDownRefresh();
-			        }, 1000);
-		},
+		// onPullDownRefresh() {
+		// 	// this.getOrderList(this.tabbarIndex)
+		// 	// setTimeout(function () {
+		// 	//             uni.stopPullDownRefresh();
+		// 	//         }, 1000);
+		// },
 		onPageScroll(e) {
 			return;
 			//兼容iOS端下拉时顶部漂移

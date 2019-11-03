@@ -103,8 +103,7 @@
 		}, {
 			"path": "order_list/order_list",
 			"style": {
-				"navigationBarTitleText": "我的订单",
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "我的订单"
 			}
 		}, {
 			"path": "discount/discount",
