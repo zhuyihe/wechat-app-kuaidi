@@ -53,34 +53,34 @@
 							</view>
 							<view class="btns">
 								<block v-if="row.orderStatus+1==1">
-									<block  v-if='!row.otherPrice'>
+									<block v-if='!row.otherPrice'>
 										<view class="pay default" @tap="cancelOrder(row)">取消订单</view>
 										<view class="pay" @tap="toPayment(row)" style="border: 0;background: #ffd84d;">去付款</view>
 									</block>
-									<block  v-else>
+									<block v-else>
 										<!-- <view class="default" @tap="cancelOrder(row)">取消订单</view> -->
-										<view class="sf expressCode">
+										<view class="sf expressCode" @longpress="copyCode(row.expressCode)">
 											{{row.expressName}}:{{row.expressCode}}
 										</view>
 										<view class="pay" @tap="toPayment(row,'repay')" style="border: 0;background: #ffd84d;">去补差价</view>
 									</block>
-									
+
 								</block>
 								<block v-if="row.orderStatus+1==2">
 									<view class="sf expressCode" v-if='row.expressCode'>
 										{{row.expressName}}:{{row.expressCode}}
 									</view>
-									<view class="pay" @tap="toPayment(row,'seeCode')" >查看详情</view>
+									<view class="pay" @tap="toPayment(row,'seeCode')">查看详情</view>
 								</block>
 								<block v-if="row.orderStatus+1==3||row.orderStatus+1==4||row.orderStatus+1==5">
-									<block  v-if='row.orderStatus+1!=5'>
-										<view class="sf expressCode">
+									<block v-if='row.orderStatus+1!=5'>
+										<view class="sf expressCode" @longpress="copyCode(row.expressCode)">
 											{{row.expressName}}:{{row.expressCode}}
 										</view>
 										<view class="pay" @tap="toPayment(row,'seeCode')" style="border: 0;background: #ffd84d;">查看详情</view>
 									</block>
 									<block v-else>
-										<view class="pay" @tap="toPayment(row,'seeCode')" >查看详情</view>
+										<view class="pay" @tap="toPayment(row,'seeCode')">查看详情</view>
 									</block>
 								</block>
 							</view>
@@ -111,7 +111,7 @@
 					received: '运输中',
 					completed: '已签收',
 				},
-				orderType: ['全部', '待付款','待发货','运输中', '已签收', '已取消'],
+				orderType: ['全部', '待付款', '待发货', '运输中', '已签收', '已取消'],
 				//订单列表 演示数据
 				orderList: [],
 				tabbarIndex: 0,
@@ -126,7 +126,7 @@
 			let tbIndex = parseInt(option.tbIndex) + 1;
 			this.tabbarIndex = tbIndex;
 			this.loadMoreText = "",
-			this.showLoadMore = true;
+				this.showLoadMore = true;
 			this.getOrderList(this.tabbarIndex)
 		},
 		// onPullDownRefresh() {
@@ -142,7 +142,7 @@
 		},
 		onReachBottom() {
 			console.log("onReachBottom");
-			if(this.showLoadMore){
+			if (this.showLoadMore) {
 				this.pageNo++
 				setTimeout(() => {
 					this.getOrderList(this.tabbarIndex, this.pageNo)
@@ -150,18 +150,26 @@
 			}
 		},
 		methods: {
+			copyCode(text) {
+				uni.setClipboardData({
+					data: text,
+					success: function() {
+						showToast('单号复制成功')
+					}
+				});
+			},
 			showType(tbIndex) {
 				this.tabbarIndex = tbIndex;
-				this.orderList=[]
+				this.orderList = []
 				this.loadMoreText = "",
-				this.pageNo=1
+					this.pageNo = 1
 				this.showLoadMore = true;
 				this.getOrderList(this.tabbarIndex)
 			},
 			showLogistics(row) {
 
 			},
-			async getOrderList(tbIndex, pageNo = 1,isReset=false) {
+			async getOrderList(tbIndex, pageNo = 1, isReset = false) {
 				try {
 					let status = tbIndex - 1;
 					let parmas = {
@@ -171,26 +179,26 @@
 					let res = await getOrderList(parmas)
 					console.log(res)
 					if (res.code == 0) {
-						if(!isReset){
+						if (!isReset) {
 							if (res.data.memberOrderList) {
-								if(res.data.memberOrderList.length<10){
-									this.loadMoreText='没有更多数据了'
-									this.showLoadMore=false
-								}else{
-									this.loadMoreText='正在加载中...'
-									this.showLoadMore=true
+								if (res.data.memberOrderList.length < 10) {
+									this.loadMoreText = '没有更多数据了'
+									this.showLoadMore = false
+								} else {
+									this.loadMoreText = '正在加载中...'
+									this.showLoadMore = true
 								}
 								this.orderList = this.orderList.concat(res.data.memberOrderList)
 							} else {
 								console.log(2)
 								this.loadMoreText = "没有更多数据了!"
-								this.showLoadMore=false
+								this.showLoadMore = false
 								return;
 							}
-						}else{
-							this.orderList=res.data.memberOrderList
+						} else {
+							this.orderList = res.data.memberOrderList
 						}
-						
+
 					}
 				} catch (e) {
 					//TODO handle the exception
@@ -203,7 +211,7 @@
 					delmemberOrderById(row.id).then(res => {
 						console.log(res)
 						if (res.code == 0) {
-							this.getOrderList(this.tabbarIndex,1,true)
+							this.getOrderList(this.tabbarIndex, 1, true)
 							showToast('订单取消成功')
 						} else {
 							showToast(res.msg)
@@ -229,7 +237,7 @@
 
 				}
 			},
-			toPayment(row,state) {
+			toPayment(row, state) {
 				//本地模拟订单提交UI效果
 				uni.showLoading({
 					title: '正在获取订单...'
@@ -238,7 +246,7 @@
 				setTimeout(() => {
 					uni.hideLoading()
 					uni.navigateTo({
-						url: '../order/payment?id='+row.id+'&state='+state
+						url: '../order/payment?id=' + row.id + '&state=' + state
 					})
 				}, 500)
 			}
@@ -248,6 +256,7 @@
 
 <style lang="scss">
 	@import '../../assets/css/uni.css';
+
 	.topTabBar {
 		width: 100%;
 		position: fixed;
@@ -281,12 +290,15 @@
 
 		}
 	}
-	.chaji{
+
+	.chaji {
 		color: #cc0000;
 	}
-	.expressCode{
+
+	.expressCode {
 		margin-right: 10upx;
 	}
+
 	.row {
 		width: 700upx;
 		background: #fff;

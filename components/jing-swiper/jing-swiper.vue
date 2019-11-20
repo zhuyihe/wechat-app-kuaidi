@@ -39,12 +39,12 @@
 		width: 100%;
 		/* height: 500rpx; */
 		/* background: #000; */
-		height: 290upx;
+		height: 390upx;
 	}
 	
 	.swiperitem {
 		/* height: 500rpx; */
-		height: 255upx;
+		height: 355upx;
 		padding: 0upx 20upx;
 		box-sizing: border-box;
 		position: relative;
@@ -93,7 +93,7 @@
 		position: absolute;
 		width: 95%;
 		/* height: 380rpx; */
-		height: 255upx;
+		height: 355upx;
 		border-radius: 15rpx;
 		z-index: 5;
 		opacity: 0.9;

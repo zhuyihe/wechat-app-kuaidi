@@ -14,7 +14,7 @@
 				</view>
 				<view class="imgs" v-if='detail.messageImg'>
 					<template>
-						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index'></image>
+						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index' @click="previewImage(`${imgUrl+item}`)"></image>
 					</template>
 				</view>
 			</view>
@@ -130,10 +130,24 @@
 			this.goodsDetail(this.id)
 			this.goodsMessage(this.id, 1)
 		},
-		onShow(){
+		onShow() {
 			this.goodsMessage(this.id, 1)
 		},
 		methods: {
+			previewImage(currentUrl) {
+				let imgArray=this.detail.messageImg.map(item=>{
+					return  IMG_URL+item
+				})
+				uni.previewImage({
+					urls:imgArray,
+					current:currentUrl,
+					success:res=>{
+						console.log(res)
+					},fail:e=> {
+						console.log(e)
+					}
+				});
+			},
 			async goodsMessage(id, pageNo) {
 				let parmas = {
 					id,
@@ -149,12 +163,12 @@
 				let res = await goodsDetail(id)
 				if (res.code == 0) {
 					this.detail = res.data.memberGoods
-					if(res.data.memberGoods.messageImg) this.detail.messageImg = res.data.memberGoods.messageImg.split(',')
-					
+					if (res.data.memberGoods.messageImg) this.detail.messageImg = res.data.memberGoods.messageImg.split(',')
+
 					console.log(this.detail)
 				}
 			},
-			remark(index,item) {
+			remark(index, item) {
 				this.$refs.popup.open()
 				console.log(item)
 				console.log(index)
@@ -194,12 +208,12 @@
 				} else {
 					this.$refs.popup.close()
 				}
-			
+
 			},
 			allReplay(item) {
 				console.log(item)
 				uni.navigateTo({
-					url: '../../replay/replay?path=good&item='+JSON.stringify(item)
+					url: '../../replay/replay?path=good&item=' + JSON.stringify(item)
 				})
 			},
 			closePopup(item) {
@@ -229,11 +243,12 @@
 		height: 65upx;
 		border-radius: 50%;
 	}
+
 	.replayLists {
 		width: 400upx;
-		margin:20upx auto;
+		margin: 20upx auto;
 	}
-	
+
 
 	.left {
 		color: #999;
@@ -278,13 +293,15 @@
 			height: 226upx;
 		}
 	}
+
 	.totalReplay {
 		color: #008de1;
 	}
+
 	.remark {
 		background: #FFFFFF;
 		padding-bottom: 100upx;
-	
+
 		.tou {
 			line-height: 90upx;
 			border-bottom: 1px solid #e0e0e0;
@@ -293,75 +310,76 @@
 			justify-content: space-between;
 			align-items: center;
 			font-size: 28upx;
-	
+
 			.tou1,
 			.tou2 {
 				display: flex;
 				align-items: center;
 			}
-	
+
 			.see {
 				margin-right: 5upx;
 			}
 		}
-	
+
 		.xian {
 			width: 4upx;
 			height: 28upx;
 			background: #ffd84d;
 			margin-right: 10upx;
 		}
-	
+
 	}
-	
+
 	.rearkList {
 		padding-bottom: 30upx;
-	
+
 		.itemList {
 			padding: 23upx 22px;
 		}
-	
+
 		.name {
 			color: #8f8f8f;
 		}
-	
+
 		.content {
 			margin-left: 90upx;
 		}
-	
+
 		.raname {
 			text {
 				color: #008de1;
 			}
 		}
-	
+
 		.replay {
 			margin: 10upx 0;
 			margin-left: 90upx;
 			background: #ebebeb;
 			font-size: 26upx;
-			padding:5upx 20upx;
+			padding: 5upx 20upx;
 		}
-	
+
 		.replayList {
 			display: flex;
 			line-height: 50upx;
 			/* margin-top: 20upx; */
 		}
-	
+
 		.itemList {
 			border-bottom: 1px solid #e0e0e0;
-	
+
 			&:nth-last-child(1) {
 				border: 0;
 			}
 		}
-	
+
 		.content1 {
 			display: flex;
 			justify-content: space-between;
 		}
 	}
+
 	.add {
 		position: fixed;
 		bottom: 20upx;
@@ -369,9 +387,10 @@
 		width: 100%;
 		text-align: center;
 		color: #000;
-	
+
 		text-align: center;
 	}
+
 	.left,
 	.right {
 		display: flex;
@@ -380,6 +399,7 @@
 		margin-bottom: 20upx;
 		font-size: 26upx;
 	}
+
 	.btn {
 		width: 80%;
 		background: #ffd84d;
@@ -388,17 +408,18 @@
 		height: 80upx;
 		margin: auto;
 	}
+
 	.pinlun {
 		line-height: 120upx;
 		display: flex;
 		align-items: center;
 		width: 100%;
 		background: #fff;
-	
+
 		.rec {
 			margin-bottom: 10upx;
 			width: 80%;
-	
+
 			input {
 				width: 90%;
 				/* border: 1px solid #ccc; */
@@ -410,11 +431,11 @@
 				height: 60upx;
 			}
 		}
-	
+
 		.submit {
 			text-align: center;
 			width: 20%;
-	
+
 			text {
 				background: #ffd84d;
 				padding: 5upx 25upx;

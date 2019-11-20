@@ -1,7 +1,7 @@
 <template name="basics">
 	<view class="page">
 		<!-- <scroll-view scroll-y class="page"> -->
-		<view class="location" @tap="toLocation">
+		<view class="location" @tap="toLocation"> 
 			<image class="locationImg" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/location1.png?sign=922f5ce57a2fe8093cb9ab273e0ce7f5&t=1567400339"></image>
 			<text class="xue">{{schoolMsg.schoolName}}</text>
 			<image class="locationImgxia" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/xia.png?sign=70c596069d17237b0b99b161b87a700b&t=1567400365"></image>
@@ -165,7 +165,9 @@
 					schoolName:'选择学校',
 				},
 				homeFlag:1,
-				talkContent:''
+				talkContent:'',
+				school_id:'',
+				loginFlag:0 //用户是否登录 1 是登陆  0 未登录
 			};
 		},
 		onLoad() {
@@ -174,14 +176,16 @@
 		onShow(){
 			if(getStorageSync('hasCoupon')){
 				this.hasCoupon=getStorageSync('hasCoupon')
-				console.log(this.hasCoupon,'hasCoupon')
 			}
+			//为登录状态请求首页内容
+			if(!this.loginFlag){
+				this.getHomeIndex()
+			}
+				
 			if(getStorageSync('schoolMsg')){
 				this.schoolMsg=getStorageSync('schoolMsg')
-				if(this.schoolMsg.schoolName=='请选择学校'){
-					this.goToselectarea()
-				}
 			}
+			
 		},
 		updated(){
 			if(this.schoolMsg.schoolName!=='请选择学校'){
@@ -194,10 +198,23 @@
 					}
 				}
 			}
+			
 		},
 		watch:{
 			'schoolMsg.schoolName'(n){
 				this.getHomeIndex()
+			},
+			school_id(n){
+				//登录状态下选学校
+				// console.log(this.loginFlag)
+				if(this.loginFlag){
+					if(!n){
+						this.schoolMsg.schoolName=='请选择学校'
+						this.goToselectarea()
+					}else{
+						this.schoolMsg=getStorageSync('schoolMsg')
+					}
+				}
 			}
 		},
 		methods: {
@@ -221,7 +238,6 @@
 
 			},
 			selects(value) {
-				console.log(value)
 				if (value == 1) {
 					this.$refs.popup1.open()
 				} else {
@@ -244,7 +260,6 @@
 				if(parmas.sendersType){
 					getMemberOrderPrice(parmas).then(res=>{
 						if(res.code==0){
-							console.log(res)
 							this.price=res.data.toFixed(2)
 						}else{
 							showToast(res.msg)
@@ -262,7 +277,6 @@
 					fail:e=>{
 						uni.getSetting({
 							success:set=>{
-								console.log()
 								if(!set.authSetting['scope.address']){
 									uni.showModal({
 										title:'警告',
@@ -384,19 +398,22 @@
 				})
 			},
 			getHomeIndex(){
-				getHomeIndex().then(res=>{
-					console.log(res)
-					if(res.code==0){
-						for(let i of res.data.bannerList ){
-							i.img=IMG_URL+i.img
+				this.$nextTick(function(){
+					getHomeIndex().then(res=>{
+						if(res.code==0){
+							for(let i of res.data.bannerList ){
+								i.img=IMG_URL+i.img
+							}
+							this.swiperList=res.data.bannerList
+							this.goodTypeList=res.data.goodTypeList
+							this.homeFlag=res.data.schoolHomeFlag
+							this.talkContent=res.data.schoolStep
+							this.school_id=res.data.school_id
+							this.loginFlag=res.data.loginFlag
+							setStorageSync('talkContent',res.data.schoolStep)
+							setStorageSync('homeFlag',res.data.schoolHomeFlag)
 						}
-						this.swiperList=res.data.bannerList
-						this.goodTypeList=res.data.goodTypeList
-						this.homeFlag=res.data.schoolHomeFlag
-						this.talkContent=res.data.schoolStep
-						setStorageSync('talkContent',res.data.schoolStep)
-						setStorageSync('homeFlag',res.data.schoolHomeFlag)
-					}
+					})
 				})
 			},
 			togglePopup(open,isClose) {
@@ -429,7 +446,7 @@
 			border: 0upx;
 			height: 150upx;
 			right: 0;
-			top: 200upx;
+			bottom: 80upx;
 			position: fixed;
 		}
 	
@@ -439,8 +456,8 @@
 	
 		.kf_image {
 			z-index: 9999;
-			width: 120upx;
-			height: 120upx;
+			width: 100upx;
+			height: 100upx;
 		}
 		.talkUser{
 			font-size: 26upx;

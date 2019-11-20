@@ -126,7 +126,7 @@
 				showModal('删除帖子','你确定删除帖子吗？','确定',true).then(res=>{
 					delforum(id).then(res=>{
 						if(res.code==0){
-							this.getForumList(1)
+							this.getUserBbs(1)
 							showToast('帖子删除成功')
 						}
 					})

@@ -19,7 +19,7 @@
 				</view>
 				<view class="imgs" v-if='detail.messageImg'>
 					<template>
-						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index'></image>
+						<image v-for="(item,index) in detail.messageImg" :src="`${imgUrl+item}`" mode="" :key='index' @click="previewImage(`${imgUrl+item}`)"></image>
 					</template>
 				</view>
 			</view>
@@ -139,6 +139,20 @@
 			this.getForumMessage(this.id, 1)
 		},
 		methods: {
+			previewImage(currentUrl) {
+				let imgArray=this.detail.messageImg.map(item=>{
+					return  IMG_URL+item
+				})
+				uni.previewImage({
+					urls:imgArray,
+					current:currentUrl,
+					success:res=>{
+						console.log(res)
+					},fail:e=> {
+						console.log(e)
+					}
+				});
+			},
 			async getForumMessage(id, pageNo) {
 				let parmas = {
 					id,

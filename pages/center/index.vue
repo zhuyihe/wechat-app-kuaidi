@@ -5,9 +5,9 @@
 				<image :src="item.img" mode=""></image>
 			</view>
 		</view>
-		<button class="kf_button" open-type="contact" session-from="weapp">
+		<!-- <button class="kf_button" open-type="contact" session-from="weapp">
 			<image class="kf_image" src="https://6465-dev-iey4o-1257667322.tcb.qcloud.la/ke.png?sign=045632a510a31e7c5d5cdca367c3cfcd&t=1567394962"></image>
-		</button>
+		</button> -->
 	</view>
 
 </template>

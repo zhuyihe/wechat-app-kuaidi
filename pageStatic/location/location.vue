@@ -37,7 +37,6 @@
 		onLoad(option) {
 			console.log(option)
 			this.schoolName = option.schoolName
-			this.showLoadMore=true
 			this.initData();
 		},
 		onUnload() {
@@ -58,7 +57,7 @@
 							this.data = this.data.concat(res.data.schoolList)
 						} else {
 							this.loadMoreText = "没有更多数据了!"
-							this.showLoadMore=false
+							this.showLoadMore=true
 							return;
 						}
 					})
@@ -70,6 +69,11 @@
 				setTimeout(() => {
 					this.getSchoolList(this.pageNo, res => {
 						this.data = res.data.schoolList
+						console.log( res.data.schoolList)
+						if(!res.data.schoolList||res.data.schoolList.length<10){
+							this.showLoadMore=true
+							this.loadMoreText = "没有更多数据了"
+						}
 					})
 				}, 300);
 			},
@@ -153,5 +157,9 @@
 		&:nth-last-child(1) {
 			border-bottom: 0
 		}
+	}
+		
+	.uni-loadmore{
+		background:#f5f5f5 ;
 	}
 </style>

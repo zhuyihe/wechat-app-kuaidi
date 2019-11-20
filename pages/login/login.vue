@@ -68,7 +68,13 @@
 						if (this.hasAuth||res.data.member) {
 							console.log(res)
 							setStorageSync('token',res.data.wxMaJscode2SessionResult.sessionKey)
-							setStorageSync('schoolMsg',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
+							if(res.data.member.school_id){
+								setStorageSync('schoolMsg',{schoolName:res.data.member.schoolName,school_id:res.data.member.school_id})
+							}else{
+								setStorageSync('schoolMsg',{
+									schoolName: '请选择学校'
+								})
+							}
 							setStorageSync('homeFlag',res.data.member.homeFlag)
 							setStorageSync('isNew',false)
 							uni.switchTab({

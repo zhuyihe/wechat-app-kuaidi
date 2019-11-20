@@ -3,7 +3,7 @@
 		<view class="li">
 			<view class="item">
 				<view class="content">
-					3月7日，130元/天包餐下班现结,晚班盘龙城,有意者联系。
+					{{partdetail.title}}
 				</view>
 				<view class="time">
 					{{dateFtt('yyyy-MM-dd',partdetail.createTime)}}

@@ -15,7 +15,7 @@ export const getUserAdress = () => request(BASE_URL + "applet/memberUser/address
 //保存地址applet/memberUser/address.do
 export const setUserAdress = (params) => request(BASE_URL + "applet/memberUser/address.do",params,'POST');
 //获取首页信息
-export const getHomeIndex = () => request(BASE_URL + "home/index.do");
+export const getHomeIndex = () => request(BASE_URL + "home/index.do"); 
 //计算价格
 export const getMemberOrderPrice = (params) => request(BASE_URL + "applet/memberOrder/getMemberOrderPrice.do",params,'POST');
 //提交订单

@@ -46,7 +46,7 @@
 				this.partList(this.pageNo, res => {
 					console.log(res)
 					if (res.data.schoolPartList) {
-						this.list = this.data.concat(res.data.schoolPartList)
+						this.list = this.list.concat(res.data.schoolPartList)
 					} else {
 						this.loadMoreText = "没有更多数据了!"
 						return;
