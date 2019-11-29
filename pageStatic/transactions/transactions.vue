@@ -34,7 +34,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="bottom" v-if='state'>
+					<view class="bottom" v-if='state&&item.goodShowType==1'>
 						<view class="bianji" @tap="discuss('edit',item.id)">
 							<uni-icon type="compose" color='#9a9a9a' size="20"></uni-icon>编辑
 						</view>

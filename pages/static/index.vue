@@ -119,6 +119,15 @@
 				<view class="goyou" @tap="goCoupon"></view>
 			</view>
 		</uni-popup>
+		<!-- 插屏弹窗 -->
+		<uni-popup ref="image1" type="center" :custom="true" :mask-click="false" >
+			<view class="uni-image">
+				<view class="uni-image-close" @click="cancel('image1')">
+					<uni-icon type="clear" color="#fff" size="30" />
+				</view>
+				<image class="image" :src="image1" mode="" />
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -167,7 +176,8 @@
 				homeFlag:1,
 				talkContent:'',
 				school_id:'',
-				loginFlag:0 //用户是否登录 1 是登陆  0 未登录
+				loginFlag:0, //用户是否登录 1 是登陆  0 未登录
+				image1:''
 			};
 		},
 		onLoad() {
@@ -410,8 +420,17 @@
 							this.talkContent=res.data.schoolStep
 							this.school_id=res.data.school_id
 							this.loginFlag=res.data.loginFlag
+							if(res.data.showImg){
+								this.image1=IMG_URL+res.data.showImg
+							}
 							setStorageSync('talkContent',res.data.schoolStep)
 							setStorageSync('homeFlag',res.data.schoolHomeFlag)
+							if(this.loginFlag){
+								if(!uni.getStorageSync('showImage1')||uni.getStorageSync('showImage1')!=1){
+									this.$refs['image1'].open()
+									uni.setStorageSync('showImage1',1)
+								}
+							}
 						}
 					})
 				})
@@ -429,6 +448,9 @@
 					url:'../../pageStatic/discount/discount'
 				})
 				this.togglePopup('image',1)
+			},
+			cancel(index){
+				this.$refs[index].close()
 			}
 		}
 	};
@@ -446,7 +468,7 @@
 			border: 0upx;
 			height: 150upx;
 			right: 0;
-			bottom: 80upx;
+			top: 500upx;
 			position: fixed;
 		}
 	

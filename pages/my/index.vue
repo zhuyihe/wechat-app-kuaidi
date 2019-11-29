@@ -2,7 +2,7 @@
 	<view class="global">
 		<view class="tou" v-if='isLogin'>
 			<view class="names">
-				<image :src="memberinfo.headImgUrl"></image><text>{{memberinfo.managerNickName}}</text>
+				<image @click="chooesImg" :src="memberinfo.headImgUrl"></image><text>{{memberinfo.managerNickName}}</text>
 			</view>
 			<view class="school">
 				——{{memberinfo.schoolName}}的小伙伴
@@ -488,6 +488,18 @@
 					this.goodMsgNum = res.data.goodMsgNum
 					console.log(this.forumMsgNum,this.goodMsgNum)
 				}
+			},
+			chooesImg(){
+				let that=this
+				uni.chooseImage({
+					count:1,
+					success(res) {
+						that.memberinfo.headImgUrl=res.tempFilePaths[0]
+					},
+					fail(e) {
+						console.log(e)
+					}
+				})
 			}
 		},
 	}
