@@ -104,3 +104,5 @@ export const memberMoney = () => request(BASE_URL + "applet/memberUser/memberMon
 export const getSchoolCard = () => request(BASE_URL + "home/getSchoolCard.do");
 //提现
 export const saveWithdraw=(params) => request(BASE_URL + "applet/memberUser/saveWithdraw.do",params,'POST');
+//用户上传头像
+export const postPhoto=(params) => request(BASE_URL + "applet/memberUser/updateHeadImg.do",params,'POST');

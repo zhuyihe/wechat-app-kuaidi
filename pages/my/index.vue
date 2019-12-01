@@ -180,7 +180,8 @@
 	} from '@/assets/js/common'
 	import {
 		sharCode,
-		memberInfo
+		memberInfo,
+		postPhoto
 	} from '@/api/api.js'
 	import {
 		IMG_URL
@@ -486,6 +487,8 @@
 					this.memberinfo = res.data.memberVo
 					this.forumMsgNum = res.data.forumMsgNum
 					this.goodMsgNum = res.data.goodMsgNum
+					this.memberinfo.headImgUrl= res.data.memberVo.headImgUrl
+					console.log(res.data.headImgUrl)
 					console.log(this.forumMsgNum,this.goodMsgNum)
 				}
 			},
@@ -495,6 +498,12 @@
 					count:1,
 					success(res) {
 						that.memberinfo.headImgUrl=res.tempFilePaths[0]
+						postPhoto({headImg:that.memberinfo.headImgUrl}).then(res=>{
+							if(res.code!=0){
+								showToast(res.msg)
+							}
+						}).catch(()=>{})
+						
 					},
 					fail(e) {
 						console.log(e)

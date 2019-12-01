@@ -201,6 +201,8 @@
 							this.message = ''
 							this.$refs.popup.close()
 							showToast('回复成功')
+						}else{
+							showToast(res.msg)
 						}
 					}).catch(e => {
 						console.log(e)
