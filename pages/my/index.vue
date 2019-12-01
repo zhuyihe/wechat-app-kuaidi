@@ -41,12 +41,12 @@
 			<view class="status">
 				<view class="sItem" v-for='(item,index) in list' :key='index'>
 					<!-- <template v-if='index==3'> -->
-						<uni-badge :text="forumMsgNum" type="error" class="badge" v-if='index==3&&forumMsgNum>0' />
+					<uni-badge :text="forumMsgNum" type="error" class="badge" v-if='index==3&&forumMsgNum>0' />
 					<!-- </template> -->
 					<!-- <template v-if='index==2'> -->
-						<uni-badge :text="goodMsgNum" type="error" class="badge" v-if='index==2&&goodMsgNum>0' />
+					<uni-badge :text="goodMsgNum" type="error" class="badge" v-if='index==2&&goodMsgNum>0' />
 					<!-- </template> -->
-					
+
 					<template v-if='item.url'>
 						<navigator :url="isLogin?item.url:null">
 							<image :src="item.img" mode="" style="width: 46upx;"></image>
@@ -184,7 +184,8 @@
 		postPhoto
 	} from '@/api/api.js'
 	import {
-		IMG_URL
+		IMG_URL,
+		UPLOAD_URL
 	} from '../../assets/js/const.js'
 	import hchPoster from '@/components/hch-poster/hch-poster.vue'
 	import uniBadge from '@/components/uni-badge/uni-badge.vue'
@@ -309,7 +310,7 @@
 				})
 			},
 			toOrderList(index) {
-				if(this.isLogin){
+				if (this.isLogin) {
 					console.log(index)
 					if (index == 1) {
 						index = 2
@@ -321,7 +322,7 @@
 						url: '../../pageStatic/order_list/order_list?tbIndex=' + index
 					})
 				}
-				
+
 			},
 			toFans() {
 				uni.navigateTo({
@@ -487,23 +488,35 @@
 					this.memberinfo = res.data.memberVo
 					this.forumMsgNum = res.data.forumMsgNum
 					this.goodMsgNum = res.data.goodMsgNum
-					this.memberinfo.headImgUrl= res.data.memberVo.headImgUrl
+					this.memberinfo.headImgUrl = res.data.memberVo.headImgUrl
 					console.log(res.data.headImgUrl)
-					console.log(this.forumMsgNum,this.goodMsgNum)
+					console.log(this.forumMsgNum, this.goodMsgNum)
 				}
 			},
-			chooesImg(){
-				let that=this
+			chooesImg() {
+				let that = this
 				uni.chooseImage({
-					count:1,
+					count: 1,
 					success(res) {
-						that.memberinfo.headImgUrl=res.tempFilePaths[0]
-						postPhoto({headImg:that.memberinfo.headImgUrl}).then(res=>{
-							if(res.code!=0){
-								showToast(res.msg)
+
+						uni.uploadFile({
+							url: UPLOAD_URL, //仅为示例，非真实的接口地址
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							success(re) {
+								const data = JSON.parse(re.data).data
+								that.memberinfo.headImgUrl = IMG_URL + data
+								postPhoto({
+									headImg: that.memberinfo.headImgUrl
+								}).then(ress => {
+									if (ress.code != 0) {
+										showToast(ress.msg)
+									}
+								}).catch(() => {})
 							}
-						}).catch(()=>{})
-						
+						})
+
+
 					},
 					fail(e) {
 						console.log(e)
