@@ -72,23 +72,23 @@
 				</view>
 			</view>
 			<view class="bh" v-if='orderDetail.expressName'>
-				<view >
+				<view>
 					快递类型
 				</view>
-				<view >
+				<view>
 					{{orderDetail.expressName}}
 				</view>
 			</view>
 			<view class="bh" v-if='orderDetail.expressCode'>
-				<view >
+				<view>
 					快递单号
 				</view>
-				<view >
+				<view>
 					{{orderDetail.expressCode}}
 				</view>
 			</view>
 			<view class="bh" v-if="orderDetail.sendersType==2">
-				<view >
+				<view>
 					快递放置点
 				</view>
 				<view class="red">
@@ -122,7 +122,7 @@
 					{{orderDetail.payPrice}}.00
 				</view>
 			</view>
-			
+
 			<view class="bh" v-if="!state||state=='undefined'">
 				<view>
 					剩余支付时间
@@ -135,7 +135,7 @@
 				</view>
 			</view>
 		</view>
-		<block>	
+		<block>
 			<view class="order" v-if="!state||state=='undefined'">
 				<view style="width: 50%;text-align: center;background: white;" @tap='canclOrder(id)'>
 					取消订单
@@ -158,7 +158,8 @@
 	import {
 		memberOrderDetailById,
 		delmemberOrderById,
-		createPay
+		createPay,
+		memberOrderPayStatus
 	} from '@/api/api'
 	import {
 		showModal,
@@ -172,7 +173,7 @@
 				second: 0,
 				state: '', //进入页面的路径
 				payObj: {},
-				id:''
+				id: ''
 			};
 		},
 		components: {
@@ -186,30 +187,47 @@
 			this.state = option.state
 			this.id = option.id
 			this.memberOrderDetailById(this.id)
-			
+
 		},
 		methods: {
 			goOrder() {
-				console.log(this.payObj)
+				let that = this
+				console.log(this.id)
+				uni.showLoading({
+					title: '检测支付环境中'
+				})
 				uni.requestPayment({
 					timeStamp: this.payObj.timeStamp,
 					nonceStr: this.payObj.nonceStr,
 					package: this.payObj.packageValue,
-					signType:this.payObj.signType,
+					signType: this.payObj.signType,
 					paySign: this.payObj.paySign,
-					success: (res) => {
-						console.log(res)
-						if(res.errMsg=='requestPayment:ok'){
-							uni.reLaunch({
-								url:'../paySuccess/paySuccess?price='+this.orderDetail.payPrice
-							})
-						}
-					},
-					fail: e => {
-						console.log(e)
-						//支付失败，重新生成paycode
-						showToast('支付失败，请重新支付。')
-						// this.saveMemberOrder(this.orderDetail)
+					// success: (res) => {
+					// 	console.log(res)
+					// 	uni.reLaunch({
+					// 		url:'../paySuccess/paySuccess?price='+this.orderDetail.payPrice
+					// 	})
+					// },
+					// fail: e => {
+					// 	console.log(e)
+					// 	//支付失败，重新生成paycode
+					// 	showToast('支付失败，请重新支付。')
+					// 	// this.saveMemberOrder(this.orderDetail)
+					// },
+					complete() {
+						memberOrderPayStatus(that.id).then(res => {
+							uni.hideLoading()
+							if (res.data.orderStatus === 0) {
+								showToast('支付失败，请重新支付')
+							} else if (res.data.orderStatus === 1) {
+								uni.reLaunch({
+									url: '../paySuccess/paySuccess?price=' + that.orderDetail.payPrice
+								})
+							}
+							console.log(res)
+						}).catch(e => {
+							console.log(e)
+						})
 					}
 				})
 			},
@@ -220,15 +238,15 @@
 						this.orderDetail = res.data
 						// console.log(res.data.payTime)
 						// console.log(this.state)
-						if (this.state != 'seeCode'&&this.state != 'repay') {
+						if (this.state != 'seeCode' && this.state != 'repay') {
 							this.minute = Number(res.data.payTime.split(':')[0])
 							this.second = Number(res.data.payTime.split(':')[1])
-							console.log(this.minute,this.second)
+							console.log(this.minute, this.second)
 						}
-						if(this.state!='seeCode'){
+						if (this.state != 'seeCode') {
 							this.createPay(this.orderDetail.payCode)
 						}
-						
+
 					}
 				})
 			},

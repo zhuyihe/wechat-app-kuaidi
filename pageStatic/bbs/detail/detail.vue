@@ -13,8 +13,7 @@
 					<view class="header">
 						{{detail.title}}
 					</view>
-					<view class="com"> 
-						{{detail.message}}
+					<view class="com" v-html='content'> 
 					</view>
 				</view>
 				<view class="imgs" v-if='detail.messageImg'>
@@ -127,7 +126,8 @@
 				pid: 0, //
 				tomid: 0,
 				setFocus: false,
-				replayIndex: 1
+				replayIndex: 1,
+				content:''
 			}
 		},
 		onLoad(option) {
@@ -191,6 +191,7 @@
 				let res = await getForumDetial(id)
 				if (res.code == 0) {
 					this.detail = res.data.memberForum
+					this.content=`<pre>${this.detail.message}</pre>`
 					if(res.data.memberForum.messageImg) this.detail.messageImg = res.data.memberForum.messageImg.split(',')
 					console.log(this.detail)
 				}
@@ -440,7 +441,7 @@
 			font-size: 28upx;
 			color: #666;
 			line-height: 40upx;
-			text-indent: 60upx;
+			/* text-indent: 60upx; */
 		}
 	}
 

@@ -164,15 +164,27 @@
 				</view>
 			</view>
 		</view>
-		<hchPoster ref="hchPoster" :canvasFlag.sync="canvasFlag" @cancel="canvasCancel" :posterObj.sync="posterData" />
-		<view :hidden="canvasFlag">
-			<!-- 海报 要放外面放组件里面 会找不到 canvas-->
-			<canvas class="canvas" canvas-id="myCanvas"></canvas><!-- 海报 -->
-		</view>
+		<!-- <hchPoster ref="hchPoster" :canvasFlag.sync="canvasFlag" @cancel="canvasCancel" :posterObj.sync="posterData"/> -->
+		<!-- <view :hidden="canvasFlag">
+		    <canvas class="canvas"  canvas-id="myCanvas" ></canvas>
+		</view> -->
+
+		<uni-popup ref="image1" type="center" :custom="true" :mask-click="false">
+			<view class="uni-image">
+				<view class="uni-image-close" @click="onCancel()">
+					<uni-icon type="clear" color="#fff" size="30" />
+				</view>
+				<wm-poster :imgSrc="poster.img" :QrSrc="poster.QrSrc" :Title="poster.title" :ViewDetails='poster.view'  Width="600" @success="OnImg" :Referrer='poster.Referrer'></wm-poster>
+				<view class="Poster_main" v-show="posterType">
+					<view class="Poster_btn" @tap="onBtn">保存到相册</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+		import uParse from '@/components/gaoyia-parse/parse.vue'
 	import {
 		showToast,
 		showModal,
@@ -187,12 +199,15 @@
 		IMG_URL,
 		UPLOAD_URL
 	} from '../../assets/js/const.js'
-	import hchPoster from '@/components/hch-poster/hch-poster.vue'
 	import uniBadge from '@/components/uni-badge/uni-badge.vue'
+	import wmPoster from "@/components/wm-poster/wm-poster.vue"
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
 		components: {
-			hchPoster,
-			uniBadge
+			uniBadge,
+			wmPoster,
+			uniPopup,
+			uParse
 		},
 		data() {
 			return {
@@ -261,7 +276,18 @@
 				forumMsgNum: 0,
 				goodMsgNum: 0,
 				isLogin: false,
-				schoolMsg: {}
+				schoolMsg: {},
+				poster: {
+					img: "",
+					QrSrc: "",
+					title: '',
+					width: '350',
+					view: "扫描识别二维码",
+					Referrer:''
+				},
+				posterType: false,
+				InitImg: '',
+				isshowPo:false //海报是否生成
 			};
 		},
 		onLoad() {
@@ -325,9 +351,14 @@
 
 			},
 			toFans() {
-				uni.navigateTo({
-					url: '../../pageStatic/fans/fans'
-				})
+				if(this.memberinfo.followersNum>0){
+					uni.navigateTo({
+						url: '../../pageStatic/fans/fans'
+					})
+				}else{
+					showToast('暂无粉丝，快去邀请吧。')
+				}
+				
 			},
 			income() {
 				uni.navigateTo({
@@ -345,7 +376,6 @@
 				})
 			},
 			doSomething(text) {
-				console.log(text)
 				if (text !== '分享') {
 					uni.chooseAddress({
 						success: res => {},
@@ -380,45 +410,61 @@
 						}
 					})
 				} else {
-					// 这个是固定写死的小程序码
-					Object.assign(this.posterData, {
-						url: 'https://school-express.oss-cn-hangzhou.aliyuncs.com/upload/2019/9/5/1567653228422.jpg', //商品主图
-						title: "奇校园小程序，一款可以赚钱的校园寄件小程序哟！", //标题
-						discountPrice: "250.00", //折后价格
-						orignPrice: "300.00", //原价
-						code: IMG_URL + this.codeImgs
-						// code:'https://school-express.oss-cn-hangzhou.aliyuncs.com/upload/2019/9/5/1567653228422.jpg',//小程序码
-					})
-					this.$forceUpdate(); //强制渲染数据
-					setTimeout(() => {
-						this.canvasFlag = false; //显示canvas海报
-						this.deliveryFlag = false; //关闭分享弹窗
-						this.$refs.hchPoster.createCanvasImage(); //调用子组件的方法
-					}, 500)
-					// 这个是固定写死的小程序码 end
-					// 以下是根据后端接口动态生成小程序码
-					// let code="https://img0.zuipin.cn/mp_zuipin/poster/hch-code.png";
-					// this.codeImg().then((res)=>{
-					// 	code = res;
-					// 	Object.assign(this.posterData,
-					// 	{
-					// 		url:'https://img0.zuipin.cn/mp_zuipin/poster/hch-pro.jpg',//商品主图
-					// 		icon:'https://img0.zuipin.cn/mp_zuipin/poster/hch-hyj.png',//醉品价图标
-					// 		title:"诗酒茶系列 武夷大红袍 2018年 花香型中火 一级 体验装 16g",//标题
-					// 		discountPrice:"250.00",//折后价格
-					// 		orignPrice:"300.00",//原价
-					// 		code:code,//小程序码
-					// 	})
-					// 	this.$forceUpdate();//强制渲染数据
-					// 	setTimeout(()=>{
-					// 		this.canvasFlag=false;//显示canvas海报
-					// 		this.deliveryFlag = false;//关闭分享弹窗
-					// 		this.$refs.hchPoster.createCanvasImage();//调用子组件的方法
-					// 	},500)
-					// })
-					// 以下是根据后端接口动态生成小程序码 end
+					if (this.isLogin) {
+						uni.showLoading({
+							title: "生成中..."
+						})
+						if(this.isshowPo){
+							setTimeout(()=>{
+								uni.hideLoading();
+							},1000)
+						}
+						this.poster.img = 'https://6465-dev-h2dus-1300900499.tcb.qcloud.la/44af0c19772615716a26b3687980383.jpg?sign=53b406f3dd2544e9fe7c30cf202f576b&t=1576118646'
+						this.poster.QrSrc = IMG_URL + this.codeImgs
+						this.poster.Referrer=`${this.memberinfo.managerNickName}推荐给你`
+						this.$refs['image1'].open()
+
+						// 这个是固定写死的小程序码
+						// Object.assign(this.posterData, {
+						// 	url: 'https://school-express.oss-cn-hangzhou.aliyuncs.com/upload/2019/9/5/1567653228422.jpg', //商品主图
+						// 	title: "奇校园小程序，一款可以赚钱的校园寄件小程序哟！", //标题
+						// 	code: IMG_URL + this.codeImgs
+						// })
+						// this.$forceUpdate(); //强制渲染数据
+						// setTimeout(() => {
+						// 	this.canvasFlag = false; //显示canvas海报
+						// 	this.deliveryFlag = false; //关闭分享弹窗
+						// 	this.$refs.hchPoster.createCanvasImage(); //调用子组件的方法
+						// }, 500)
+					} else {
+						showToast('请先登录！')
+					}
+
 				}
 
+			},
+			onCancel() {
+				this.$refs['image1'].close()
+			},
+			OnImg: function(e) {
+				console.log(e);
+				this.InitImg = e.tempFilePath;
+				this.type = true;
+				if(!this.isshowPo){
+					this.isshowPo=true
+					uni.hideLoading();
+					
+				}
+			},
+			onBtn: function() {
+				let that=this
+				uni.saveImageToPhotosAlbum({
+					filePath: this.InitImg,
+					success: function() {
+						showToast('图片保存成功快去分享吧。')
+						that.$refs['image1'].close()
+					}
+				});
 			},
 			// 获取海报的小程序码
 			async codeImg() {
@@ -426,49 +472,6 @@
 				if (res.code == 0) {
 					this.codeImgs = res.data
 				}
-				console.log(res)
-				// return new Promise((resolve,reject)=>{
-				// 	wx.request({
-				// 		method: 'get',
-				// 		url:'http://javaXXXXX',//自己java接口
-				// 		header: { 'Content-Type': 'application/x-www-form-urlencoded'},
-				// 		data: {
-				// 			scene:`sku=${this.sku}`,//自己的参数
-				// 			page:"pages/product/detail",//想要生成小程序码的页面地址
-				// 			width:"128px",//小程序码大小
-				// 		},
-				// 		success: res => {
-				// 		  if(res.data.code==0){
-				// 			if (res.data.code==0) {
-				// 				const fsm = wx.getFileSystemManager();
-				// 				const FILE_BASE_NAME = 'tmp_img_src';
-				// 				let filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.jpg`;//图片临时地址
-				// 				fsm.writeFile({
-				// 					filePath,
-				// 					data: res.data.data,
-				// 					encoding: 'binary',
-				// 					success() {
-				// 						resolve(filePath)
-				// 					},
-				// 					fail() {
-				// 						this.canvasFlag=true;
-				// 						uni.showToast({title:'海报生成失败',duration:2000,icon:'none'});
-				// 					},
-				// 				});
-				// 			} else {
-				// 				uni.showToast({title: res.data.message, icon: 'none',duration: 2000,icon:'none'})
-				// 			}
-				// 		  }else{
-				// 			this.canvasFlag=true;
-				// 			uni.showToast({title:'海报生成失败',duration:2000,icon:'none'});
-				// 		  }
-				// 		},
-				// 		fail:res=>{
-				// 		  this.canvasFlag=true;
-				// 		  uni.showToast({title:'海报生成失败',duration:2000,icon:'none'});
-				// 		}
-				//   })
-				// })
 			},
 			// 分享弹窗
 			shareEvn() {
@@ -751,5 +754,25 @@
 		width: 100% !important;
 		height: 100% !important;
 		z-index: 10;
+	}
+
+	.Poster_main {
+		display: flex;
+		justify-content: center;
+		padding: 20upx;
+
+		.Poster_btn {
+			padding: 10upx 30upx;
+			background-color: #ffd84d;
+			font-size: 28upx;
+			color: #000;
+			border-radius: 5upx;
+			transform: translate(0, 0);
+
+			&:active {
+				transform: translate(1px, 1px);
+				cursor: pointer;
+			}
+		}
 	}
 </style>

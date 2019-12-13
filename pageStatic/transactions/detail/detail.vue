@@ -9,8 +9,8 @@
 						<text class="time">{{dateFtt('yyyy-MM-dd',detail.createTime)}}</text>
 					</view>
 				</view>
-				<view class="content">
-					{{detail.message}}
+				<view class="content" v-html='content'>
+					<!-- {{detail.message}} -->
 				</view>
 				<view class="imgs" v-if='detail.messageImg'>
 					<template>
@@ -121,7 +121,8 @@
 				pid: 0, //
 				tomid: 0,
 				setFocus: false,
-				replayIndex: 1
+				replayIndex: 1,
+				content:''
 			}
 		},
 		onLoad(option) {
@@ -163,6 +164,7 @@
 				let res = await goodsDetail(id)
 				if (res.code == 0) {
 					this.detail = res.data.memberGoods
+					this.content=`<pre>${this.detail.message}</pre>`
 					if (res.data.memberGoods.messageImg) this.detail.messageImg = res.data.memberGoods.messageImg.split(',')
 
 					console.log(this.detail)

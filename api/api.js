@@ -106,3 +106,5 @@ export const getSchoolCard = () => request(BASE_URL + "home/getSchoolCard.do");
 export const saveWithdraw=(params) => request(BASE_URL + "applet/memberUser/saveWithdraw.do",params,'POST');
 //用户上传头像
 export const postPhoto=(params) => request(BASE_URL + "applet/memberUser/updateHeadImg.do",params,'POST');
+//查询订单状态
+export const memberOrderPayStatus = (params) => request(BASE_URL + "/applet/memberUser/pay/memberOrderPayStatus.do?id="+params);

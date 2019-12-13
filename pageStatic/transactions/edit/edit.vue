@@ -83,10 +83,13 @@
 					this.title=res.data.memberGoods.title
 					this.message=res.data.memberGoods.message
 					console.log(res.data.memberGoods)
-					this.messageImgArgs=res.data.memberGoods.messageImg.split(',')
-					this.fileList=this.messageImgArgs.map(item=>{
-						return IMG_URL+item
-					})
+					if(res.data.memberGoods.messageImg){
+						this.messageImgArgs=res.data.memberGoods.messageImg.split(',')
+						this.fileList=this.messageImgArgs.map(item=>{
+							return IMG_URL+item
+						})
+					}
+					
 				}
 			},
 			async edit(){
@@ -111,6 +114,8 @@
 								delta:1
 							})
 						},500)
+					}else{
+						showToast(ress.msg)
 					}
 				}else{
 					let res=await saveGoods(parms)
@@ -122,6 +127,8 @@
 								delta:1
 							})
 						},500)
+					}else{
+						showToast(res.msg)
 					}
 				}
 				

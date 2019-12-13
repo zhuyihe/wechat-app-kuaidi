@@ -16,7 +16,7 @@
 					<view class="row" v-for="(row,index) in orderList" :key="index">
 						<view class="top">
 							<view class="bh">
-								<text>编号:{{row.orderCode}}</text><text class="time">{{row.time}}</text>
+								<text>编号:{{row.orderCode}}</text><text class="time">{{dateFtt('yyyy-MM-dd',row.createTime)}}</text>
 							</view>
 							<view class="orderStaus">
 								{{orderType[row.orderStatus+1]}}
@@ -99,7 +99,8 @@
 	} from '@/api/api'
 	import {
 		showModal,
-		showToast
+		showToast,
+		dateFtt
 	} from '@/assets/js/common'
 	export default {
 		data() {

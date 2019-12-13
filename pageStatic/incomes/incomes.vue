@@ -74,7 +74,7 @@
 								<view class="uni-media-list-text-bottom uni-ellipsis">绑定时间:{{dateFtt('yyyy-MM-dd',value.createTime)}}</view>
 							</view>
 							<view class="uni-media-list-body list-logo">
-								<view class="uni-media-list-text-top">{{value.totalMoney}}.00</view>
+								<view class="uni-media-list-text-top">{{value.totalConsumption}}.00</view>
 								<view class="uni-media-list-text-bottom">累计消费</view>
 							</view>
 						</view>

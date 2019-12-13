@@ -12,7 +12,7 @@
 	import {
 		getStorageSync
 	} from '@/assets/js/common'
-	import uParse from '@/components/gaoyia-parse/parse.vue'
+import uParse from '@/components/gaoyia-parse/parse.vue'
 	export default {
 		components:{
 			uParse

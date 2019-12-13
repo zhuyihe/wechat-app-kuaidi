@@ -101,6 +101,8 @@
 								delta:1
 							})
 						},500)
+					}else{
+						showToast(ress.msg)
 					}
 				}else{
 					let res=await saveForum(parms)
@@ -112,6 +114,8 @@
 								delta:1
 							})
 						},500)
+					}else{
+						showToast(res.msg)
 					}
 				}
 				
@@ -122,10 +126,13 @@
 					this.title=res.data.memberForum.title
 					this.message=res.data.memberForum.message
 					console.log(res.data.memberForum)
-					this.messageImgArgs=res.data.memberForum.messageImg.split(',')
-					this.fileList=this.messageImgArgs.map(item=>{
-						return IMG_URL+item
-					})
+					if(res.data.memberForum.messageImg){
+						this.messageImgArgs=res.data.memberForum.messageImg.split(',')
+						this.fileList=this.messageImgArgs.map(item=>{
+							return IMG_URL+item
+						})
+					}
+					
 				}
 			}
 		}

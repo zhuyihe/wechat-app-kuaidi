@@ -157,11 +157,11 @@
 	.headers {
 		border-bottom: 1px solid #e0e0e0;
 		line-height: 70upx;
-		padding: 20upx;
+		padding:  10upx 20upx;
 	}
 
 	.content {
-		padding: 20upx;
+		padding:  10upx 20upx;
 		font-size: 26upx;
 		color: #666;
 	}
@@ -195,7 +195,8 @@
 		display: flex;
 		align-items: center;
 		line-height: 40upx;
-		margin: 20upx 0;
+		margin: 10upx 0;
+		margin-bottom: 20upx;
 		font-size: 26upx;
 	}
 

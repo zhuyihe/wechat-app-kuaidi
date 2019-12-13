@@ -214,12 +214,12 @@
 			'schoolMsg.schoolName'(n){
 				this.getHomeIndex()
 			},
-			school_id(n){
-				//登录状态下选学校
-				// console.log(this.loginFlag)
-				if(this.loginFlag){
-					if(!n){
+				
+			loginFlag(n){
+				if(n){
+					if(!this.school_id){
 						this.schoolMsg.schoolName=='请选择学校'
+						console.log('zzz')
 						this.goToselectarea()
 					}else{
 						this.schoolMsg=getStorageSync('schoolMsg')
@@ -421,16 +421,18 @@
 							this.school_id=res.data.school_id
 							this.loginFlag=res.data.loginFlag
 							if(res.data.showImg){
+								console.log('zz')
 								this.image1=IMG_URL+res.data.showImg
+								if(this.loginFlag){
+									if(!uni.getStorageSync('showImage1')||uni.getStorageSync('showImage1')!=1){
+										this.$refs['image1'].open()
+										uni.setStorageSync('showImage1',1)
+									}
+								}
 							}
 							setStorageSync('talkContent',res.data.schoolStep)
 							setStorageSync('homeFlag',res.data.schoolHomeFlag)
-							if(this.loginFlag){
-								if(!uni.getStorageSync('showImage1')||uni.getStorageSync('showImage1')!=1){
-									this.$refs['image1'].open()
-									uni.setStorageSync('showImage1',1)
-								}
-							}
+							
 						}
 					})
 				})
