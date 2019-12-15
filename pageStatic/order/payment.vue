@@ -114,12 +114,23 @@
 					<!-- <uni-icon type="arrowright" size="=20"></uni-icon> -->
 				</view>
 			</view>
-			<view class="bh">
+			<view class="bh" v-if='orderDetail.otherPrice'>
 				<view>
-					实付价格
+					补差价
 				</view>
 				<view class="red">
-					{{orderDetail.payPrice}}.00
+					<view>
+						{{orderDetail.otherPrice}}.00
+					</view>
+					<!-- <uni-icon type="arrowright" size="=20"></uni-icon> -->
+				</view>
+			</view>
+			<view class="bh">
+				<view>
+					总价格
+				</view>
+				<view class="red">
+					{{orderDetail.totalPrice}}.00
 				</view>
 			</view>
 

@@ -28,6 +28,12 @@
 		onLoad() {
 			this.getSchoolCard()
 		},
+		onPullDownRefresh() {
+			this.getSchoolCard()
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		methods: {
 			enter(index){
 				let url = ''

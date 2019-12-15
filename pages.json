@@ -10,7 +10,8 @@
 		{
 			"path": "pages/center/index",
 			"style": {
-				"navigationBarTitleText": "奇校园"
+				"navigationBarTitleText": "奇校园",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
