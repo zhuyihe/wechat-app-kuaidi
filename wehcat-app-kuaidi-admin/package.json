@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@riophae/vue-treeselect": "^0.0.38",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "echarts": "^4.2.1",
     "element-ui": "^2.4.5",
     "elementui_treegrid": "^0.0.3",
