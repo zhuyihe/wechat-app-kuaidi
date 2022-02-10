@@ -27,7 +27,7 @@
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
     "compression-webpack-plugin": "^2.0.0",
-    "node-sass": "^4.9.2",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"
